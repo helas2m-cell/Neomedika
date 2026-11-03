@@ -136,7 +136,7 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Editorial Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-12 border-b border-[#EAE4F2]">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 pb-12 border-b border-[#EAE4F2]">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-[#666666] mb-3">
               <span className="text-[#903595] font-semibold">{content.sectionNumber}</span>
@@ -160,26 +160,40 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-            <button
-              type="button"
-              onClick={() =>
-                onSelectEnquiry('Healthcare Solutions', 'KHAYR Digital Dental Platform')
-              }
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <span>{content.enquireCta}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <a
-              href="https://khayr-brown.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-[#342077] bg-white border border-[#D9CEE6] rounded-xl hover:bg-[#F4F0FA] transition-colors whitespace-nowrap shrink-0"
-            >
-              <span>{content.externalPreviewCta}</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
+          <div className="flex flex-col items-start lg:items-end justify-between lg:self-stretch gap-6 shrink-0">
+            <div className="flex flex-col items-start lg:items-end gap-2.5">
+              <img
+                src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
+                alt="KHAYR Intelligent Dentistry Solutions"
+                className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right select-none"
+              />
+              <img
+                src="/assets/aistudio/Logo_Satusehat_965283aa.png"
+                alt="SATUSEHAT"
+                className="h-10 sm:h-11 lg:h-12 w-auto max-w-[165px] sm:max-w-[185px] object-contain object-left lg:object-right mix-blend-multiply select-none"
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() =>
+                  onSelectEnquiry('Healthcare Solutions', 'KHAYR Digital Dental Platform')
+                }
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span>{content.enquireCta}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <a
+                href="https://khayr-brown.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-[#342077] bg-white border border-[#D9CEE6] rounded-xl hover:bg-[#F4F0FA] transition-colors whitespace-nowrap shrink-0"
+              >
+                <span>{content.externalPreviewCta}</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 

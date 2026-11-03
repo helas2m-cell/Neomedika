@@ -260,8 +260,8 @@ export const CONTENT: Record<Locale, SiteContent> = {
       subheadline:
         'Kami menyatukan layanan kesehatan, teknologi perangkat lunak cerdas, dan inovasi higienitas medis untuk menciptakan operasional fasilitas kesehatan yang lebih terkoneksi, efisien, dan tepercaya.',
       corporateNote:
-        'PT Neomedika Elektra Optima (NEO) membangun fondasi teknologi kesehatan jangka panjang melalui platform manajemen klinik gigi digital KHAYR serta lini sanitasi medis berbahan aktif HOCl Neolyte.',
-      primaryCta: 'Jelajahi Produk & Solusi',
+        'PT Neomedika Elektra Optima (NEO) membangun fondasi teknologi kesehatan dan ekosistem higienitas medis jangka panjang yang terstruktur, aman, serta berorientasi pada kolaborasi lintas fasilitas kesehatan.',
+      primaryCta: 'Pelajari Profil NEO',
       secondaryCta: 'Bermitra Bersama NEO',
       snapshotItems: [
         {
@@ -357,7 +357,7 @@ export const CONTENT: Record<Locale, SiteContent> = {
         {
           phase: 'Fase 1 · Fondasi Digital',
           title: 'Fondasi Klinik Gigi Digital',
-          desc: 'Mengembangkan dan memvalidasi alur kerja inti klinik gigi serta platform operasional melalui KHAYR.',
+          desc: 'Mengembangkan dan memvalidasi alur kerja inti klinik gigi serta fondasi platform operasional digital terpadu.',
         },
         {
           phase: 'Fase 2 · Ekspansi Platform',
@@ -1195,8 +1195,8 @@ export const CONTENT: Record<Locale, SiteContent> = {
       subheadline:
         'We bring healthcare, intelligent software systems, and medical hygiene innovation together to create more connected, efficient, and trusted healthcare experiences.',
       corporateNote:
-        'PT Neomedika Elektra Optima (NEO) is building a long-term healthcare technology foundation through our flagship KHAYR digital dental platform and our Neolyte HOCl medical hygiene line.',
-      primaryCta: 'Explore Our Solutions',
+        'PT Neomedika Elektra Optima (NEO) is building a structured, long-term healthcare technology and clinical hygiene foundation engineered for cross-facility collaboration.',
+      primaryCta: 'Explore NEO Profile',
       secondaryCta: 'Partner With NEO',
       snapshotItems: [
         {
@@ -1292,7 +1292,7 @@ export const CONTENT: Record<Locale, SiteContent> = {
         {
           phase: 'Phase 1 · Establish',
           title: 'Digital Dental Foundation',
-          desc: 'Develop and validate KHAYR’s core dental clinic workflows and integrated operational platform.',
+          desc: 'Develop and validate core dental clinic workflows and integrated digital operational foundations.',
         },
         {
           phase: 'Phase 2 · Expand',

@@ -49,7 +49,7 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Editorial Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-12 border-b border-[#EAE4F2]">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 pb-12 border-b border-[#EAE4F2]">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-[#666666] mb-3">
               <span className="text-[#903595] font-semibold">{content.sectionNumber}</span>
@@ -68,7 +68,12 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
             </p>
           </div>
 
-          <div className="shrink-0">
+          <div className="flex flex-col items-start lg:items-end justify-between lg:self-stretch gap-6 shrink-0">
+            <img
+              src="/assets/aistudio/Neollyte_logo_2K_379f6785.png"
+              alt="Neolyte™"
+              className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right mix-blend-multiply select-none"
+            />
             <button
               type="button"
               onClick={() =>
@@ -176,67 +181,17 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                       </div>
                     </div>
 
-                    {/* Vector Packaging Visual representing Selected Size */}
-                    <div className="w-28 h-32 rounded-2xl bg-white border border-[#EAE4F2] flex flex-col items-center justify-center p-3 shrink-0 self-center sm:self-auto">
-                      <svg
-                        viewBox="0 0 80 100"
-                        className="w-16 h-20"
-                        role="img"
-                        aria-label={`${variant.name} ${selectedSize} container`}
-                      >
-                        {selectedSize === '5000 ml' ? (
-                          <>
-                            {/* 5L Jerrycan silhouette */}
-                            <rect x="28" y="6" width="16" height="8" rx="2" fill={isSN ? '#65B741' : '#189AB4'} />
-                            <path
-                              d="M16 20 C16 15 22 14 28 14 L54 14 C60 14 64 18 64 24 L64 88 C64 92 60 94 56 94 L24 94 C19 94 16 91 16 86 Z"
-                              fill="#F3F7FA"
-                              stroke="#CBD5E1"
-                              strokeWidth="2"
-                            />
-                            <rect x="46" y="22" width="10" height="18" rx="3" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
-                            <rect x="22" y="44" width="36" height="34" rx="3" fill="#FFFFFF" stroke={isSN ? '#65B741' : '#189AB4'} strokeWidth="1.5" />
-                            <text x="40" y="57" textAnchor="middle" fontSize="7" fontWeight="bold" fill="#189AB4">
-                              Neolyte
-                            </text>
-                            <text x="40" y="67" textAnchor="middle" fontSize="6" fontWeight="bold" fill={isSN ? '#65B741' : '#189AB4'}>
-                              {variant.code} 5L
-                            </text>
-                          </>
-                        ) : (
-                          <>
-                            {/* Spray / Pump Bottle silhouette */}
-                            <rect x="33" y="6" width="14" height="9" rx="2" fill={isSN ? '#65B741' : '#189AB4'} />
-                            <path d="M36 6 L48 3 L52 7 L40 10 Z" fill={isSN ? '#65B741' : '#189AB4'} />
-                            <rect
-                              x="24"
-                              y="16"
-                              width="32"
-                              height="76"
-                              rx="8"
-                              fill="#F8FAFC"
-                              stroke="#CBD5E1"
-                              strokeWidth="2"
-                            />
-                            <rect
-                              x="27"
-                              y="36"
-                              width="26"
-                              height="42"
-                              rx="2"
-                              fill="#FFFFFF"
-                              stroke={isSN ? '#65B741' : '#189AB4'}
-                              strokeWidth="1.5"
-                            />
-                            <text x="40" y="52" textAnchor="middle" fontSize="6.5" fontWeight="bold" fill="#189AB4">
-                              Neolyte
-                            </text>
-                            <text x="40" y="63" textAnchor="middle" fontSize="6" fontWeight="bold" fill={isSN ? '#65B741' : '#189AB4'}>
-                              {variant.code}
-                            </text>
-                          </>
-                        )}
-                      </svg>
+                    {/* Product Packaging Visual */}
+                    <div className="w-36 sm:w-40 rounded-2xl bg-white border border-[#EAE4F2] flex flex-col items-center justify-center p-2.5 shrink-0 self-center sm:self-auto overflow-hidden">
+                      <img
+                        src={
+                          isSN
+                            ? '/assets/aistudio/Neolyte_SN_69407702.png'
+                            : '/assets/aistudio/Neolyte_DS_bcf3a6e4.png'
+                        }
+                        alt={`${variant.name} ${selectedSize}`}
+                        className="w-full aspect-square object-contain select-none"
+                      />
                       <span className="font-mono text-[11px] font-bold text-[#381B37] mt-1 tabular-nums">
                         {selectedSize}
                       </span>
