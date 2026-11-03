@@ -14,6 +14,7 @@ import {
   Handshake,
   X,
   FileText,
+  Menu,
 } from 'lucide-react';
 import { CONTENT, type ArticleItem } from './data/content';
 import type { Locale } from './utils/neomedikaLogic';
@@ -27,6 +28,7 @@ export default function App() {
   const [activePage, setActivePage] = useState<
     'about' | 'business' | 'products' | 'technology' | 'insights'
   >('about');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [insightFilter, setInsightFilter] = useState<string>('ALL');
   const [activeArticle, setActiveArticle] = useState<ArticleItem | null>(null);
   const [activeLegalModal, setActiveLegalModal] = useState<
@@ -41,11 +43,24 @@ export default function App() {
 
   const t = CONTENT[locale];
 
+  const navItems: {
+    key: 'about' | 'business' | 'products' | 'technology' | 'insights';
+    href: string;
+    label: string;
+  }[] = [
+    { key: 'about', href: '#about', label: t.nav.about },
+    { key: 'business', href: '#business', label: t.nav.business },
+    { key: 'products', href: '#khayr', label: t.nav.products },
+    { key: 'technology', href: '#technology', label: t.nav.technology },
+    { key: 'insights', href: '#insights', label: t.nav.insights },
+  ];
+
   const handleSelectMenuPage = (
     page: 'about' | 'business' | 'products' | 'technology' | 'insights',
     scrollTargetId?: string
   ) => {
     setActivePage(page);
+    setMobileMenuOpen(false);
     setTimeout(() => {
       if (scrollTargetId && scrollTargetId !== 'top') {
         const el = document.getElementById(scrollTargetId);
@@ -61,6 +76,7 @@ export default function App() {
   const handleRouteToContact = (category: string, productInterest: string) => {
     setPrefilledCategory(category);
     setPrefilledProduct(productInterest);
+    setMobileMenuOpen(false);
     const el = document.getElementById('contact');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -74,9 +90,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#381B37]">
-      {/* Strict 3-Zone Top Bar Contract (Zone 1: Brand Wordmark | Zone 2: 5 Nav Links | Zone 3: 1 Primary CTA) */}
+      {/* Strict 3-Zone Top Bar Contract on Desktop + Full Mobile Navigation Access */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EAE4F2]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 px-6 lg:px-8 py-3.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 lg:px-8 py-3">
           {/* Zone 1: Single Brand Lockup */}
           <a
             href="#top"
@@ -90,93 +106,136 @@ export default function App() {
             <NeomedikaLogo variant="compact" />
           </a>
 
-          {/* Zone 2: 5 Concise Single-Line Navigation Links */}
+          {/* Zone 2 (Desktop): 5 Concise Single-Line Navigation Links */}
           <nav
             aria-label="Primary Navigation"
-            className="flex items-center gap-4 sm:gap-7 text-xs sm:text-sm font-medium text-[#666666] overflow-x-auto"
+            className="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-medium text-[#666666]"
           >
-            <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectMenuPage('about', 'top');
-              }}
-              className={`transition-colors whitespace-nowrap shrink-0 ${
-                activePage === 'about'
-                  ? 'text-[#903595] font-bold'
-                  : 'hover:text-[#381B37]'
-              }`}
-            >
-              {t.nav.about}
-            </a>
-            <a
-              href="#business"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectMenuPage('business', 'top');
-              }}
-              className={`transition-colors whitespace-nowrap shrink-0 ${
-                activePage === 'business'
-                  ? 'text-[#903595] font-bold'
-                  : 'hover:text-[#381B37]'
-              }`}
-            >
-              {t.nav.business}
-            </a>
-            <a
-              href="#khayr"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectMenuPage('products', 'top');
-              }}
-              className={`transition-colors whitespace-nowrap shrink-0 ${
-                activePage === 'products'
-                  ? 'text-[#903595] font-bold'
-                  : 'hover:text-[#381B37]'
-              }`}
-            >
-              {t.nav.products}
-            </a>
-            <a
-              href="#technology"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectMenuPage('technology', 'top');
-              }}
-              className={`transition-colors whitespace-nowrap shrink-0 ${
-                activePage === 'technology'
-                  ? 'text-[#903595] font-bold'
-                  : 'hover:text-[#381B37]'
-              }`}
-            >
-              {t.nav.technology}
-            </a>
-            <a
-              href="#insights"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelectMenuPage('insights', 'top');
-              }}
-              className={`transition-colors whitespace-nowrap shrink-0 ${
-                activePage === 'insights'
-                  ? 'text-[#903595] font-bold'
-                  : 'hover:text-[#381B37]'
-              }`}
-            >
-              {t.nav.insights}
-            </a>
+            {navItems.map((item) => (
+              <a
+                key={item.key}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectMenuPage(item.key, 'top');
+                }}
+                className={`transition-colors whitespace-nowrap shrink-0 ${
+                  activePage === item.key
+                    ? 'text-[#903595] font-bold'
+                    : 'hover:text-[#381B37]'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
 
-          {/* Zone 3: 1 Primary Action */}
-          <div className="flex items-center shrink-0">
+          {/* Zone 3: Primary Action + Mobile Menu Toggle Button */}
+          <div className="flex items-center gap-2 shrink-0">
             <a
               href="#contact"
-              className="px-4 py-2 text-xs sm:text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0"
             >
               {t.nav.cta}
             </a>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-expanded={mobileMenuOpen}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              className="md:hidden inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#D9CEE6] bg-[#FAF8FC] text-[#381B37] hover:border-[#903595] transition-colors cursor-pointer"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-4 h-4 text-[#903595]" />
+              ) : (
+                <Menu className="w-4 h-4 text-[#903595]" />
+              )}
+              <span className="text-xs font-bold">Menu</span>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Quick-Access Menu Strip (Always visible on mobile screens) */}
+        <nav
+          aria-label="Mobile Quick Navigation"
+          className="md:hidden border-t border-[#EAE4F2] bg-[#FAF8FC] px-3 py-2 flex items-center gap-1.5 overflow-x-auto"
+        >
+          {navItems.map((item) => {
+            const isActive = activePage === item.key;
+            return (
+              <a
+                key={item.key}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectMenuPage(item.key, 'top');
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 ${
+                  isActive
+                    ? 'bg-[#342077] text-white shadow-xs'
+                    : 'bg-white text-[#381B37] border border-[#EAE4F2] hover:border-[#903595]'
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Expandable Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-[#D9CEE6] bg-white px-4 pt-3 pb-5 shadow-lg">
+            <div className="flex flex-col gap-1.5">
+              {navItems.map((item) => {
+                const isActive = activePage === item.key;
+                return (
+                  <a
+                    key={item.key}
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSelectMenuPage(item.key, 'top');
+                    }}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-[#FAF8FC] text-[#903595] border border-[#D9CEE6]'
+                        : 'text-[#381B37] hover:bg-[#FAF8FC]'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <ArrowRight className="w-4 h-4 text-[#903595]" />
+                  </a>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-[#EAE4F2] flex items-center justify-between gap-3">
+              <span className="text-xs font-semibold text-[#666666]">{t.utility.langLabel}:</span>
+              <div className="inline-flex items-center gap-1 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setLocale('id')}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                    locale === 'id' ? 'bg-[#342077] text-white' : 'text-[#666666]'
+                  }`}
+                >
+                  ID · Indonesia
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLocale('en')}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                    locale === 'en' ? 'bg-[#342077] text-white' : 'text-[#666666]'
+                  }`}
+                >
+                  EN · English
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       <main id="top" className="flex-1">
