@@ -1,0 +1,6 @@
+{
+  "name": "PT Neomedika Elektra Optima (NEO) — Corporate Profile",
+  "description": "Official bilingual corporate website of PT Neomedika Elektra Optima (NEO), featuring KHAYR Digital Dental Platform, Neolyte HOCl Healthcare Hygiene Solutions, and Google Workspace integrated enquiry management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "NEO-2026-0101",
+    "fullName": "drg. Amanda Pratiwi, Sp.KG",
+    "businessEmail": "amanda.pratiwi@praktekdentaljakarta.id",
+    "phone": "+62 812 8890 1122",
+    "organisation": "Klinik Gigi Senyum Optima (3 Cabang)",
+    "countryCity": "Jakarta Selatan",
+    "category": "Healthcare Solutions",
+    "productInterest": "KHAYR Digital Dental Platform",
+    "message": "Kami tertarik menjadwalkan presentasi dan demo sistem operasional klinik gigi KHAYR beserta fitur Odontogram Digital dan KHAYR Voucher Promotion untuk 3 cabang klinik kami.",
+    "privacyConsent": true,
+    "locale": "id",
+    "createdAt": "2026-11-01T09:15:00.000Z",
+    "syncedToSheets": true,
+    "emailNotificationSent": true
+  },
+  {
+    "id": "NEO-2026-0102",
+    "fullName": "Ir. Hendra Kusuma, M.Kes",
+    "businessEmail": "procurement@rsbaktihusada.co.id",
+    "phone": "+62 811 2233 4455",
+    "organisation": "RS Bakti Husada Utama",
+    "countryCity": "Bandung, Jawa Barat",
+    "category": "Business & Strategic Partnerships",
+    "productInterest": "Neolyte SN / DS Hygiene Line",
+    "message": "Mohon penawaran resmi untuk pengadaan rutin Neolyte DS (5000ml) dan Neolyte SN (500ml & 1000ml) berizin Kemenkes RI PKD untuk kebutuhan sterilisasi ruang tindakan dan poliklinik.",
+    "privacyConsent": true,
+    "locale": "id",
+    "createdAt": "2026-11-02T03:40:00.000Z",
+    "syncedToSheets": true,
+    "emailNotificationSent": true
+  }
+]
