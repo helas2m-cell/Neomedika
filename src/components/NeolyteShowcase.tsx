@@ -488,6 +488,14 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
               </div>
             ))}
           </div>
+
+          <div className="mt-10 w-full rounded-3xl overflow-hidden border border-[#EAE4F2] bg-[#FAF8FC] p-3 sm:p-5 flex items-center justify-center">
+            <img
+              src="/assets/aistudio/Aplikasi_Neoliye_2K_c316e6a3.png"
+              alt={content.devicesTitle}
+              className="w-full h-auto max-h-[560px] object-contain rounded-2xl select-none"
+            />
+          </div>
         </div>
       </div>
     </section>

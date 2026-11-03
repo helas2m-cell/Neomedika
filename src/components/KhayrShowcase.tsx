@@ -158,21 +158,21 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
             <p className="mt-3 text-sm text-[#381B37] font-medium">
               {content.subscriptionNote}
             </p>
-          </div>
-
-          <div className="flex flex-col items-start lg:items-end justify-between lg:self-stretch gap-6 shrink-0">
-            <div className="flex flex-col items-start lg:items-end gap-2.5">
-              <img
-                src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
-                alt="KHAYR Intelligent Dentistry Solutions"
-                className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right select-none"
-              />
+            <div className="mt-4">
               <img
                 src="/assets/aistudio/Logo_Satusehat_965283aa.png"
                 alt="SATUSEHAT"
-                className="h-10 sm:h-11 lg:h-12 w-auto max-w-[165px] sm:max-w-[185px] object-contain object-left lg:object-right mix-blend-multiply select-none"
+                className="h-10 sm:h-11 lg:h-12 w-auto max-w-[165px] sm:max-w-[185px] object-contain object-left mix-blend-multiply select-none"
               />
             </div>
+          </div>
+
+          <div className="flex flex-col items-start lg:items-end justify-between lg:self-stretch gap-6 shrink-0">
+            <img
+              src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
+              alt="KHAYR Intelligent Dentistry Solutions"
+              className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right select-none"
+            />
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto">
               <button
                 type="button"
