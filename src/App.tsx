@@ -301,7 +301,7 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
                   {/* Left 7 Columns: Editorial Headline & Value Proposition */}
                   <div className="lg:col-span-7 flex flex-col justify-between">
-                    <div>
+                    <div className="flex-1 flex flex-col">
                       <div className="text-xs sm:text-sm font-semibold text-[#903595] mb-3">
                         {t.hero.kicker}
                       </div>
@@ -317,37 +317,12 @@ export default function App() {
                       <p className="mt-4 text-sm text-[#381B37] leading-relaxed max-w-[62ch]">
                         {t.hero.corporateNote}
                       </p>
-                      <div className="mt-5 w-full max-w-[62ch] rounded-2xl overflow-hidden border border-[#EAE4F2] bg-white p-2 sm:p-2.5 flex items-center justify-center">
+                      <div className="mt-6 flex-1 w-full rounded-2xl overflow-hidden border border-[#EAE4F2] bg-white p-3 sm:p-4 flex items-center justify-center">
                         <img
                           src="/assets/aistudio/Helath_Care_Mgn_Picture_3_69cc486c.jfif"
                           alt="PT Neomedika Elektra Optima Integrated Healthcare Ecosystem"
-                          className="w-full max-h-[200px] sm:max-h-[225px] object-contain rounded-xl select-none"
+                          className="w-full max-h-[290px] sm:max-h-[326px] object-contain rounded-xl select-none"
                         />
-                      </div>
-                    </div>
-
-                    {/* Hero Action Buttons */}
-                    <div className="mt-6 pt-5 border-t border-[#EAE4F2]">
-                      <div className="flex flex-wrap items-center gap-3.5">
-                        <a
-                          href="#about"
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0"
-                        >
-                          <span>{t.hero.primaryCta}</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleRouteToContact(
-                              'Business & Strategic Partnerships',
-                              'Corporate & Ecosystem Partnership'
-                            )
-                          }
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#342077] bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl hover:border-[#903595] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                        >
-                          <span>{t.hero.secondaryCta}</span>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -421,7 +396,7 @@ export default function App() {
                 >
                   <div className="text-xs text-[#666666]">{snap.label}</div>
                   {idx === 1 && (
-                    <div className="relative w-[105px] h-[30px] max-w-full overflow-hidden mt-2 mb-1 select-none">
+                    <div className="relative w-[139px] h-[40px] max-w-full overflow-hidden mt-2 mb-1 select-none">
                       <img
                         src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
                         alt="KHAYR — intelligent dentistry solutions"
