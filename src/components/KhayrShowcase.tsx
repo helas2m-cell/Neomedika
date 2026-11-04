@@ -171,7 +171,7 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
             <img
               src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
               alt="KHAYR Intelligent Dentistry Solutions"
-              className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right select-none"
+              className="h-[84px] sm:h-24 lg:h-[102px] w-auto max-w-[330px] sm:max-w-[375px] object-contain object-left lg:object-right select-none"
             />
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto">
               <button

@@ -68,22 +68,12 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
             </p>
           </div>
 
-          <div className="flex flex-col items-start lg:items-end justify-between lg:self-stretch gap-6 shrink-0">
+          <div className="flex flex-col items-start lg:items-end justify-start shrink-0">
             <img
               src="/assets/aistudio/Neollyte_logo_2K_379f6785.png"
               alt="Neolyte™"
-              className="h-14 sm:h-16 lg:h-[68px] w-auto max-w-[220px] sm:max-w-[250px] object-contain object-left lg:object-right mix-blend-multiply select-none"
+              className="h-[84px] sm:h-24 lg:h-[102px] w-auto max-w-[330px] sm:max-w-[375px] object-contain object-left lg:object-right mix-blend-multiply select-none"
             />
-            <button
-              type="button"
-              onClick={() =>
-                onSelectEnquiry('Healthcare Solutions', 'Neolyte SN / DS Hygiene Line')
-              }
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <span>{content.enquireCta}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
         </div>
 
@@ -182,7 +172,7 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                     </div>
 
                     {/* Product Packaging Visual */}
-                    <div className="w-36 sm:w-40 rounded-2xl bg-white border border-[#EAE4F2] flex flex-col items-center justify-center p-2.5 shrink-0 self-center sm:self-auto overflow-hidden">
+                    <div className="w-[173px] sm:w-48 rounded-2xl bg-white border border-[#EAE4F2] flex flex-col items-center justify-center p-2.5 shrink-0 self-center sm:self-auto overflow-hidden">
                       <img
                         src={
                           isSN
