@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import {
-  ShieldCheck,
-  Droplets,
-  Sparkles,
   CheckCircle2,
-  FlaskConical,
   Calculator,
   ArrowRight,
-  Award,
+  AlertCircle,
 } from 'lucide-react';
 import type { SiteContent } from '../data/content';
 import {
@@ -23,12 +19,36 @@ interface NeolyteShowcaseProps {
 }
 
 const RATIO_OPTIONS: { key: DilutionRatioKey; labelId: string; labelEn: string }[] = [
-  { key: '1:5', labelId: '1 : 5 (Perlengkapan Bayi & Pangan)', labelEn: '1 : 5 (Baby Items & Fresh Food)' },
-  { key: '1:4', labelId: '1 : 4 (Alat Dapur & Diffuser Udara)', labelEn: '1 : 4 (Kitchenware & Air Diffuser)' },
-  { key: '1:3', labelId: '1 : 3 (Bilik Neogate & Rumah Tangga)', labelEn: '1 : 3 (Neogate Chamber & Home)' },
-  { key: '1:2', labelId: '1 : 2 (Ruang Publik, Mall & Kantor)', labelEn: '1 : 2 (Public Spaces, Malls & Offices)' },
-  { key: '1:1', labelId: '1 : 1 (Rumah Sakit, Klinik & Puskesmas)', labelEn: '1 : 1 (Hospitals, Dental & Clinics)' },
-  { key: 'undiluted', labelId: 'Tanpa Pengenceran (Limbah & Toilet Publik)', labelEn: 'Undiluted (Waste & Public Sanitation)' },
+  {
+    key: '1:5',
+    labelId: '1 : 5 (Sanitasi Permukaan Ringan & Harian)',
+    labelEn: '1 : 5 (Light Surface & Everyday Sanitization)',
+  },
+  {
+    key: '1:4',
+    labelId: '1 : 4 (Peralatan Rumah Tangga & Diffuser Ruangan)',
+    labelEn: '1 : 4 (Household Equipment & Indoor Diffuser)',
+  },
+  {
+    key: '1:3',
+    labelId: '1 : 3 (Bilik Neogate & Permukaan Interior)',
+    labelEn: '1 : 3 (Neogate Chamber & Interior Surfaces)',
+  },
+  {
+    key: '1:2',
+    labelId: '1 : 2 (Ruang Publik, Gedung & Kantor)',
+    labelEn: '1 : 2 (Public Spaces, Buildings & Offices)',
+  },
+  {
+    key: '1:1',
+    labelId: '1 : 1 (Rumah Sakit, Klinik Gigi & Puskesmas)',
+    labelEn: '1 : 1 (Hospitals, Dental & Outpatient Clinics)',
+  },
+  {
+    key: 'undiluted',
+    labelId: 'Tanpa Pengenceran (Area Utilitas & Sanitasi Berat)',
+    labelEn: 'Undiluted (Heavy-Duty Utility Sanitation)',
+  },
 ];
 
 const VOLUME_PRESETS_ML = [500, 1000, 2000, 5000, 10000];
@@ -77,21 +97,16 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
           </div>
         </div>
 
-        {/* Clinical Quote & 4 Safety Pillars Banner (Baby Safe, Food Grade, 0% Alcohol, Non-Toxic) */}
+        {/* HOCl Formulation Overview & 4 Specification Pillars Banner */}
         <div className="mt-12 bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7">
-            <blockquote className="text-base sm:text-lg font-medium text-[#381B37] leading-relaxed">
+            <p className="text-base sm:text-lg font-medium text-[#381B37] leading-relaxed">
               {content.scienceQuote}
-            </blockquote>
+            </p>
             <p className="mt-3 text-xs text-[#666666]">{content.scienceSource}</p>
           </div>
           <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3">
-            {[
-              { title: 'BABY SAFE', sub: locale === 'id' ? 'Aman untuk Bayi' : 'Safe for Infants' },
-              { title: 'FOOD GRADE', sub: locale === 'id' ? 'Aman Kontak Pangan' : 'Food Contact Safe' },
-              { title: '0% ALCOHOL', sub: locale === 'id' ? 'Bebas Alkohol & Iritasi' : 'Non-Irritating' },
-              { title: 'NON-TOXIC', sub: locale === 'id' ? 'Ramah Lingkungan' : 'Eco-Friendly HOCl' },
-            ].map((badge) => (
+            {content.safetyPillars.map((badge) => (
               <div
                 key={badge.title}
                 className="bg-white border border-[#D9CEE6] rounded-xl p-3.5 text-center"
@@ -146,7 +161,7 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                     </span>
                   </div>
 
-                  {/* Product Header + Custom Vector Bottle Illustration */}
+                  {/* Product Header + Product Packaging Visual */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
                     <div>
                       <div className="inline-flex items-baseline gap-2">
@@ -171,7 +186,7 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                       </div>
                     </div>
 
-                    {/* Product Packaging Visual */}
+                    {/* Product Packaging Visual (Preserved 20% Enlarged Size) */}
                     <div className="w-[173px] sm:w-48 rounded-2xl bg-white border border-[#EAE4F2] flex flex-col items-center justify-center p-2.5 shrink-0 self-center sm:self-auto overflow-hidden">
                       <img
                         src={
@@ -193,7 +208,10 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                   {/* Key Use Cases */}
                   <ul className="mt-5 space-y-2">
                     {variant.useCases.map((uc) => (
-                      <li key={uc} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#381B37]">
+                      <li
+                        key={uc}
+                        className="flex items-start gap-2.5 text-xs sm:text-sm text-[#381B37]"
+                      >
                         <CheckCircle2 className="w-4 h-4 text-[#903595] shrink-0 mt-0.5" />
                         <span>{uc}</span>
                       </li>
@@ -230,14 +248,39 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
           })}
         </div>
 
-        {/* Official Certifications & Laboratory Test Results */}
+        {/* Official Certifications & Laboratory Test Documentation */}
         <div className="mt-16 bg-[#FAF8FC] border border-[#EAE4F2] rounded-3xl p-7 sm:p-10">
-          <div className="max-w-3xl mb-8">
-            <h3 className="font-display text-2xl font-bold text-[#381B37]">
-              {content.certifications.title}
-            </h3>
-            <p className="mt-2 text-sm text-[#666666]">{content.certifications.subtitle}</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+            <div className="max-w-3xl">
+              <h3 className="font-display text-2xl font-bold text-[#381B37]">
+                {content.certifications.title}
+              </h3>
+              <p className="mt-2 text-sm text-[#666666]">{content.certifications.subtitle}</p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() =>
+                  onSelectEnquiry('Neolyte Product Enquiry', 'Neolyte SN / DS Hygiene Line')
+                }
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity cursor-pointer"
+              >
+                <span>{content.enquireCta}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  onSelectEnquiry('Neolyte Product Enquiry', 'Neolyte SN / DS Hygiene Line')
+                }
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-[#342077] bg-white border border-[#D9CEE6] rounded-xl hover:bg-[#F4F0FA] transition-colors cursor-pointer"
+              >
+                <span>{content.documentationCta}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {content.certifications.items.map((cert) => (
               <div
@@ -261,15 +304,15 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
 
         {/* Interactive Neolyte DS Dilution Calculator & HOCl Comparison Split */}
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left: Interactive Dilution Calculator (Page 11 of Brochure) */}
+          {/* Left: Interactive Dilution Calculator with Official Label Guidance Notice */}
           <div className="lg:col-span-7 bg-white border border-[#D9CEE6] rounded-3xl p-7 sm:p-8 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 text-xs font-semibold text-[#903595] mb-2">
                 <Calculator className="w-4 h-4" />
                 <span>
                   {locale === 'id'
-                    ? 'Panduan Pengenceran Resmi Neolyte DS (Aquades / Air RO)'
-                    : 'Official Neolyte DS Dilution Guide (Aquades / RO Water)'}
+                    ? 'Panduan Ilustrasi Pengenceran Neolyte DS (Aquades / Air RO)'
+                    : 'Illustrative Neolyte DS Dilution Guide (Aquades / RO Water)'}
                 </span>
               </div>
               <h3 className="font-display text-2xl font-bold text-[#381B37]">
@@ -281,8 +324,8 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
               <div className="mt-6">
                 <label className="block text-xs font-bold text-[#381B37] mb-2">
                   {locale === 'id'
-                    ? '1. Pilih Rasio Pengenceran (Neolyte DS : Air RO/Aquades)'
-                    : '1. Select Dilution Ratio (Neolyte DS : RO Water/Aquades)'}
+                    ? '1. Pilih Rasio Pengenceran Ilustratif (Neolyte DS : Air RO/Aquades)'
+                    : '1. Select Illustrative Dilution Ratio (Neolyte DS : RO Water/Aquades)'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {RATIO_OPTIONS.map((opt) => {
@@ -339,7 +382,9 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
                     value={targetVolumeMl}
                     onChange={(e) => setTargetVolumeMl(Number(e.target.value) || 1000)}
                     aria-label={
-                      locale === 'id' ? 'Volume larutan dalam mililiter' : 'Solution volume in milliliters'
+                      locale === 'id'
+                        ? 'Volume larutan dalam mililiter'
+                        : 'Solution volume in milliliters'
                     }
                     className="w-28 px-3 py-1.5 rounded-lg border border-[#D9CEE6] font-mono text-xs font-bold text-[#381B37] tabular-nums focus:outline-none focus:border-[#903595]"
                   />
@@ -347,62 +392,70 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
               </div>
             </div>
 
-            {/* Calculated Output Panel */}
-            <div className="mt-7 p-5 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6]">
-              <div className="grid grid-cols-3 gap-4 pb-4 mb-4 border-b border-[#EAE4F2]">
-                <div>
-                  <div className="text-xs text-[#666666]">Neolyte DS (220 ppm)</div>
-                  <div
-                    data-testid="calc-neolyte-ml"
-                    className="font-mono text-xl sm:text-2xl font-extrabold text-[#342077] mt-0.5 tabular-nums"
-                  >
-                    {dilution.neolyteDsMl} ml
+            {/* Calculated Output Panel + Mandatory Official Label Notice */}
+            <div className="mt-7 space-y-4">
+              <div className="p-5 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6]">
+                <div className="grid grid-cols-3 gap-4 pb-4 mb-4 border-b border-[#EAE4F2]">
+                  <div>
+                    <div className="text-xs text-[#666666]">Neolyte DS (220 ppm)</div>
+                    <div
+                      data-testid="calc-neolyte-ml"
+                      className="font-mono text-xl sm:text-2xl font-extrabold text-[#342077] mt-0.5 tabular-nums"
+                    >
+                      {dilution.neolyteDsMl} ml
+                    </div>
+                    <div className="font-mono text-[11px] text-[#666666] tabular-nums">
+                      ({dilution.neolyteDsLiters} Liter)
+                    </div>
                   </div>
-                  <div className="font-mono text-[11px] text-[#666666] tabular-nums">
-                    ({dilution.neolyteDsLiters} Liter)
+                  <div>
+                    <div className="text-xs text-[#666666]">
+                      {locale === 'id' ? 'Aquades / Air RO' : 'Aquades / RO Water'}
+                    </div>
+                    <div
+                      data-testid="calc-water-ml"
+                      className="font-mono text-xl sm:text-2xl font-extrabold text-[#189AB4] mt-0.5 tabular-nums"
+                    >
+                      {dilution.waterMl} ml
+                    </div>
+                    <div className="font-mono text-[11px] text-[#666666] tabular-nums">
+                      ({dilution.waterLiters} Liter)
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#666666]">
+                      {locale === 'id' ? 'Estimasi Konsentrasi' : 'Est. Concentration'}
+                    </div>
+                    <div
+                      data-testid="calc-ppm"
+                      className="font-mono text-xl sm:text-2xl font-extrabold text-[#903595] mt-0.5 tabular-nums"
+                    >
+                      ~{dilution.effectivePpm} ppm
+                    </div>
+                    <div className="font-mono text-[11px] text-[#666666] tabular-nums">
+                      pH {dilution.phRange}
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <div className="text-xs text-[#666666]">
-                    {locale === 'id' ? 'Aquades / Air RO' : 'Aquades / RO Water'}
-                  </div>
-                  <div
-                    data-testid="calc-water-ml"
-                    className="font-mono text-xl sm:text-2xl font-extrabold text-[#189AB4] mt-0.5 tabular-nums"
-                  >
-                    {dilution.waterMl} ml
-                  </div>
-                  <div className="font-mono text-[11px] text-[#666666] tabular-nums">
-                    ({dilution.waterLiters} Liter)
-                  </div>
-                </div>
-                <div>
-                  <div className="text-xs text-[#666666]">
-                    {locale === 'id' ? 'Konsentrasi Akhir' : 'Final Concentration'}
-                  </div>
-                  <div
-                    data-testid="calc-ppm"
-                    className="font-mono text-xl sm:text-2xl font-extrabold text-[#903595] mt-0.5 tabular-nums"
-                  >
-                    ~{dilution.effectivePpm} ppm
-                  </div>
-                  <div className="font-mono text-[11px] text-[#666666] tabular-nums">
-                    pH {dilution.phRange}
-                  </div>
+                <div className="text-xs sm:text-sm text-[#381B37] leading-relaxed">
+                  <strong className="font-bold text-[#342077]">
+                    {locale === 'id' ? 'Konteks Penggunaan: ' : 'Application Context: '}
+                  </strong>
+                  <span>
+                    {locale === 'id' ? dilution.applicationId : dilution.applicationEn}
+                  </span>
                 </div>
               </div>
-              <div className="text-xs sm:text-sm text-[#381B37] leading-relaxed">
-                <strong className="font-bold text-[#342077]">
-                  {locale === 'id' ? 'Rekomendasi Aplikasi: ' : 'Recommended Application: '}
-                </strong>
-                <span>
-                  {locale === 'id' ? dilution.applicationId : dilution.applicationEn}
-                </span>
+
+              {/* Mandatory Official Product Label Notice (Page 05 Spec) */}
+              <div className="p-4 rounded-xl bg-white border border-[#D9CEE6] flex items-start gap-3 text-xs text-[#381B37] leading-relaxed">
+                <AlertCircle className="w-4 h-4 text-[#903595] shrink-0 mt-0.5" />
+                <div>{content.dilutionOfficialNotice}</div>
               </div>
             </div>
           </div>
 
-          {/* Right: HOCl Product Comparison Matrix (Page 4 of Brochure) */}
+          {/* Right: HOCl Characteristics Comparison Matrix */}
           <div className="lg:col-span-5 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-8 flex flex-col justify-between">
             <div>
               <h3 className="font-display text-xl font-bold text-[#381B37]">
@@ -452,7 +505,7 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
           </div>
         </div>
 
-        {/* 6 Application Equipment & Neogate Showcase (Pages 12–13 of Brochure) */}
+        {/* 6 Application Equipment & Neogate Showcase + Collage Image */}
         <div className="mt-16">
           <div className="max-w-3xl mb-8">
             <h3 className="font-display text-2xl font-bold text-[#381B37]">
@@ -485,6 +538,11 @@ export function NeolyteShowcase({ content, locale, onSelectEnquiry }: NeolyteSho
               alt={content.devicesTitle}
               className="w-full h-auto max-h-[560px] object-contain rounded-2xl select-none"
             />
+          </div>
+
+          {/* Product Specification Disclosure (Page 05 Spec) */}
+          <div className="mt-8 p-5 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6] text-xs text-[#666666] leading-relaxed">
+            {content.productDisclosure}
           </div>
         </div>
       </div>

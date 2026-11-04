@@ -21,11 +21,14 @@ export interface KhayrModuleItem {
 
 export interface SiteContent {
   nav: {
+    home: string;
     about: string;
     business: string;
     products: string;
     technology: string;
+    partnerships: string;
     insights: string;
+    contact: string;
     cta: string;
   };
   utility: {
@@ -43,6 +46,39 @@ export interface SiteContent {
     primaryCta: string;
     secondaryCta: string;
     snapshotItems: { label: string; value: string; detail: string }[];
+  };
+  homeSummary: {
+    whoWeAreKicker: string;
+    whoWeAreTitle: string;
+    whoWeAreText: string;
+    whoWeAreCta: string;
+    pillarsKicker: string;
+    pillarsTitle: string;
+    pillarsSub: string;
+    pillarsCta: string;
+    featuredProductsKicker: string;
+    featuredProductsTitle: string;
+    featuredProductsSub: string;
+    khayrCardDesc: string;
+    khayrCardCta: string;
+    neolyteCardDesc: string;
+    neolyteCardCta: string;
+    techKicker: string;
+    techTitle: string;
+    techText: string;
+    techCta: string;
+    partnerKicker: string;
+    partnerTitle: string;
+    partnerText: string;
+    partnerCta: string;
+    insightsKicker: string;
+    insightsTitle: string;
+    insightsCta: string;
+    closingKicker: string;
+    closingTitle: string;
+    closingText: string;
+    closingPrimaryCta: string;
+    closingSecondaryCta: string;
   };
   about: {
     sectionNumber: string;
@@ -70,6 +106,10 @@ export interface SiteContent {
       index: string;
       title: string;
       summary: string;
+      scopeLabel: string;
+      scope: string;
+      focusLabel: string;
+      focus: string;
       capabilities: string[];
       spanWide?: boolean;
     }[];
@@ -92,8 +132,19 @@ export interface SiteContent {
     tagline: string;
     lead: string;
     subscriptionNote: string;
-    externalPreviewCta: string;
+    registerInterestCta: string;
     enquireCta: string;
+    plannedModulesTitle: string;
+    plannedModulesSub: string;
+    plannedModules: { code: string; title: string; desc: string }[];
+    devPrinciplesTitle: string;
+    devPrinciplesSub: string;
+    devPrinciples: { code: string; title: string; desc: string }[];
+    interoperabilityRoadmap: {
+      badge: string;
+      title: string;
+      description: string;
+    };
     rolesTitle: string;
     roles: { role: string; badge: string; desc: string }[];
     threePillarsTitle: string;
@@ -102,6 +153,7 @@ export interface SiteContent {
       subtitle: string;
       items: { name: string; desc: string }[];
     }[];
+    conceptUiBadge: string;
     modulesTitle: string;
     modulesSub: string;
     modules: KhayrModuleItem[];
@@ -113,6 +165,7 @@ export interface SiteContent {
       partnerApps: string[];
       benefits: { step: string; title: string; desc: string }[];
       workflowSteps: { num: string; title: string; desc: string }[];
+      disclosure: string;
     };
     governanceFootnote: string;
   };
@@ -125,6 +178,8 @@ export interface SiteContent {
     scienceQuote: string;
     scienceSource: string;
     enquireCta: string;
+    documentationCta: string;
+    safetyPillars: { title: string; sub: string }[];
     coreAdvantages: { title: string; subtitle: string; desc: string }[];
     variants: {
       code: 'SN' | 'DS';
@@ -154,9 +209,11 @@ export interface SiteContent {
     }[];
     dilutionCalculatorTitle: string;
     dilutionCalculatorSub: string;
+    dilutionOfficialNotice: string;
     devicesTitle: string;
     devicesSub: string;
     devices: { name: string; method: string; useCase: string }[];
+    productDisclosure: string;
   };
   technology: {
     sectionNumber: string;
@@ -193,9 +250,13 @@ export interface SiteContent {
     lead: string;
     formTitle: string;
     formSubtitle: string;
+    patientDataNoticeTitle: string;
+    patientDataNoticeText: string;
     fields: {
       fullName: string;
       fullNamePlaceholder: string;
+      roleTitle: string;
+      roleTitlePlaceholder: string;
       businessEmail: string;
       businessEmailPlaceholder: string;
       phone: string;
@@ -209,6 +270,7 @@ export interface SiteContent {
       message: string;
       messagePlaceholder: string;
       privacyConsent: string;
+      privacyNoticeLinkLabel: string;
       submitBtn: string;
       submittingBtn: string;
     };
@@ -231,6 +293,9 @@ export interface SiteContent {
   footer: {
     corporateDescriptor: string;
     statement: string;
+    officialEmail: string;
+    partnershipsEmail: string;
+    locationSummary: string;
     disclaimerTitle: string;
     disclaimerText: string;
     copyright: string;
@@ -240,155 +305,206 @@ export interface SiteContent {
 export const CONTENT: Record<Locale, SiteContent> = {
   id: {
     nav: {
+      home: 'Beranda',
       about: 'Tentang NEO',
-      business: 'Pilar Bisnis',
-      products: 'Produk Utama',
+      business: 'Bisnis Kami',
+      products: 'Produk Kami',
       technology: 'Teknologi',
+      partnerships: 'Kemitraan',
       insights: 'Wawasan',
+      contact: 'Kontak',
       cta: 'Hubungi NEO',
     },
     utility: {
       legalEntity: 'PT Neomedika Elektra Optima',
       descriptor: 'Integrated Healthcare Technology',
-      tagline: 'Trusted Healthcare Solutions',
+      tagline: 'Connecting Healthcare. Empowering Better Lives.',
       workspaceSyncBtn: 'Integrasi Gmail & Sheets',
       langLabel: 'Bahasa',
     },
     hero: {
-      kicker: 'PT Neomedika Elektra Optima · Ekosistem Teknologi & Higienitas Kesehatan',
-      headline: 'Menghubungkan Layanan Kesehatan. Memberdayakan Kehidupan yang Lebih Baik.',
+      kicker: 'PT Neomedika Elektra Optima · NEO — Integrated Healthcare Technology',
+      headline: 'Connecting Healthcare. Empowering Better Lives.',
       subheadline:
-        'Kami menyatukan layanan kesehatan, teknologi perangkat lunak cerdas, dan inovasi higienitas medis untuk menciptakan operasional fasilitas kesehatan yang lebih terkoneksi, efisien, dan tepercaya.',
+        'PT Neomedika Elektra Optima (NEO) adalah perusahaan teknologi kesehatan terintegrasi yang mengembangkan platform manajemen fasilitas kesehatan, solusi kedokteran gigi digital, serta inovasi higienitas layanan kesehatan.',
       corporateNote:
-        'PT Neomedika Elektra Optima (NEO) membangun fondasi teknologi kesehatan dan ekosistem higienitas medis jangka panjang yang terstruktur, aman, serta berorientasi pada kolaborasi lintas fasilitas kesehatan.',
-      primaryCta: 'Pelajari Profil NEO',
+        'Sebagai merek korporat induk, NEO menyatukan pengembangan teknologi perangkat lunak klinis (KHAYR) dan lini produk sanitasi fasilitas kesehatan berbasis HOCl (Neolyte) untuk mendukung ekosistem kesehatan yang lebih terhubung.',
+      primaryCta: 'Jelajahi Solusi Kami',
       secondaryCta: 'Bermitra Bersama NEO',
       snapshotItems: [
         {
-          label: 'Entitas Resmi',
+          label: 'Identitas Korporat',
           value: 'PT Neomedika Elektra Optima',
-          detail: 'Merek Korporat: NEO · neomedika',
+          detail: 'Merek Korporat: NEO · Integrated Healthcare Technology',
         },
         {
-          label: 'Produk Digital Unggulan',
-          value: 'KHAYR Dental OS',
-          detail: 'Sistem Operasi Klinik Gigi Terpadu (Tahap Pengembangan)',
+          label: 'Platform Kedokteran Gigi Digital',
+          value: 'KHAYR Dental Platform',
+          detail: 'Manajemen Klinik Gigi & Rekam Medis Elektronik (Tahap Pengembangan)',
         },
         {
-          label: 'Lini Higienitas Medis',
+          label: 'Solusi Higienitas Layanan Kesehatan',
           value: 'Neolyte™ SN & DS',
-          detail: 'KEMENKES RI PKD 20501023189 & 20502023190 · Halal MUI',
+          detail: 'Sanitizer & Disinfektan Berbasis HOCl · KEMENKES RI PKD',
         },
         {
-          label: 'Fokus Pasar & Ekosistem',
-          value: 'Indonesia & Visi Global',
-          detail: 'Klinik Gigi, Rumah Sakit, Institusi & Mitra Teknologi',
+          label: 'Fokus Ekosistem & Kemitraan',
+          value: 'Layanan Kesehatan Terhubung',
+          detail: 'Penyedia Layanan Kesehatan, Mitra Teknologi, Distribusi & Institusi',
         },
       ],
     },
+    homeSummary: {
+      whoWeAreKicker: '01 · Siapa Kami',
+      whoWeAreTitle: 'Membangun Teknologi Kesehatan Terintegrasi untuk Layanan Kesehatan Modern.',
+      whoWeAreText:
+        'PT Neomedika Elektra Optima (NEO) berfokus pada pengembangan kapabilitas teknologi kesehatan terpadu yang menjembatani manajemen klinik, perangkat medis cerdas, standar higienitas, serta integrasi ekosistem digital.',
+      whoWeAreCta: 'Pelajari Tentang NEO',
+      pillarsKicker: '02 · Lima Pilar Bisnis Strategis',
+      pillarsTitle: 'Kerangka Bisnis Jangka Panjang untuk Ekosistem Kesehatan.',
+      pillarsSub:
+        'Portofolio NEO dibangun di atas lima pilar strategis yang saling mendukung transformasi operasional dan klinis.',
+      pillarsCta: 'Lihat Detail 5 Pilar Bisnis',
+      featuredProductsKicker: '03 · Portofolio Produk Unggulan',
+      featuredProductsTitle: 'Inovasi Perangkat Lunak Klinis & Higienitas Layanan Kesehatan.',
+      featuredProductsSub:
+        'Dua inisiatif utama di bawah naungan PT Neomedika Elektra Optima yang dirancang untuk menjawab kebutuhan fasilitas kesehatan.',
+      khayrCardDesc:
+        'Platform Manajemen Klinik Gigi & Rekam Medis Elektronik (EMR) yang dirancang untuk menyatukan alur kerja klinis, odontogram digital, penjadwalan, inventaris, dan pelaporan praktik.',
+      khayrCardCta: 'Jelajahi Platform KHAYR',
+      neolyteCardDesc:
+        'Lini produk sanitizer tangan/tubuh (Neolyte SN) dan disinfektan permukaan/peralatan (Neolyte DS) berbasis Hypochlorous Acid (HOCl) untuk lingkungan medis, dental, dan fasilitas umum.',
+      neolyteCardCta: 'Jelajahi Solusi Neolyte',
+      techKicker: '04 · Prinsip Teknologi & Pengembangan Produk',
+      techTitle: 'Dirancang dengan Fokus pada Integrasi, Keamanan, dan Alur Kerja Klinis.',
+      techText:
+        'Pendekatan rekayasa kami mengedepankan arsitektur terukur, pengelolaan data yang bertanggung jawab, kesiapan interoperabilitas standar kesehatan, serta validasi bersama praktisi.',
+      techCta: 'Pelajari Prinsip Teknologi NEO',
+      partnerKicker: '05 · Ekosistem Kemitraan',
+      partnerTitle: 'Berkolaborasi Bersama Penyedia Layanan Kesehatan & Mitra Industri.',
+      partnerText:
+        'NEO membuka peluang kolaborasi strategis dengan klinik, rumah sakit, mitra teknologi, jaringan distribusi, serta institusi akademik.',
+      partnerCta: 'Diskusikan Peluang Kemitraan',
+      insightsKicker: '06 · Wawasan & Perspektif',
+      insightsTitle: 'Pemikiran Seputar Transformasi Kesehatan Digital & Higienitas Medis.',
+      insightsCta: 'Lihat Seluruh Wawasan',
+      closingKicker: 'Mari Terhubung',
+      closingTitle: 'Mulai Percakapan Bersama PT Neomedika Elektra Optima.',
+      closingText:
+        'Hubungi tim korporat kami untuk informasi produk KHAYR, pengadaan lini higienitas Neolyte, atau penjajakan kemitraan strategis.',
+      closingPrimaryCta: 'Buka Formulir Pertanyaan Korporat',
+      closingSecondaryCta: 'Tinjau Peluang Kemitraan',
+    },
     about: {
-      sectionNumber: '01. Profil Korporat',
-      kicker: 'Siapa Kami · Tentang PT Neomedika Elektra Optima',
-      heading: 'Teknologi dengan Tujuan. Inovasi untuk Layanan Kesehatan yang Lebih Baik.',
-      lead: 'Layanan kesehatan terus berkembang menuju ekosistem yang terhubung dan berbasis data. Organisasi kesehatan membutuhkan teknologi yang mampu menjembatani proses klinis, operasional, administratif, serta standar higienitas lingkungan.',
-      body: 'PT Neomedika Elektra Optima (NEO) didirikan dengan komitmen jangka panjang untuk berkontribusi pada transformasi sektor kesehatan. Pendekatan kami melampaui produk tunggal: kami mengembangkan portofolio kapabilitas terintegrasi yang mendukung operasional fasilitas kesehatan, pengalaman pasien, pertukaran informasi yang bertanggung jawab, serta perlindungan sanitasi klinis.',
+      sectionNumber: 'Halaman 02 · Tentang NEO',
+      kicker: 'Siapa Kami · PT Neomedika Elektra Optima',
+      heading: 'Membangun Teknologi Kesehatan Terintegrasi untuk Layanan Kesehatan Modern.',
+      lead: 'PT Neomedika Elektra Optima (NEO) adalah perusahaan teknologi kesehatan Indonesia yang berfokus pada pengembangan sistem manajemen kesehatan digital, solusi peralatan dan higienitas medis, serta inovasi layanan kesehatan terhubung.',
+      body: 'Kami meyakini bahwa masa depan layanan kesehatan membutuhkan keterhubungan yang harmonis antara alur kerja klinis, manajemen operasional fasilitas, tata kelola informasi yang bertanggung jawab, serta perlindungan higienitas lingkungan perawatan. Sebagai merek korporat induk, NEO mengembangkan dan mengelola portofolio solusi kesehatan terarah—termasuk platform kedokteran gigi digital KHAYR dan lini higienitas layanan kesehatan Neolyte.',
       visionTitle: 'Visi Korporat',
       visionText:
-        'Menjadi perusahaan teknologi kesehatan berstandar internasional yang tepercaya, menghadirkan ekosistem kesehatan yang lebih terkoneksi, cerdas, dan mudah diakses.',
-      missionTitle: 'Misi Strategis',
+        'Menjadi perusahaan teknologi kesehatan terintegrasi yang tepercaya dalam mendukung layanan kesehatan yang lebih terkoneksi, efisien, dan berorientasi pada kualitas hidup pasien.',
+      missionTitle: 'Misi Korporat (5 Pilar Misi)',
       missions: [
         {
           code: '01',
-          title: 'Mengembangkan Solusi Tepat Guna',
-          desc: 'Membangun solusi kesehatan digital dan medis yang menjawab kebutuhan nyata operasional maupun klinis.',
+          title: 'Solusi Teknologi Kesehatan Praktis',
+          desc: 'Mengembangkan solusi teknologi kesehatan yang praktis, relevan, dan menjawab kebutuhan nyata fasilitas layanan kesehatan.',
         },
         {
           code: '02',
-          title: 'Menghubungkan Ekosistem',
-          desc: 'Menyatukan sistem kesehatan, tenaga medis, pengelola fasilitas, dan pasien melalui teknologi terpadu.',
+          title: 'Efisiensi Alur Kerja Klinis & Operasional',
+          desc: 'Mendukung tenaga medis dan pengelola fasilitas melalui sistem yang meningkatkan keteraturan dokumentasi serta efisiensi operasional.',
         },
         {
           code: '03',
-          title: 'Inovasi & Interoperabilitas',
-          desc: 'Mendorong inovasi yang bertanggung jawab, keamanan data, dan kesiapan interoperabilitas standar kesehatan.',
+          title: 'Standar Higienitas & Lingkungan Perawatan',
+          desc: 'Menghadirkan solusi higienitas dan sanitasi fasilitas kesehatan yang mendukung keselamatan lingkungan klinis maupun publik.',
         },
         {
           code: '04',
-          title: 'Kemitraan Jangka Panjang',
-          desc: 'Membangun kolaborasi strategis lintas institusi layanan kesehatan, mitra teknologi, dan jaringan distribusi.',
+          title: 'Interoperabilitas & Tata Kelola Data',
+          desc: 'Mendorong pengelolaan informasi yang bertanggung jawab, keamanan sistem, serta kesiapan interoperabilitas standar kesehatan.',
         },
         {
           code: '05',
-          title: 'Arsitektur Berkelanjutan',
-          desc: 'Mengembangkan platform yang dapat bertumbuh mengikuti perkembangan skala klinik dan regulasi pasar.',
+          title: 'Kolaborasi Ekosistem Jangka Panjang',
+          desc: 'Membangun kemitraan jangka panjang bersama penyedia layanan kesehatan, mitra teknologi, distributor, dan institusi.',
         },
       ],
-      valuesTitle: 'Nilai-Nilai Utama Neomedika',
+      valuesTitle: 'Nilai-Nilai Korporat (Corporate Values)',
       values: [
         {
-          title: 'Inovasi Bertujuan (Purpose)',
-          desc: 'Fokus pada teknologi yang menciptakan nilai praktis dan dampak nyata bagi tenaga medis serta pasien.',
+          title: 'Inovasi (Innovation)',
+          desc: 'Mengembangkan solusi terarah yang memecahkan tantangan operasional dan klinis secara praktis.',
         },
         {
-          title: 'Integritas & Akuntabilitas',
-          desc: 'Beroperasi dengan transparansi, tanggung jawab, dan penghormatan terhadap kepercayaan di sektor kesehatan.',
+          title: 'Integritas (Integrity)',
+          desc: 'Menjalankan tata kelola perusahaan, komunikasi produk, dan kepatuhan dengan jujur serta transparan.',
         },
         {
-          title: 'Desain Berpusat pada Manusia',
-          desc: 'Teknologi harus mempermudah kerja dokter, staf administrasi, dan pasien—bukan memperumit alur kerja.',
+          title: 'Kolaborasi (Collaboration)',
+          desc: 'Bekerja berdampingan dengan dokter, pengelola klinik, mitra teknologi, dan pemangku kepentingan kesehatan.',
         },
         {
-          title: 'Kolaborasi Ekosistem',
-          desc: 'Kemajuan terbaik dicapai melalui kemitraan erat bersama praktisi klinis, institusi, dan spesialis teknologi.',
+          title: 'Tanggung Jawab (Responsibility)',
+          desc: 'Mengutamakan keselamatan, perlindungan privasi data, serta kejelasan informasi pada setiap inisiatif produk.',
         },
         {
-          title: 'Keamanan & Keunggulan Mutu',
-          desc: 'Menjaga kualitas produk, perlindungan informasi sensitif, serta kepatuhan standar pengujian.',
-        },
-        {
-          title: 'Adaptabilitas Berkelanjutan',
-          desc: 'Merancang sistem yang siap beradaptasi terhadap dinamika kebutuhan klinis dan perkembangan regulasi.',
+          title: 'Pemikiran Jangka Panjang (Long-Term Thinking)',
+          desc: 'Membangun fondasi arsitektur teknologi dan kemitraan yang berkelanjutan lintas fase pertumbuhan.',
         },
       ],
-      roadmapTitle: 'Peta Jalan Pertumbuhan Bertahap (4 Fase)',
+      roadmapTitle: 'Pendekatan Pengembangan Kami (Our Development Approach)',
       roadmapNote:
-        'Peta jalan ini merepresentasikan arah strategis korporat dan disesuaikan dengan validasi produk, kesiapan pasar, serta pemenuhan regulasi.',
+        'Setiap solusi di bawah naungan NEO dikembangkan melalui lima tahapan terstruktur untuk memastikan kesesuaian klinis dan kesiapan operasional.',
       phases: [
         {
-          phase: 'Fase 1 · Fondasi Digital',
-          title: 'Fondasi Klinik Gigi Digital',
-          desc: 'Mengembangkan dan memvalidasi alur kerja inti klinik gigi serta fondasi platform operasional digital terpadu.',
+          phase: 'Langkah 01',
+          title: 'Memahami Kebutuhan Layanan Kesehatan',
+          desc: 'Memetakan tantangan nyata yang dihadapi klinisi, staf administrasi, pengelola fasilitas, dan pasien.',
         },
         {
-          phase: 'Fase 2 · Ekspansi Platform',
-          title: 'Perluasan Kapabilitas & Multi-Cabang',
-          desc: 'Meningkatkan pengalaman pasien, manajemen multi-klinik, analitik operasional, dan integrasi strategis.',
+          phase: 'Langkah 02',
+          title: 'Merancang Solusi yang Praktis',
+          desc: 'Menyusun arsitektur produk yang intuitif dan selaras dengan alur kerja layanan kesehatan sehari-hari.',
         },
         {
-          phase: 'Fase 3 · Lintas Segmen',
-          title: 'Ekspansi Segmen Layanan Kesehatan',
-          desc: 'Mengeksplorasi solusi klinik umum, klinik spesialis, kapabilitas EMR yang lebih luas, dan layanan terhubung.',
+          phase: 'Langkah 03',
+          title: 'Mengembangkan Platform Teknologi',
+          desc: 'Membangun sistem perangkat lunak dan solusi produk dengan standar keamanan serta skalabilitas yang terukur.',
         },
         {
-          phase: 'Fase 4 · Ekosistem Internasional',
-          title: 'Pengembangan Ekosistem Regional & Global',
-          desc: 'Mengevaluasi peluang pasar internasional terpilih, lokalisasi sistem, dan kemitraan strategis lintas negara.',
+          phase: 'Langkah 04',
+          title: 'Memvalidasi Alur Kerja Klinis & Operasional',
+          desc: 'Melakukan pengujian fungsional, evaluasi pengguna, dan penyempurnaan berkelanjutan bersama praktisi.',
+        },
+        {
+          phase: 'Langkah 05',
+          title: 'Membangun Kemitraan Strategis & Skalabilitas',
+          desc: 'Memperluas adopsi solusi secara bertahap melalui kolaborasi ekosistem, distribusi, dan kepatuhan regulasi.',
         },
       ],
     },
     business: {
-      sectionNumber: '02. Arsitektur Bisnis',
-      kicker: 'Lima Pilar Strategis · Satu Visi Kesehatan Terkoneksi',
-      heading: 'Membangun Fondasi Layanan Kesehatan yang Terintegrasi.',
-      lead: 'Bisnis PT Neomedika Elektra Optima disusun di sekitar lima pilar strategis yang saling melengkapi sebagai fondasi portofolio teknologi kesehatan jangka panjang.',
+      sectionNumber: 'Halaman 03 · Bisnis Kami',
+      kicker: 'Lima Pilar Bisnis Strategis · PT Neomedika Elektra Optima',
+      heading: 'Kerangka Bisnis Strategis untuk Layanan Kesehatan Terintegrasi.',
+      lead: 'Aktivitas bisnis dan pengembangan portofolio PT Neomedika Elektra Optima (NEO) disusun ke dalam lima pilar strategis yang saling melengkapi.',
       governanceNote:
-        'Catatan Korporat: Kelima pilar ini menjelaskan kerangka kerja bisnis strategis NEO dan arah pengembangan portofolio jangka panjang.',
+        'Pernyataan Korporat (Required Disclaimer): Pilar bisnis NEO merepresentasikan arah strategis dan kerangka pengembangan teknologi perusahaan. Produk serta layanan spesifik diperkenalkan secara bertahap sesuai dengan proses pengembangan, validasi, kemitraan, dan persyaratan regulasi yang berlaku.',
       pillars: [
         {
           index: '01',
           title: 'Healthcare Management Systems',
           summary:
-            'Teknologi yang dirancang untuk mendukung manajemen dan operasional harian fasilitas kesehatan secara terstruktur.',
+            'Pengembangan platform perangkat lunak untuk mendukung pengelolaan operasional, klinis, dan administratif fasilitas layanan kesehatan.',
+          scopeLabel: 'Cakupan (Scope)',
+          scope:
+            'Sistem manajemen klinik, rekam medis elektronik (EMR), penjadwalan janji temu, penagihan (billing), inventaris, dan pelaporan operasional.',
+          focusLabel: 'Fokus Strategis (Strategic Focus)',
+          focus:
+            'Meningkatkan efisiensi alur kerja fasilitas kesehatan dan keteraturan dokumentasi klinis, dimulai dari platform klinik gigi KHAYR.',
           capabilities: [
             'Manajemen praktik & fasilitas klinik',
             'Rekam medis elektronik (EMR) & alur administrasi',
@@ -399,403 +515,601 @@ export const CONTENT: Record<Locale, SiteContent> = {
         },
         {
           index: '02',
-          title: 'Digital Healthcare Platforms',
+          title: 'Smart Medical Devices',
           summary:
-            'Platform digital yang menjembatani interaksi antara penyedia layanan kesehatan, tenaga profesional, dan pasien.',
+            'Eksplorasi dan pengembangan perangkat pendukung medis serta peralatan sanitasi terintegrasi untuk lingkungan fasilitas kesehatan.',
+          scopeLabel: 'Cakupan (Scope)',
+          scope:
+            'Perangkat aplikasi sanitasi otomatis, sistem sterilisasi ruang/bilik (seperti Neogate), serta eksplorasi perangkat medis terhubung.',
+          focusLabel: 'Fokus Strategis (Strategic Focus)',
+          focus:
+            'Mendukung keandalan operasional klinis dan pengendalian higienitas lingkungan secara praktis.',
           capabilities: [
-            'Perjalanan reservasi & pengingat janji temu pasien',
-            'Dukungan alur kerja klinis & dokumentasi perawatan',
-            'Program keterlibatan pasien & promosi terukur',
+            'Perangkat pendukung sanitasi & sterilisasi fasilitas',
+            'Integrasi perangkat keras dengan prosedur operasional klinik',
+            'Pengembangan solusi perangkat medis tepat guna',
           ],
         },
         {
           index: '03',
-          title: 'Integration & Interoperability',
+          title: 'Consumer Health & Hygiene',
           summary:
-            'Pendekatan arsitektur yang memungkinkan sistem kesehatan dan informasi berkomunikasi secara aman dan terstandar.',
+            'Penyediaan produk higienitas dan sanitasi berbasis sains untuk fasilitas kesehatan, ruang publik, maupun penggunaan harian.',
+          scopeLabel: 'Cakupan (Scope)',
+          scope:
+            'Lini produk sanitizer tangan/tubuh (Neolyte SN) dan disinfektan permukaan/peralatan (Neolyte DS) berbahan aktif Hypochlorous Acid (HOCl).',
+          focusLabel: 'Fokus Strategis (Strategic Focus)',
+          focus:
+            'Menghadirkan solusi higienitas bebas alkohol yang praktis bagi klinik, rumah sakit, institusi, dan masyarakat.',
           capabilities: [
-            'Konektivitas berbasis API & pertukaran data terstruktur',
-            'Pengembangan integrasi ekosistem nasional (termasuk kesiapan SATUSEHAT)',
-            'Integrasi dengan jaringan aplikasi mitra & asuransi',
+            'Neolyte SN — Hand & Body Sanitizer (KEMENKES RI PKD)',
+            'Neolyte DS — Surface & Equipment Disinfectant (KEMENKES RI PKD)',
+            'Dukungan pengadaan untuk klinik, rumah sakit, & ruang publik',
           ],
         },
         {
           index: '04',
-          title: 'Healthcare Intelligence & Automation',
+          title: 'Healthcare Infrastructure & Consulting',
           summary:
-            'Kapabilitas analitik data dan otomatisasi alur kerja untuk mendukung visibilitas operasional serta pengambilan keputusan.',
+            'Pendampingan kesiapan transformasi digital, perancangan alur kerja fasilitas kesehatan, serta tata kelola operasional.',
+          scopeLabel: 'Cakupan (Scope)',
+          scope:
+            'Konsultasi implementasi sistem klinik, optimalisasi alur layanan pasien, serta kesiapan infrastruktur teknologi fasilitas kesehatan.',
+          focusLabel: 'Fokus Strategis (Strategic Focus)',
+          focus:
+            'Membantu fasilitas kesehatan mengadopsi teknologi secara terstruktur sesuai skala operasionalnya.',
           capabilities: [
-            'Dashboard kinerja klinik & analitik pendapatan real-time',
-            'Pemantauan retensi pasien & peringatan stok otomatis',
-            'Eksplorasi kecerdasan data dengan tata kelola & pengawasan manusia',
+            'Pemetaan & standarisasi alur kerja operasional klinik',
+            'Pendampingan onboarding & pelatihan tim fasilitas kesehatan',
+            'Perencanaan kesiapan infrastruktur digital multi-cabang',
           ],
         },
         {
           index: '05',
-          title: 'Healthcare Ecosystem & Connectivity',
+          title: 'Digital Health Ecosystem Integration',
           summary:
-            'Pendekatan berorientasi ekosistem yang menghubungkan klinik, rumah sakit, laboratorium, mitra teknologi, dan standar higienitas.',
+            'Pengembangan konektivitas lintas sistem untuk menghubungkan penyedia layanan kesehatan, pasien, dan mitra ekosistem.',
+          scopeLabel: 'Cakupan (Scope)',
+          scope:
+            'Arsitektur konektivitas API, peta jalan interoperabilitas standar kesehatan, serta konsep ekosistem distribusi promosi digital.',
+          focusLabel: 'Fokus Strategis (Strategic Focus)',
+          focus:
+            'Membangun fondasi pertukaran informasi yang aman dan kolaborasi bernilai tambah di masa depan.',
           capabilities: [
-            'Kolaborasi jaringan penyedia layanan & mitra distribusi',
-            'Standarisasi higienitas fasilitas medis melalui lini Neolyte',
-            'Solusi lintas organisasi untuk pertumbuhan berkelanjutan',
+            'Arsitektur berbasis API & kesiapan standar interoperabilitas',
+            'Peta jalan penyelarasan standar kesehatan nasional',
+            'Eksplorasi integrasi mitra layanan & ekosistem komersial',
           ],
           spanWide: true,
         },
       ],
-      solutionsHeading: 'Solusi Berdasarkan Kebutuhan Ekosistem',
+      solutionsHeading: 'Fokus Solusi Berdasarkan Segmen Ekosistem',
       solutionsSub:
-        'Strategi solusi NEO menjawab tantangan operasional, digitalisasi, higienitas klinis, dan konektivitas di berbagai segmen.',
+        'Kerangka bisnis NEO dirancang untuk mendukung kebutuhan spesifik berbagai pemangku kepentingan di sektor kesehatan.',
       audiences: [
         {
-          audience: 'Untuk Praktik & Klinik Gigi',
-          focus: 'Platform Unggulan: KHAYR & Sanitasi Klinik Neolyte',
+          audience: 'Praktik & Klinik Gigi',
+          focus: 'Platform KHAYR & Solusi Higienitas Neolyte',
           description:
-            'Manajemen praktik gigi digital yang menghubungkan rekam medis odontogram, penjadwalan, keuangan, inventaris, promosi voucher, serta sterilisasi ruang tindakan.',
-          ctaLabel: 'Diskusikan Solusi Klinik Gigi',
-          enquiryCategory: 'Healthcare Solutions',
+            'Dukungan transformasi digital praktik dokter gigi melalui modul klinis, odontogram, penjadwalan, dan inventaris, dilengkapi sanitasi klinik menggunakan Neolyte.',
+          ctaLabel: 'Minta Informasi Solusi Klinik',
+          enquiryCategory: 'KHAYR Product Information',
           productInterest: 'KHAYR Digital Dental Platform',
         },
         {
-          audience: 'Untuk Rumah Sakit & Fasilitas Medis',
-          focus: 'Standar Higienitas HOCl & Koordinasi Operasional',
+          audience: 'Rumah Sakit & Fasilitas Kesehatan',
+          focus: 'Lini Higienitas Neolyte & Eksplorasi Sistem',
           description:
-            'Penyediaan disinfektan & sanitizer Neolyte berizin Kemenkes RI PKD untuk sterilisasi ruang tindakan, poliklinik, dan bilik Neogate, beserta eksplorasi sistem digital.',
-          ctaLabel: 'Hubungi Tim Solusi Medis',
-          enquiryCategory: 'Healthcare Solutions',
+            'Pengadaan produk sanitizer dan disinfektan Neolyte SN & DS untuk lingkungan fasilitas medis, poliklinik, dan ruang tunggu.',
+          ctaLabel: 'Hubungi Tim Produk Neolyte',
+          enquiryCategory: 'Neolyte Product Enquiry',
           productInterest: 'Neolyte SN / DS Hygiene Line',
         },
         {
-          audience: 'Untuk Grup Layanan Kesehatan',
-          focus: 'Visibilitas Multi-Cabang & Standarisasi Alur Kerja',
+          audience: 'Mitra Teknologi & Integrasi',
+          focus: 'Kolaborasi Platform & Interoperabilitas',
           description:
-            'Fondasi teknologi yang dirancang untuk mendukung administrasi skala besar, pelaporan terpusat lintas cabang, dan efisiensi rantai pasok inventaris.',
-          ctaLabel: 'Jadwalkan Konsultasi Korporat',
-          enquiryCategory: 'Business & Strategic Partnerships',
-          productInterest: 'KHAYR Digital Dental Platform',
+            'Penjajakan kerja sama teknis terkait infrastruktur cloud, konektivitas sistem informasi kesehatan, dan integrasi layanan.',
+          ctaLabel: 'Bahas Kemitraan Teknologi',
+          enquiryCategory: 'Technology & Integration Partnership',
+          productInterest: 'Corporate & Ecosystem Partnership',
         },
         {
-          audience: 'Untuk Mitra Teknologi & Distribusi',
-          focus: 'Integrasi API, Kemitraan Ekosistem & Distribusi',
+          audience: 'Mitra Distribusi & Strategis',
+          focus: 'Distribusi Produk & Kolaborasi Korporat',
           description:
-            'Peluang kolaborasi pengembangan integrasi sistem, konektivitas platform mitra promosi, serta kemitraan distribusi produk kesehatan Neomedika.',
-          ctaLabel: 'Bahas Peluang Kemitraan',
-          enquiryCategory: 'Technology & Integration',
+            'Peluang kemitraan distribusi regional untuk lini produk Neolyte serta kolaborasi strategis pengembangan ekosistem NEO.',
+          ctaLabel: 'Diskusikan Kemitraan Distribusi',
+          enquiryCategory: 'Distribution Partnership',
           productInterest: 'Corporate & Ecosystem Partnership',
         },
       ],
     },
     khayr: {
-      sectionNumber: '03. Produk Utama Digital · KHAYR',
-      kicker: 'Produk Digital Unggulan NEO · Sistem Operasi Praktik Kedokteran Gigi',
+      sectionNumber: 'Halaman 04 · Produk Kami: KHAYR',
+      kicker: 'Dental Clinic Management & Electronic Medical Record Platform',
       statusDisclosure: 'Status Produk: Dalam Tahap Pengembangan & Validasi',
-      heading: 'KHAYR — Sistem Operasi Cerdas untuk Klinik Gigi Modern.',
-      tagline: 'Kelola Lebih Mudah, Promosikan Lebih Luas, Tumbuh Lebih Cepat.',
-      lead: 'KHAYR adalah platform kesehatan gigi digital unggulan PT Neomedika Elektra Optima yang dirancang sebagai pusat data terpadu untuk menyatukan alur kerja klinis, rekam medis odontogram, administrasi klinik, keuangan, manajemen inventaris, hingga promosi akuisisi pasien dalam satu lingkungan cloud yang terhubung.',
+      heading: 'KHAYR — Building a More Connected Dental Practice.',
+      tagline: 'Platform Manajemen Klinik Gigi & Rekam Medis Elektronik Terpadu.',
+      lead: 'KHAYR adalah platform perangkat lunak manajemen klinik gigi dan rekam medis elektronik (EMR) yang dikembangkan oleh PT Neomedika Elektra Optima (NEO). KHAYR dirancang untuk membantu praktik dokter gigi mengelola dokumentasi klinis, alur pasien, jadwal perawatan, penagihan, inventaris, serta pelaporan operasional dalam satu sistem yang terstruktur.',
       subscriptionNote:
-        'Model Berlangganan Fleksibel "Pay as You Grow" — dirancang agar klinik dapat bertumbuh secara terukur sesuai skala praktik dan jumlah cabang.',
-      externalPreviewCta: 'Buka Portal Produk KHAYR',
-      enquireCta: 'Minta Demo / Informasi KHAYR',
-      rolesTitle: 'Dirancang untuk Setiap Peran di Ekosistem Klinik Gigi',
+        'Arsitektur Modular yang Dapat Diskalakan — dirancang untuk mendukung kebutuhan praktik dokter gigi mandiri hingga jaringan klinik gigi multi-cabang.',
+      registerInterestCta: 'Daftarkan Minat Anda (Register Your Interest)',
+      enquireCta: 'Minta Informasi Produk (Request Product Information)',
+      plannedModulesTitle: '8 Modul Produk yang Direncanakan (Planned Product Modules)',
+      plannedModulesSub:
+        'Cakupan kapabilitas KHAYR disusun ke dalam delapan modul inti untuk mendukung operasional klinik gigi secara menyeluruh.',
+      plannedModules: [
+        {
+          code: '01',
+          title: 'Clinical Management & Dental EMR',
+          desc: 'Pencatatan anamnesis, pemeriksaan klinis, diagnosis, dan riwayat rekam medis elektronik pasien secara kronologis.',
+        },
+        {
+          code: '02',
+          title: 'Digital Odontogram & Treatment Planning',
+          desc: 'Pemetaan kondisi gigi secara visual (Odontogram) untuk mendukung pencatatan tindakan dan perencanaan perawatan bertahap.',
+        },
+        {
+          code: '03',
+          title: 'Patient Relationship Management',
+          desc: 'Pengelolaan profil pasien terpusat, riwayat kunjungan, komunikasi pengingat jadwal, dan kesinambungan layanan.',
+        },
+        {
+          code: '04',
+          title: 'Appointment & Scheduling Management',
+          desc: 'Pengaturan jadwal praktik dokter gigi, alokasi ruang tindakan (dental chair), dan pemantauan status antrean harian.',
+        },
+        {
+          code: '05',
+          title: 'Billing & Financial Management',
+          desc: 'Penyusunan tagihan pasien yang terhubung dari pencatatan tindakan klinis, pengelolaan metode pembayaran, dan rekapitulasi kasir.',
+        },
+        {
+          code: '06',
+          title: 'Inventory & Procurement',
+          desc: 'Pemantauan stok bahan habis pakai dental dan obat-obatan, termasuk pencatatan batch serta peringatan masa kedaluwarsa.',
+        },
+        {
+          code: '07',
+          title: 'Clinic & Multi-Branch Management',
+          desc: 'Konfigurasi katalog layanan, tarif, personel medis, serta pengelolaan operasional untuk klinik tunggal maupun multi-cabang.',
+        },
+        {
+          code: '08',
+          title: 'Operational Reporting & Analytics',
+          desc: 'Ringkasan laporan operasional, tren kunjungan pasien, dan visibilitas kinerja keuangan klinik untuk mendukung evaluasi manajemen.',
+        },
+      ],
+      devPrinciplesTitle: '7 Prinsip Pengembangan Produk KHAYR',
+      devPrinciplesSub:
+        'Pengembangan KHAYR berpedoman pada tujuh prinsip utama agar menghasilkan sistem yang andal dan sesuai dengan praktik kedokteran gigi.',
+      devPrinciples: [
+        {
+          code: '01',
+          title: 'Rekam Pasien Terstruktur (Structured Patient Records)',
+          desc: 'Menyajikan format data demografis dan riwayat klinis yang rapi untuk meminimalkan duplikasi pencatatan.',
+        },
+        {
+          code: '02',
+          title: 'Konsistensi Alur Kerja Klinis (Clinical Workflow Consistency)',
+          desc: 'Menyelaraskan tahapan dari registrasi resepsionis, ruang tindakan dokter gigi, hingga penyelesaian administrasi kasir.',
+        },
+        {
+          code: '03',
+          title: 'Konteks Pasien & Kunjungan yang Jelas (Clear Patient & Encounter Context)',
+          desc: 'Memudahkan tenaga medis melihat riwayat alergi, catatan medis sebelumnya, dan rencana perawatan saat melayani pasien.',
+        },
+        {
+          code: '04',
+          title: 'Pengelolaan Data yang Bertanggung Jawab (Responsible Data Management)',
+          desc: 'Memisahkan lingkungan data operasional klinik dari situs publik serta menerapkan praktik perlindungan informasi.',
+        },
+        {
+          code: '05',
+          title: 'Hak Akses Pengguna & Jejak Audit (User Permissions & Auditability)',
+          desc: 'Mendukung pembagian peran akses bagi dokter gigi, perawat, staf administrasi, dan manajer klinik.',
+        },
+        {
+          code: '06',
+          title: 'Alur Kerja Praktik Gigi yang Praktis (Practical Dental Practice Workflows)',
+          desc: 'Merancang antarmuka yang berfokus pada kemudahan penggunaan sehari-hari di lingkungan klinik gigi.',
+        },
+        {
+          code: '07',
+          title: 'Arsitektur yang Dapat Diskalakan (Scalable Architecture)',
+          desc: 'Menyiapkan fondasi sistem yang dapat berkembang seiring penambahan pengguna, kursi perawatan, maupun cabang klinik.',
+        },
+      ],
+      interoperabilityRoadmap: {
+        badge: 'Peta Jalan Pengembangan Interoperabilitas',
+        title: 'Interoperability Development Roadmap',
+        description:
+          'Peta jalan pengembangan KHAYR mempertimbangkan kesiapan interoperabilitas data kesehatan dan standar layanan kesehatan Indonesia yang relevan (termasuk ekosistem SATUSEHAT). Implementasi integrasi spesifik tetap tunduk pada tahapan pengembangan teknis, pengujian validasi, serta persyaratan persetujuan dan regulasi yang berlaku.',
+      },
+      rolesTitle: 'Dirancang untuk Mendukung Peran Utama di Klinik Gigi',
       roles: [
         {
           role: 'Dokter Gigi & Perawat',
-          badge: 'Mesin Klinis',
-          desc: 'Mengakses rekam medis elektronik (EMR) kronologis, mengisi Odontogram digital interaktif, mencatat anamnesis, diagnosis, rencana perawatan, serta memantau jadwal praktik.',
+          badge: 'Alur Klinis',
+          desc: 'Mendokumentasikan pemeriksaan pada Odontogram digital, mencatat anamnesis, diagnosis, dan rencana perawatan secara terstruktur.',
         },
         {
-          role: 'Staf Administrasi',
-          badge: 'Inti Operasional',
-          desc: 'Mengelola reservasi 3-langkah untuk pasien baru maupun lama, mengatur antrean harian, memantau stok inventaris, dan memproses tagihan kasir dengan cepat.',
+          role: 'Staf Administrasi & Resepsionis',
+          badge: 'Alur Operasional',
+          desc: 'Mengelola registrasi pasien, mengatur jadwal janji temu harian, memantau stok inventaris, dan memproses tagihan.',
         },
         {
           role: 'Pasien Klinik',
-          badge: 'Pusat Perawatan',
-          desc: 'Mendapatkan pengalaman registrasi yang bebas antrean berulang, pengingat janji temu terjadwal, serta riwayat perawatan yang terdokumentasi secara rapi.',
+          badge: 'Pengalaman Layanan',
+          desc: 'Mendapatkan alur penjadwalan dan administrasi kunjungan yang lebih terkoordinasi di klinik.',
         },
         {
           role: 'Pemilik & Manajer Klinik',
-          badge: 'Pusat Komando',
-          desc: 'Memantau kinerja pendapatan klinik secara real-time, rasio pasien baru vs. lama, peringatan obat kedaluwarsa, serta efektivitas kampanye KHAYR Voucher Promotion.',
+          badge: 'Manajemen Praktik',
+          desc: 'Meninjau laporan operasional, ketersediaan inventaris, dan ringkasan kinerja klinik secara terpusat.',
         },
       ],
-      threePillarsTitle: 'Tiga Pilar Arsitektur KHAYR: Setiap Fungsi dalam Satu Sistem',
+      threePillarsTitle: 'Kerangka Fungsional KHAYR: Pengaturan, Operasional, dan Pelaporan',
       threePillars: [
         {
-          name: '1. Fondasi',
-          subtitle: 'Pengaturan · Konsistensi & Kendali Operasional',
+          name: '1. Fondasi Pengaturan Klinik',
+          subtitle: 'Konfigurasi · Standarisasi Layanan & Sumber Daya',
           items: [
-            { name: 'Layanan & Tindakan', desc: 'Katalog lengkap prosedur medis gigi beserta struktur tarifnya.' },
-            { name: 'Infrastruktur Fisik', desc: 'Pemetaan lokasi klinik, cabang, dan ruang perawatan (dental chair).' },
-            { name: 'Produk & Inventaris', desc: 'Katalog bahan habis pakai, obat, dan alat dengan pelacakan stok.' },
-            { name: 'Kemitraan Asuransi', desc: 'Pengelolaan penyedia asuransi dan mitra penjamin secara terpusat.' },
-            { name: 'Personel & Kredensial', desc: 'Database dokter dan staf lengkap dengan masa berlaku STR/SIP.' },
-            { name: 'Penjadwalan Cerdas', desc: 'Pengaturan jadwal praktik dokter per ruangan, hari, dan jam.' },
+            { name: 'Katalog Layanan & Tindakan', desc: 'Pengelolaan daftar prosedur gigi dan struktur biaya.' },
+            { name: 'Ruangan & Cabang', desc: 'Pengaturan lokasi klinik dan ruang perawatan (dental chair).' },
+            { name: 'Katalog Produk & Bahan', desc: 'Pendataan obat serta bahan habis pakai dental.' },
+            { name: 'Profil Tenaga Medis & Staf', desc: 'Pengelolaan data dokter gigi, jadwal praktik, dan peran pengguna.' },
           ],
         },
         {
-          name: '2. Perjalanan Pasien',
-          subtitle: 'Operasi · Efisiensi & Kualitas Perawatan Klinis',
+          name: '2. Alur Kunjungan Pasien',
+          subtitle: 'Operasional Harian · Dari Registrasi hingga Kasir',
           items: [
-            { name: 'Reservasi Cerdas 3-Langkah', desc: 'Pencarian instan via Nama, Telepon, atau NIK untuk cegah duplikasi data.' },
-            { name: 'Tampilan Jadwal Harian', desc: 'Daftar janji temu real-time dengan filter tanggal, dokter, dan status.' },
-            { name: 'Kokpit Digital Dokter', desc: 'Odontogram interaktif, input anamnesis, pencatatan diagnosis & tindakan.' },
-            { name: 'Riwayat Medis Lengkap', desc: 'EMR kronologis yang menyimpan seluruh riwayat kunjungan pasien.' },
-            { name: 'Pembayaran & Tagihan', desc: 'Pelacakan invoice terpusat yang terhubung langsung dari tindakan klinis.' },
+            { name: 'Penjadwalan & Registrasi', desc: 'Pencarian profil pasien dan pengaturan slot janji temu.' },
+            { name: 'Antrean Jadwal Harian', desc: 'Pemantauan status kehadiran pasien per dokter dan ruangan.' },
+            { name: 'Pencatatan Klinis & Odontogram', desc: 'Dokumentasi hasil pemeriksaan gigi dan tindakan medis.' },
+            { name: 'Penagihan Terintegrasi', desc: 'Penerusan data tindakan klinis ke rincian tagihan kasir.' },
           ],
         },
         {
-          name: '3. Pusat Komando',
-          subtitle: 'Wawasan · Pertumbuhan & Optimasi Bisnis Klinik',
+          name: '3. Visibilitas & Manajemen Praktik',
+          subtitle: 'Pelaporan · Pemantauan Operasional & Inventaris',
           items: [
-            { name: 'Dashboard Kinerja', desc: 'Analisis pendapatan per kategori (Tindakan vs. Obat) dan tren kunjungan.' },
-            { name: 'Analitik Pelanggan Aktif', desc: 'Pemantauan rasio akuisisi pasien baru dibandingkan retensi pasien lama.' },
-            { name: 'Manajemen Inventaris', desc: 'Indikator stok real-time: Aman, Hampir Habis, Habis, & Peringatan Kedaluwarsa.' },
-            { name: 'Laporan Keuangan', desc: 'Rekapitulasi omset harian/bulanan untuk identifikasi pertumbuhan klinik.' },
-            { name: 'KHAYR Voucher Promotion', desc: 'Pembuatan voucher promosi layanan gigi ke jaringan aplikasi mitra.' },
+            { name: 'Ringkasan Operasional', desc: 'Laporan aktivitas kunjungan dan rekapitulasi transaksi klinik.' },
+            { name: 'Pemantauan Inventaris', desc: 'Indikator ketersediaan stok bahan dan pengingat masa kedaluwarsa.' },
+            { name: 'Pengelolaan Multi-Cabang', desc: 'Dukungan visibilitas terpusat bagi jaringan klinik gigi.' },
           ],
         },
       ],
-      modulesTitle: 'Simulasi Interaktif Modul Operasional KHAYR',
+      conceptUiBadge: 'Concept UI — Illustrative Product Preview',
+      modulesTitle: 'Pratinjau Konsep Antarmuka Modul KHAYR (Concept UI Preview)',
       modulesSub:
-        'Pilih modul di bawah ini untuk meninjau bagaimana KHAYR menyederhanakan alur kerja klinik gigi dari reservasi hingga laporan analitik.',
+        'Pratinjau di bawah ini merupakan ilustrasi konsep antarmuka pengguna (Concept UI) menggunakan data simulasi sintetis untuk menggambarkan alur kerja yang sedang dikembangkan.',
       modules: [
         {
           id: 'reservasi',
-          tabLabel: 'Reservasi 3-Langkah',
-          title: 'Langkah Pertama yang Menyenangkan untuk Setiap Janji Pasien',
+          tabLabel: 'Penjadwalan & Registrasi',
+          title: 'Alur Registrasi & Penjadwalan Pasien yang Terstruktur',
           subtitle:
-            'Sistem reservasi KHAYR menyederhanakan pemesanan untuk pasien baru maupun lama, mengurangi waktu check-in dan mencegah duplikasi rekam medis.',
+            'Mendukung staf administrasi dalam mencatat janji temu pasien lama maupun baru serta menghubungkannya dengan jadwal dokter gigi.',
           highlights: [
             {
-              title: '1. Alur Pemesanan 3 Langkah Terstruktur',
-              desc: 'Pilih tipe pasien (Pasien Lama / Baru) → Temukan data atau registrasi NIK → Tetapkan dokter gigi, ruangan, dan waktu tindakan.',
+              title: '1. Pencatatan Janji Temu Bertahap',
+              desc: 'Pilih kategori kunjungan → Cari profil pasien atau buat profil baru → Tetapkan dokter gigi, ruangan, dan waktu kunjungan.',
             },
             {
-              title: '2. Pencarian Pasien Instan',
-              desc: 'Cari berdasarkan nama, nomor WhatsApp, atau NIK untuk membuka rekam medis kronologis dalam hitungan detik.',
+              title: '2. Pencarian Profil Pasien Terpusat',
+              desc: 'Memudahkan pencarian data pasien terdaftar untuk menjaga kesinambungan riwayat kunjungan.',
             },
             {
-              title: '3. Akurasi Data Sejak Interaksi Pertama',
-              desc: 'Sinkronisasi otomatis antara meja resepsionis dan layar ruang tindakan dokter gigi.',
+              title: '3. Koordinasi Resepsionis & Ruang Tindakan',
+              desc: 'Informasi janji temu yang tercatat langsung terhubung ke daftar antrean harian klinik.',
             },
           ],
           metrics: [
-            { label: 'Efisiensi Waktu Check-In', value: '40%', delta: 'Lebih hemat waktu admin' },
-            { label: 'Penurunan No-Show', value: '3×', delta: 'Pengingat otomatis' },
-            { label: 'Akurasi Rekam Pasien', value: '99.4%', delta: 'Bebas duplikasi EMR' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Terstruktur',
+              delta: 'Standarisasi data registrasi',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Terhubung',
+              delta: 'Alur resepsionis ke poli',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Terpusat',
+              delta: 'Pengelolaan profil pasien',
+            },
           ],
         },
         {
           id: 'jadwal',
-          tabLabel: 'Daftar Janji Harian',
-          title: 'Visibilitas Antrean & Ruangan Dental Chair Secara Real-Time',
+          tabLabel: 'Antrean Jadwal Harian',
+          title: 'Pemantauan Jadwal Dokter & Ruang Perawatan',
           subtitle:
-            'Pantau seluruh jadwal dokter gigi lintas poli dan ruangan dengan indikator status kedatangan pasien yang jelas.',
+            'Menampilkan daftar janji temu harian berdasarkan dokter gigi, ruang perawatan, dan tahapan status kunjungan pasien.',
           highlights: [
             {
-              title: 'Filter Multi-Dimensi',
-              desc: 'Saring daftar janji temu berdasarkan tanggal, dokter spesialis, ruang tindakan, maupun status konfirmasi.',
+              title: 'Penyaringan Jadwal Harian',
+              desc: 'Tinjau daftar kunjungan berdasarkan tanggal, dokter gigi, maupun status kehadiran pasien.',
             },
             {
-              title: 'Status Transisi Langsung',
-              desc: 'Perbarui status dari Terkonfirmasi → Menunggu di Klinik → Sedang Tindakan → Selesai & Siap Billing.',
+              title: 'Pembaruan Status Kunjungan',
+              desc: 'Pantau alur pasien mulai dari Terjadwal, Menunggu di Klinik, Sedang Tindakan, hingga Selesai.',
             },
             {
-              title: 'Alokasi Dental Chair Optimal',
-              desc: 'Hindari benturan jadwal antar dokter dan maksimalkan utilisasi kursi perawatan.',
+              title: 'Pengaturan Kursi Perawatan',
+              desc: 'Membantu koordinasi penggunaan ruang tindakan (dental chair) antar jadwal dokter.',
             },
           ],
           metrics: [
-            { label: 'Janji Temu Hari Ini', value: '28', delta: '↑ 4 dari kemarin' },
-            { label: 'Tingkat Kehadiran', value: '94%', delta: '↑ 8% vs bulan lalu' },
-            { label: 'Waktu Tunggu Rata-Rata', value: '< 9 mnt', delta: 'Alur terkoordinasi' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Terjadwal',
+              delta: 'Visibilitas antrean harian',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Koordinasi',
+              delta: 'Status kunjungan jelas',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Multi-Poli',
+              delta: 'Manajemen jadwal dokter',
+            },
           ],
         },
         {
           id: 'klinis',
-          tabLabel: 'Pencatatan Klinis & Odontogram',
-          title: 'Kokpit Digital Dokter Gigi dengan Odontogram Interaktif',
+          tabLabel: 'EMR Klinis & Odontogram',
+          title: 'Dokumentasi Klinis & Pemetaan Odontogram Digital',
           subtitle:
-            'Dokumentasi klinis berstandar kedokteran gigi dengan peta gigi (Odontogram FDI) interaktif, anamnesis terstruktur, dan kode ICD-10.',
+            'Antarmuka pencatatan medis dokter gigi dengan visualisasi Odontogram FDI, catatan anamnesis, dan rencana tindakan.',
           highlights: [
             {
-              title: 'Odontogram Digital Visual',
-              desc: 'Klik elemen gigi dewasa/anak untuk menandai karies, tumpatan, perawatan saluran akar, crown, atau ekstraksi.',
+              title: 'Odontogram Visual Interaktif',
+              desc: 'Pilih elemen gigi untuk mencatat kondisi klinis, restorasi, perawatan saluran akar, atau rencana tindakan.',
             },
             {
-              title: 'Rencana Perawatan & Estimasi Biaya Otomatis',
-              desc: 'Setiap tindakan yang dipilih dokter langsung menghitung pemakaian bahan habis pakai dan meneruskan draf tagihan ke kasir.',
+              title: 'Keterhubungan Tindakan & Tagihan',
+              desc: 'Tindakan medis yang dicatat pada sesi kunjungan dapat diteruskan sebagai dasar rincian tagihan di kasir.',
             },
             {
-              title: 'Kesiapan Standar Interoperabilitas',
-              desc: 'Struktur data klinis dirancang selaras dengan standar pertukaran data kesehatan nasional (SATUSEHAT).',
+              title: 'Peta Jalan Standar Data Kesehatan',
+              desc: 'Struktur pencatatan dirancang dengan mempertimbangkan kesiapan standar pertukaran data kesehatan.',
             },
           ],
           metrics: [
-            { label: 'Standar Penomoran Gigi', value: 'FDI 32/20', delta: 'Odontogram Interaktif' },
-            { label: 'Sinkronisasi Kasir & Stok', value: 'Otomatis', delta: 'Tanpa input ulang' },
-            { label: 'Keamanan Rekam Medis', value: '256-bit', delta: 'Akses berbasis peran' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'FDI Chart',
+              delta: 'Odontogram & catatan medis',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Terintegrasi',
+              delta: 'Tindakan ke draf kasir',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Berbasis Peran',
+              delta: 'Kontrol akses pengguna',
+            },
           ],
         },
         {
           id: 'riwayat',
           tabLabel: 'Riwayat Medis (EMR)',
-          title: 'Rekam Medis Elektronik Kronologis yang Lengkap & Terlindungi',
+          title: 'Catatan Riwayat Kunjungan Pasien Kronologis',
           subtitle:
-            'Seluruh histori kunjungan, foto klinis sebelum/sesudah tindakan, alergi obat, dan resep tersimpan rapi dalam satu lini masa pasien.',
+            'Menyusun histori pemeriksaan, tindakan sebelumnya, serta catatan perhatian medis dalam satu tampilan lini masa.',
           highlights: [
             {
-              title: 'Lini Masa Perawatan Berkelanjutan',
-              desc: 'Memudahkan dokter meninjau riwayat perawatan saluran akar atau kontrol ortodontik lintas kunjungan.',
+              title: 'Kesinambungan Catatan Perawatan',
+              desc: 'Memudahkan dokter gigi meninjau riwayat kunjungan dan tahapan perawatan pasien dari waktu ke waktu.',
             },
             {
-              title: 'Peringatan Alergi & Kondisi Medis',
-              desc: 'Penanda riwayat hipertensi, diabetes, atau alergi antibiotik tampil jelas sebelum tindakan dimulai.',
+              title: 'Penanda Informasi Medis Penting',
+              desc: 'Menampilkan catatan riwayat alergi atau kondisi medis khusus yang perlu diperhatikan sebelum tindakan.',
             },
             {
-              title: 'Kontrol Hak Akses Ketat',
-              desc: 'Hanya tenaga medis berwenang yang dapat membuka dan memperbarui catatan klinis pasien.',
+              title: 'Pengelolaan Hak Akses',
+              desc: 'Dirancang dengan pembatasan akses berdasarkan peran pengguna di lingkungan klinik.',
             },
           ],
           metrics: [
-            { label: 'Akses Histori Pasien', value: '< 2 dtk', delta: 'Pencarian terindeks' },
-            { label: 'Jejak Audit Sistem', value: '100%', delta: 'Tercatat per pengguna' },
-            { label: 'Pencadangan Data', value: 'Harian', delta: 'Cloud terenkripsi' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Kronologis',
+              delta: 'Lini masa kunjungan pasien',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Kontekstual',
+              delta: 'Riwayat medis terpadu',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Terkelola',
+              delta: 'Otorisasi berbasis peran',
+            },
           ],
         },
         {
           id: 'inventaris',
-          tabLabel: 'Manajemen Inventaris',
-          title: 'Kendali Stok Bahan Dental & Peringatan Kedaluwarsa Real-Time',
+          tabLabel: 'Inventaris & Pengadaan',
+          title: 'Pemantauan Stok Bahan Habis Pakai & Obat Klinik',
           subtitle:
-            'Cegah kekosongan bahan komposit, anestesi, maupun alat sterilisasi dengan pemantauan status stok otomatis.',
+            'Membantu pengelola klinik memantau ketersediaan bahan dental, nomor batch, serta masa kedaluwarsa.',
           highlights: [
             {
-              title: '4 Indikator Status Stok',
-              desc: 'Klasifikasi real-time: Stok Aman, Hampir Habis (Low Stock), Habis, dan Peringatan Mendekati Kedaluwarsa.',
+              title: 'Klasifikasi Status Ketersediaan Stok',
+              desc: 'Memberikan visibilitas atas item dengan stok cukup, stok menipis, habis, atau mendekati tanggal kedaluwarsa.',
             },
             {
-              title: 'Pelacakan Batch & Tanggal Kedaluwarsa',
-              desc: 'Prioritaskan penggunaan bahan dengan prinsip FEFO (First Expired, First Out) untuk keamanan pasien.',
+              title: 'Pencatatan Batch & Masa Berlaku',
+              desc: 'Mendukung ketertiban administrasi penyimpanan bahan medis dan dental di klinik.',
             },
             {
-              title: 'Rekonsiliasi Pengadaan & Pemakaian',
-              desc: 'Pantau korelasi antara jumlah tindakan klinis dan konsumsi bahan medis.',
+              title: 'Perencanaan Pengadaan Ulang',
+              desc: 'Membantu tim pengadaan mengidentifikasi kebutuhan pembelian kembali bahan habis pakai.',
             },
           ],
           metrics: [
-            { label: 'Item Katalog Terpantau', value: '340+ SKU', delta: 'Obat & Bahan Dental' },
-            { label: 'Peringatan Dini Expired', value: 'H-60', delta: 'Notifikasi otomatis' },
-            { label: 'Efisiensi Pengadaan', value: '+28%', delta: 'Cegah stok terbuang' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Katalog SKU',
+              delta: 'Pendataan bahan & obat',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Terpantau',
+              delta: 'Indikator stok & kedaluwarsa',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Terencana',
+              delta: 'Kontrol pengadaan klinik',
+            },
           ],
         },
         {
           id: 'analitik',
-          tabLabel: 'Analitik & Keuangan',
-          title: 'Pusat Komando Kinerja Klinik & Laporan Keuangan Transparan',
+          tabLabel: 'Pelaporan & Keuangan',
+          title: 'Pelaporan Operasional & Ringkasan Keuangan Klinik',
           subtitle:
-            'Ambil keputusan bisnis berbasis data akurat: lacak omset tindakan vs. obat, produktivitas dokter, dan performa voucher promosi.',
+            'Menyediakan ringkasan data transaksi, tren kunjungan, dan laporan operasional untuk membantu evaluasi manajemen klinik.',
           highlights: [
             {
-              title: 'Dashboard Pendapatan & Pertumbuhan',
-              desc: 'Visualisasi pendapatan harian, mingguan, dan bulanan beserta rincian metode pembayaran dan klaim asuransi.',
+              title: 'Ringkasan Transaksi & Tagihan',
+              desc: 'Menampilkan rekapitulasi penagihan berdasarkan kategori layanan tindakan maupun produk.',
             },
             {
-              title: 'Analitik Akuisisi & Retensi Pasien',
-              desc: 'Pantau perbandingan pasien baru dari program promosi dibandingkan kunjungan ulang pasien setia.',
+              title: 'Laporan Aktivitas Kunjungan',
+              desc: 'Memantau jumlah kunjungan pasien baru dan pasien lama dalam periode waktu tertentu.',
             },
             {
-              title: 'Laporan Komisi & Saldo Kredit Promosi',
-              desc: 'Transparansi penuh atas pemakaian saldo kredit KHAYR untuk setiap transaksi voucher yang berhasil.',
+              title: 'Visibilitas Manajemen Praktik',
+              desc: 'Mendukung pemilik dan manajer klinik dalam meninjau kinerja operasional secara terstruktur.',
             },
           ],
           metrics: [
-            { label: 'Ilustrasi Omset Mingguan', value: 'Rp48 Jt', delta: '↑ 12% minggu ini' },
-            { label: 'Rasio Retensi Pasien', value: '76%', delta: 'Pasien aktif bulanan' },
-            { label: 'Pelaporan Keuangan', value: 'Real-Time', delta: 'Siap ekspor manajemen' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Rekapitulasi',
+              delta: 'Data transaksi terstruktur',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Pelaporan',
+              delta: 'Ringkasan aktivitas klinik',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Manajerial',
+              delta: 'Evaluasi operasional praktik',
+            },
           ],
         },
       ],
       voucherSystem: {
-        kicker: 'FITUR UNGGULAN PERTUMBUHAN KLINIK · KHAYR VOUCHER PROMOTION',
-        heading: 'Promosi Klinik Gigi Lebih Mudah, Biaya Berdasarkan Hasil Transaksi Nyata',
-        lead: 'KHAYR Voucher Promotion membantu klinik gigi membuat voucher promosi layanan spesifik (seperti Scaling, Bleaching, atau Pemeriksaan Gigi) secara gratis langsung dari aplikasi KHAYR dan mendistribusikannya melalui jaringan aplikasi mitra terkemuka.',
-        partnerAppsLabel: 'Jaringan Distribusi 5 Aplikasi Mitra Terkemuka',
-        partnerApps: ['Telkomsel (MyTelkomsel)', 'Indosat (myIM3)', 'AXISNET', 'XL (myXL)', 'AstraPay'],
+        kicker: 'KONSEP EKOSISTEM PROMOSI DIGITAL · KHAYR',
+        heading: 'Proposed Digital Voucher Distribution Ecosystem',
+        lead: 'Sebagai bagian dari peta jalan pengembangan ekosistemnya, KHAYR merancang konsep distribusi voucher promosi digital yang bertujuan membantu klinik gigi memperkenalkan layanan perawatan terpilih melalui kanal kemitraan digital.',
+        partnerAppsLabel: 'Kategori Kanal Distribusi Ekosistem yang Direncanakan',
+        partnerApps: [
+          'Platform Aplikasi Telekomunikasi Digital',
+          'Ekosistem Dompet Digital & Pembayaran',
+          'Program Loyalitas & Keanggotaan Korporat',
+          'Kanal Direktori Kesehatan Mitra',
+        ],
         benefits: [
           {
-            step: 'Keunggulan 01',
-            title: 'Gratis Membuat Voucher (Rp0 Biaya Awal)',
-            desc: 'Klinik bebas merancang paket penawaran dan menerbitkan voucher promosi langsung dari KHAYR tanpa biaya registrasi atau biaya pembuatan di awal.',
+            step: 'Konsep 01',
+            title: 'Pengelolaan Kampanye Promosi Terstruktur',
+            desc: 'Dirancang agar klinik dapat menyiapkan program penawaran layanan gigi langsung melalui modul manajemen promosi.',
           },
           {
-            step: 'Keunggulan 02',
-            title: 'Jangkauan Jutaan Pengguna Aplikasi Mitra',
-            desc: 'Voucher promosi klinik ditampilkan pada jaringan aplikasi mitra (Telkomsel, Indosat, AXISNET, XL, AstraPay) untuk menjangkau calon pasien baru di sekitar lokasi klinik.',
+            step: 'Konsep 02',
+            title: 'Perluasan Jangkauan Edukasi & Akuisisi Pasien',
+            desc: 'Bertujuan menjembatani penawaran layanan klinik gigi dengan calon pasien melalui kanal ekosistem digital yang relevan.',
           },
           {
-            step: 'Keunggulan 03',
-            title: 'Biaya Berbasis Penggunaan Aktual',
-            desc: 'Biaya promosi hanya dikenakan ketika voucher berhasil digunakan oleh pasien untuk transaksi layanan nyata di klinik gigi Anda, dipotong otomatis dari saldo kredit KHAYR.',
+            step: 'Konsep 03',
+            title: 'Pencatatan Klaim Terhubung ke Kasir',
+            desc: 'Setiap penggunaan voucher yang terverifikasi di klinik dirancang agar tercatat secara rapi pada laporan administrasi.',
           },
         ],
         workflowSteps: [
           {
             num: '01',
-            title: 'Klinik Membuat Voucher di KHAYR',
-            desc: 'Tentukan layanan gigi (mis. Scaling Potongan 30%), kuota, dan masa berlaku voucher tanpa biaya awal.',
+            title: 'Konfigurasi Program Voucher',
+            desc: 'Klinik menentukan jenis layanan gigi, kuota, dan periode berlakunya penawaran di dalam konsep modul KHAYR.',
           },
           {
             num: '02',
-            title: 'Tayang di 5 Aplikasi Mitra',
-            desc: 'Voucher didistribusikan ke aplikasi mitra sehingga pengguna dapat menukarkan poin atau mengklaim voucher.',
+            title: 'Distribusi ke Kanal Mitra Terkonfirmasi',
+            desc: 'Penawaran disalurkan melalui kanal distribusi digital sesuai perjanjian kemitraan yang telah berlaku.',
           },
           {
             num: '03',
-            title: 'Pasien Datang ke Klinik',
-            desc: 'Pasien melakukan reservasi, datang ke klinik, dan menunjukkan kode voucher aktif saat perawatan.',
+            title: 'Reservasi & Kunjungan Pasien',
+            desc: 'Pasien melakukan penjadwalan kunjungan dan menunjukkan kode voucher saat registrasi di klinik.',
           },
           {
             num: '04',
-            title: 'Transaksi & Potong Saldo Otomatis',
-            desc: 'Saat transaksi selesai di kasir, komisi promosi dipotong otomatis dari saldo prabayar KHAYR dan tercatat di laporan billing.',
+            title: 'Verifikasi & Pencatatan Transaksi',
+            desc: 'Penggunaan voucher dicatat pada sistem kasir klinik untuk transparansi pelaporan.',
           },
         ],
+        disclosure:
+          'Pernyataan Ekosistem Voucher (Required Disclosure): Konsep ekosistem distribusi voucher digital menggambarkan kapabilitas komersial dan kemitraan yang sedang dikembangkan. Integrasi dengan saluran distribusi pihak ketiga tunduk pada perjanjian kemitraan resmi, kesiapan teknis, serta persyaratan komersial yang berlaku.',
       },
       governanceFootnote:
-        'Pernyataan Status Pengembangan: KHAYR saat ini sedang dalam tahap pengembangan dan validasi oleh PT Neomedika Elektra Optima. Cakupan fitur, simulasi antarmuka, skema voucher mitra, serta integrasi ekosistem tunduk pada jadwal validasi teknis dan komersial.',
+        'Pernyataan Status Produk (Product Status Disclosure): KHAYR adalah platform perangkat lunak yang sedang dalam tahap pengembangan dan validasi oleh PT Neomedika Elektra Optima (NEO). Seluruh tampilan layar pada halaman ini merupakan ilustrasi konsep antarmuka (Concept UI — Illustrative Product Preview) dengan data simulasi sintetis. Ketersediaan modul, spesifikasi fitur, serta integrasi pihak ketiga tunduk pada penyelesaian pengembangan dan validasi.',
     },
     neolyte: {
-      sectionNumber: '04. Lini Higienitas Medis · Neolyte™',
-      kicker: 'Produk Higienitas Kesehatan Neomedika · Hypochlorous Acid (HOCl) Water-Based Technology',
-      heading: 'Neolyte™ — Antiseptik & Disinfektan Berbasis Air yang Aman, Efektif, dan Ramah Lingkungan.',
-      tagline: 'Safe and Effective Disinfectant & Sanitizer — Bebas Alkohol (0%), Non-Toksik, Teruji Laboratorium.',
-      lead: 'Neolyte merupakan cairan antiseptik dan disinfektan non-toksik yang memiliki efektivitas tinggi dalam membunuh virus, kuman, bakteri, dan jamur karena mengandung bahan aktif Hypochlorous Acid (HOCl) — molekul alami yang juga diproduksi oleh sel darah putih manusia (neutrofil) untuk melawan infeksi.',
+      sectionNumber: 'Halaman 05 · Produk Kami: Neolyte',
+      kicker: 'HOCl-Based Sanitizer & Disinfectant Product Line',
+      heading: 'Neolyte Healthcare Hygiene Solutions',
+      tagline: 'Lini Produk Sanitizer & Disinfektan Berbasis Hypochlorous Acid (HOCl) untuk Kebutuhan Medis, Dental, dan Higienitas Harian.',
+      lead: 'Neolyte adalah lini produk higienitas dan sanitasi dari PT Neomedika Elektra Optima (NEO) yang diformulasikan dengan bahan aktif Hypochlorous Acid (HOCl) berbasis air dan bebas alkohol (0%). Lini Neolyte dirancang untuk mendukung kebutuhan kebersihan tangan serta disinfeksi permukaan dan peralatan di fasilitas layanan kesehatan, klinik gigi, maupun lingkungan umum.',
       scienceQuote:
-        '“Disinfektan anolyte (HOCl) terbukti secara klinis hingga 100 kali lebih efektif dibanding pembersihan dengan pemutih biasa (NaOCl) dan mampu membunuh 99,99% bakteri, virus, kuman, serta patogen berbahaya dengan tetap 100% aman bagi manusia, hewan peliharaan, dan lingkungan.”',
-      scienceSource: 'Referensi Ilmiah & Verifikasi: Uji Laboratorium Institut Pertanian Bogor (IPB) & Rekomendasi Bahan Aktif HOCl oleh EPA / CDC.',
-      enquireCta: 'Pesan / Konsultasi Pengadaan Neolyte',
+        'Hypochlorous Acid (HOCl) adalah senyawa antimikroba berbasis air yang digunakan dalam formulasi higienitas modern untuk membantu sanitasi tangan serta disinfeksi permukaan keras dan peralatan non-kritis tanpa kandungan alkohol.',
+      scienceSource:
+        'Informasi Produk: Terdaftar sebagai Perbekalan Kesehatan Rumah Tangga (PKRT) Kementerian Kesehatan RI serta didukung pengujian laboratorium terhadap bakteri uji standar.',
+      enquireCta: 'Pertanyaan Produk (Product Enquiry)',
+      documentationCta: 'Minta Dokumentasi Produk (Request Product Documentation)',
+      safetyPillars: [
+        { title: 'HOCl FORMULATION', sub: 'Berbahan Aktif Hypochlorous Acid' },
+        { title: '0% ALCOHOL', sub: 'Formula Berbasis Air Bebas Alkohol' },
+        { title: 'KEMENKES RI PKD', sub: 'Izin Edar PKRT Terdaftar' },
+        { title: 'MULTI-ENVIRONMENT', sub: 'Klinik, Rumah Sakit & Ruang Publik' },
+      ],
       coreAdvantages: [
         {
-          title: 'Effective (Membunuh 99,99% Kuman)',
-          subtitle: 'Replikasi Sistem Imun Alami Manusia',
-          desc: 'Diformulasikan dengan mereplika cara kerja sistem kekebalan tubuh manusia berbasis asam hipoklorit (HOCl) yang efektif terhadap virus, bakteri, dan jamur.',
+          title: 'Formula Berbasis Air (0% Alkohol)',
+          subtitle: 'Teknologi Hypochlorous Acid (HOCl)',
+          desc: 'Menggunakan bahan aktif HOCl berbasis air yang tidak mudah terbakar dan nyaman digunakan untuk rutinitas sanitasi harian.',
         },
         {
-          title: 'Gentle (0% Alkohol & Bebas Iritasi)',
-          subtitle: 'Baby Safe · Food Grade · Non-Toxic',
-          desc: 'Bebas alkohol (0%), tidak korosif, tidak kaustik, dan tidak menyebabkan kulit kering atau dehidrasi. Sangat aman untuk kulit sensitif dan area anak-anak.',
+          title: 'Dua Varian Terarah (SN & DS)',
+          subtitle: 'Sanitasi Tangan vs. Disinfeksi Permukaan',
+          desc: 'Tersedia dalam varian khusus antiseptik tangan/tubuh (Neolyte SN) dan varian disinfektan permukaan/peralatan (Neolyte DS).',
         },
         {
-          title: 'Convenient (Cepat Kering & Tanpa Residu)',
-          subtitle: 'Siap Pakai untuk Tangan & Permukaan',
-          desc: 'Cairan semprot berbasis air yang cepat kering, mudah diaplikasikan menggunakan berbagai perangkat, serta tidak meninggalkan residu lengket.',
+          title: 'Praktis & Siap Diaplikasikan',
+          subtitle: 'Berbagai Ukuran Kemasan & Metode Semprot',
+          desc: 'Dapat diaplikasikan melalui botol semprot, dispenser nirsentuh, maupun perangkat pengabutan/penyemprotan ruangan sesuai petunjuk label.',
         },
         {
-          title: 'Multi-Purpose (Medis hingga Publik)',
-          subtitle: 'Rumah Sakit, Klinik Gigi, Pangan & Rumah Tangga',
-          desc: 'Digunakan secara luas dalam perawatan kesehatan, sterilisasi klinik gigi, keamanan pangan, pengolahan air, hingga sanitasi fasilitas publik.',
+          title: 'Mendukung Higienitas Fasilitas Kesehatan',
+          subtitle: 'Klinik Gigi, Rumah Sakit & Area Umum',
+          desc: 'Dirancang untuk melengkapi protokol kebersihan rutin di ruang praktik dokter gigi, ruang tunggu, perkantoran, dan rumah tangga.',
         },
       ],
       variants: [
@@ -808,243 +1122,264 @@ export const CONTENT: Record<Locale, SiteContent> = {
           kemenkesNo: 'KEMENKES RI PKD 20501023189',
           colorHex: '#65B741',
           description:
-            'Larutan antiseptik unik bebas alkohol yang lembut di kulit untuk membunuh virus, kuman, bakteri, dan jamur pada tangan dan tubuh. Cocok digunakan secara rutin di Rumah Sakit, Klinik Gigi, Perkantoran, Sekolah, dan Rumah Tangga.',
+            'Cairan sanitizer tangan dan tubuh berbasis air (0% alkohol) dengan kandungan Hypochlorous Acid (HOCl) untuk membantu menjaga kebersihan tangan tenaga kesehatan, pasien, dan pengguna harian di fasilitas medis maupun ruang publik.',
           useCases: [
-            'Antiseptik tangan tenaga medis, dokter gigi, dan pasien sebelum/sesudah tindakan',
-            'Sanitasi tangan anak-anak dan pemilik kulit sensitif (0% alkohol, tidak perih)',
-            'Pengisian unit Automatic Hand Sanitizer Dispenser di lobi klinik & gedung',
+            'Sanitasi tangan rutin bagi tenaga medis, staf klinik gigi, dan pengunjung',
+            'Alternatif hand sanitizer bebas alkohol untuk penggunaan sehari-hari',
+            'Pengisian unit dispenser sanitizer tangan otomatis di lobi klinik, rumah sakit, dan perkantoran',
           ],
           sizes: ['60 ml', '100 ml', '250 ml', '500 ml', '1000 ml', '5000 ml'],
         },
         {
           code: 'DS',
-          name: 'Neolyte DS — Safe & Effective Disinfectant',
-          category: 'Disinfektan Permukaan, Udara & Instrumen Fasilitas',
+          name: 'Neolyte DS — Surface & Equipment Disinfectant',
+          category: 'Disinfektan Permukaan & Peralatan Fasilitas',
           ph: 'pH 6,0 – 7,0',
           ppm: '160 – 220 ppm HOCl',
           kemenkesNo: 'KEMENKES RI PKD 20502023190',
           colorHex: '#189AB4',
           description:
-            'Larutan disinfektan berdaya oksidasi kuat untuk sterilisasi permukaan, peralatan medis/klinik, udara ruangan, hingga bahan pangan. Dapat digunakan langsung atau diencerkan dengan Aquades / Air RO sesuai tabel aplikasi.',
+            'Larutan disinfektan berbasis Hypochlorous Acid (HOCl) yang dirancang untuk membantu disinfeksi permukaan keras, perabot fasilitas kesehatan, kursi perawatan dental (dental unit), serta peralatan non-kritis. Dapat digunakan sesuai petunjuk pengenceran pada label resmi.',
           useCases: [
-            'Disinfeksi kursi dental (dental unit), ruang tindakan rumah sakit, klinik, dan puskesmas',
-            'Purifikasi udara (Diffuser/Humidifier), mesin fogging, dan bilik sterilisasi Neogate',
-            'Sterilisasi perlengkapan bayi, alat makan, serta bahan makanan segar',
+            'Disinfeksi permukaan kerja di klinik gigi, rumah sakit, puskesmas, dan laboratorium',
+            'Pembersihan permukaan ruang tunggu, meja kerja, gagang pintu, dan fasilitas umum',
+            'Penggunaan pada perangkat penyemprotan permukaan dan bilik disinfeksi Neogate sesuai petunjuk penggunaan',
           ],
           sizes: ['250 ml', '500 ml', '1000 ml', '5000 ml'],
         },
       ],
       certifications: {
-        title: 'Sertifikasi Resmi, Izin Edar Kemenkes RI & Verifikasi Laboratorium',
+        title: 'Registrasi Izin Edar & Dokumentasi Pengujian Produk',
         subtitle:
-          'Setiap varian Neolyte didukung oleh izin edar resmi Kementerian Kesehatan Republik Indonesia, sertifikasi Halal MUI, serta pengujian laboratorium terakreditasi.',
+          'Lini produk Neolyte didukung oleh izin edar Perbekalan Kesehatan Rumah Tangga (PKRT) Kementerian Kesehatan RI serta dokumentasi pengujian laboratorium.',
         items: [
           {
-            badge: 'Izin Edar Resmi',
+            badge: 'Izin Edar PKRT',
             title: 'KEMENKES RI PKD 20501023189',
-            reference: 'Neolyte SN (Hand & Body Sanitizer)',
-            detail: 'Terdaftar resmi pada Direktorat Jenderal Kefarmasian dan Alat Kesehatan Kemenkes RI sebagai Perbekalan Kesehatan Rumah Tangga (Antiseptika).',
+            reference: 'Neolyte SN — Hand & Body Sanitizer',
+            detail:
+              'Terdaftar pada Kementerian Kesehatan Republik Indonesia untuk kategori sediaan antiseptika/sanitizer tangan dan tubuh.',
           },
           {
-            badge: 'Izin Edar Resmi',
+            badge: 'Izin Edar PKRT',
             title: 'KEMENKES RI PKD 20502023190',
-            reference: 'Neolyte DS (Safe & Effective Disinfectant)',
-            detail: 'Terdaftar resmi pada Direktorat Jenderal Kefarmasian dan Alat Kesehatan Kemenkes RI sebagai Perbekalan Kesehatan Rumah Tangga (Desinfektan).',
+            reference: 'Neolyte DS — Surface & Equipment Disinfectant',
+            detail:
+              'Terdaftar pada Kementerian Kesehatan Republik Indonesia untuk kategori sediaan disinfektan permukaan dan fasilitas.',
           },
           {
-            badge: 'Uji Laboratorium IPB',
-            title: 'Efektivitas Bakterisidal > 99,999%',
-            reference: 'Unit Laboratorium Jasa Pengujian, Kalibrasi & Sertifikasi IPB',
-            detail: 'Terverifikasi efektif membunuh Escherichia coli, Staphylococcus aureus, Pseudomonas aeruginosa, dan Enterococcus hirae sesuai metode standar EN 1276.',
+            badge: 'Dokumentasi Laboratorium',
+            title: 'Uji Aktivitas Antimikroba Laboratorium',
+            reference: 'Pengujian terhadap Bakteri Uji Standar',
+            detail:
+              'Didukung laporan pengujian laboratorium terhadap mikroorganisme uji standar. Dokumentasi teknis lengkap tersedia berdasarkan permintaan resmi.',
           },
           {
-            badge: 'Kepatuhan & Keamanan',
-            title: 'Sertifikasi Halal MUI & Standar EPA/CDC',
-            reference: 'Majelis Ulama Indonesia & Referensi HOCl Internasional',
-            detail: 'Bahan aktif Hypochlorous Acid (HOCl) diakui oleh EPA & CDC sebagai disinfektan efektif serta aman (Baby Safe, Food Grade, Alcohol Free, Non-Toxic).',
+            badge: 'Kepatuhan Produk',
+            title: 'Sertifikasi Halal & Standar Produksi',
+            reference: 'Kepatuhan Mutu & Label Resmi',
+            detail:
+              'Diproduksi dengan pengawasan mutu terstandar untuk memenuhi kebutuhan pengadaan fasilitas kesehatan dan institusi.',
           },
         ],
       },
-      comparisonTitle: 'Komparasi Bahan Aktif HOCl Neolyte vs. Pembersih Lainnya',
+      comparisonTitle: 'Karakteristik Formulasi HOCl Dibandingkan Agen Pembersih Umum',
       comparisonSub:
-        'Neolyte berada pada Area Ideal: tingkat kekuatan disinfeksi tinggi terhadap patogen (termasuk bakteri, jamur, dan virus) namun tetap tidak beracun dan ramah bagi jaringan tubuh.',
+        'Perbandingan karakteristik umum antara larutan berbasis Hypochlorous Acid (HOCl) dan agen sanitasi konvensional dalam penggunaan rutin.',
       comparisons: [
         {
-          agent: 'HOCl (Neolyte™)',
-          efficacy: 'Sangat Kuat (Bakteri, Virus, Jamur, Spora)',
-          safetyProfile: 'Area Ideal: Efektif, Ramah Lingkungan, Tidak Beracun & Tidak Iritasi',
-          scorePercent: 98,
+          agent: 'Hypochlorous Acid / HOCl (Neolyte™)',
+          efficacy: 'Disinfeksi & Sanitasi Berbasis Air',
+          safetyProfile:
+            'Bebas alkohol (0%), tidak mudah terbakar, dan dirancang untuk penggunaan pada tangan (SN) maupun permukaan fasilitas (DS) sesuai label.',
+          scorePercent: 95,
           isNeolyte: true,
         },
         {
           agent: 'Alkohol (70%–90%)',
-          efficacy: 'Menengah (Tidak efektif terhadap spora tertentu)',
-          safetyProfile: 'Menyebabkan iritasi kulit, dehidrasi/dermatitis, dan mudah terbakar',
-          scorePercent: 62,
+          efficacy: 'Antiseptik & Disinfektan Cepat Menguap',
+          safetyProfile:
+            'Mudah terbakar (flammable) dan penggunaan berulang dapat menyebabkan kulit terasa kering pada sebagian pengguna.',
+          scorePercent: 68,
         },
         {
-          agent: 'Klorin / Pemutih (NaClO)',
-          efficacy: 'Kuat terhadap kuman & bakteri',
-          safetyProfile: 'Beracun, korosif terhadap logam, dan berisiko iritasi saluran napas/kulit',
+          agent: 'Natrium Hipoklorit / Pemutih (NaOCl)',
+          efficacy: 'Disinfektan Permukaan Keras',
+          safetyProfile:
+            'Memiliki bau menyengat, bersifat korosif terhadap logam tertentu, dan memerlukan penanganan khusus.',
           scorePercent: 55,
         },
         {
-          agent: 'Yodium / Povidone',
-          efficacy: 'Menengah–Kuat',
-          safetyProfile: 'Meninggalkan noda warna dan dapat membuat luka/kulit terasa perih',
+          agent: 'Povidone Iodine',
+          efficacy: 'Antiseptik Kulit / Luka Luar',
+          safetyProfile:
+            'Meninggalkan warna pada permukaan dan tidak ditujukan untuk penyemprotan sanitasi permukaan luas.',
           scorePercent: 50,
         },
         {
-          agent: 'Sabun Biasa',
-          efficacy: 'Efek antimikroba minim',
-          safetyProfile: 'Aman namun memerlukan pembilasan air dan tidak mensterilkan permukaan medis',
-          scorePercent: 30,
+          agent: 'Sabun & Air Mengalir',
+          efficacy: 'Pembersihan Fisik Dasar',
+          safetyProfile:
+            'Efektif untuk mencuci tangan namun memerlukan sarana air mengalir dan pembilasan.',
+          scorePercent: 40,
         },
       ],
-      dilutionCalculatorTitle: 'Kalkulator Interaktif Pengenceran & Panduan Aplikasi Neolyte DS (220 ppm)',
+      dilutionCalculatorTitle:
+        'Kalkulator Ilustrasi Pengenceran Neolyte DS (220 ppm)',
       dilutionCalculatorSub:
-        'Pilih rasio pengenceran dan masukkan target volume larutan yang ingin Anda siapkan. Encerkan Neolyte DS menggunakan Aquades atau Air RO sesuai petunjuk resmi.',
-      devicesTitle: 'Ekosistem Perangkat Aplikasi Neolyte',
+        'Pilih rasio pengenceran dan volume target untuk menghitung estimasi campuran Neolyte DS dan Aquades / Air RO.',
+      dilutionOfficialNotice:
+        'Penting — Panduan Label Resmi: Kalkulator pengenceran ini disediakan sebagai alat bantu ilustrasi. Pengguna wajib selalu membaca dan mengikuti petunjuk penggunaan, rasio pengenceran, serta peringatan keselamatan yang tertera pada label produk resmi dan dokumentasi teknis yang disetujui.',
+      devicesTitle: 'Kompatibilitas Perangkat Aplikasi Sanitasi',
       devicesSub:
-        'Neolyte dapat diaplikasikan menggunakan berbagai perangkat sanitasi modern untuk perlindungan menyeluruh di fasilitas medis maupun ruang publik.',
+        'Neolyte dapat diaplikasikan menggunakan berbagai perangkat pendukung kebersihan di lingkungan fasilitas kesehatan maupun ruang publik.',
       devices: [
         {
           name: 'Ultrasonic Diffuser / Humidifier',
-          method: 'Purifikasi Udara Ruangan (Rasio 1:4)',
-          useCase: 'Mensterilkan udara di ruang praktik dokter gigi, ruang tunggu pasien, kabin mobil, dan ruang keluarga.',
+          method: 'Aplikasi Ruangan Indoor (Rasio Ilustrasi 1:4)',
+          useCase:
+            'Digunakan untuk membantu menjaga kesegaran dan sanitasi udara di ruang tunggu maupun ruang kerja sesuai petunjuk perangkat.',
         },
         {
           name: 'Semprot Elektrik (Electric Sprayer 5L)',
-          method: 'Penyemprotan Permukaan Luas (Rasio 1:1 – 1:3)',
-          useCase: 'Disinfeksi rutin ruang tindakan rumah sakit, poliklinik, perkantoran, dan fasilitas pendidikan.',
+          method: 'Penyemprotan Permukaan Luas (Rasio Ilustrasi 1:1 – 1:3)',
+          useCase:
+            'Mendukung disinfeksi permukaan rutin di poliklinik, ruang tindakan, perkantoran, dan fasilitas pendidikan.',
         },
         {
           name: 'Automatic Hand Sanitizer Dispenser',
           method: 'Dispenser Tanpa Sentuh (Neolyte SN 60 ppm)',
-          useCase: 'Sanitasi tangan otomatis bebas alkohol di pintu masuk klinik, rumah sakit, dan area publik.',
+          useCase:
+            'Penyediaan sanitizer tangan bebas alkohol secara praktis di pintu masuk klinik, rumah sakit, dan gedung.',
         },
         {
-          name: 'Machine Fogging (Cold Fogger)',
-          method: 'Pengabutan Partikel Mikro (Rasio 1:1 – 1:2)',
-          useCase: 'Sterilisasi menyeluruh ruang operasi, ruang isolasi, klinik gigi, dan aula gedung.',
+          name: 'Cold Fogger / Mist Sprayer',
+          method: 'Penyemprotan Kabut Halus (Rasio Ilustrasi 1:1 – 1:2)',
+          useCase:
+            'Mendukung prosedur disinfeksi terjadwal pada ruangan fasilitas kesehatan dan aula gedung.',
         },
         {
-          name: 'Neogate™ Disinfectant Chamber / Fog Gate',
-          method: 'Bilik Sterilisasi Otomatis (Rasio 1:3)',
-          useCase: 'Gerbang kabut antiseptik non-toksik produksi Neomedika untuk pintu masuk gedung dan fasilitas kesehatan.',
+          name: 'Neogate™ Disinfection Chamber',
+          method: 'Bilik Sanitasi Fasilitas (Rasio Ilustrasi 1:3)',
+          useCase:
+            'Unit bilik sanitasi produksi Neomedika untuk mendukung protokol kebersihan pada akses masuk fasilitas.',
         },
         {
-          name: 'Spray Mop lantai & permukaan',
-          method: 'Sanitasi Lantai Harian (Rasio 1:2 – 1:3)',
-          useCase: 'Pembersihan lantai klinik dan rumah tangga secara praktis tanpa residu bahan kimia keras.',
+          name: 'Spray Mop & Pembersih Permukaan',
+          method: 'Sanitasi Lantai & Perabot Harian (Rasio Ilustrasi 1:2 – 1:3)',
+          useCase:
+            'Pembersihan rutin permukaan lantai klinik dan area kerja sehari-hari.',
         },
       ],
+      productDisclosure:
+        'Pernyataan Spesifikasi Produk (Product Specification Disclosure): Gunakan produk Neolyte SN dan Neolyte DS sesuai dengan peruntukan dan petunjuk yang tercantum pada label kemasan resmi (KEMENKES RI PKD 20501023189 & KEMENKES RI PKD 20502023190). Informasi pada halaman ini bersifat informatif korporat dan tidak menggantikan petunjuk penggunaan resmi atau standar pengendalian infeksi fasilitas kesehatan.',
     },
     technology: {
-      sectionNumber: '05. Teknologi & Pendekatan Kami',
-      kicker: 'Connected by Design · Built for Healthcare',
-      heading: 'Membangun Teknologi di Sekitar Kebutuhan Kesehatan Nyata.',
-      lead: 'Arah teknologi PT Neomedika Elektra Optima berpusat pada pengembangan platform digital yang adaptif, aman, dan mampu mendukung alur kerja layanan kesehatan yang kompleks.',
+      sectionNumber: 'Halaman 06 · Teknologi',
+      kicker: 'Prinsip Teknologi & Pengembangan Produk · PT Neomedika Elektra Optima',
+      heading: 'Enam Prinsip Rekayasa Teknologi untuk Layanan Kesehatan.',
+      lead: 'Pengembangan teknologi di PT Neomedika Elektra Optima (NEO) berlandaskan pada enam prinsip arsitektur utama yang memastikan setiap solusi dirancang secara bertanggung jawab, aman, dan relevan bagi fasilitas kesehatan.',
       principles: [
         {
           index: '01',
-          title: 'Integrasi Sejak Perancangan (Integration by Design)',
-          desc: 'Mengurangi fragmentasi informasi melalui sistem yang dirancang agar terhubung secara mulus antara modul klinis, administrasi, keuangan, dan ekosistem mitra.',
+          title: 'Integration by Design (Integrasi Sejak Perancangan)',
+          desc: 'Sistem kami dirancang sejak awal untuk menghubungkan alur kerja klinis, administrasi, penagihan, dan inventaris agar mengurangi fragmentasi operasional di fasilitas kesehatan.',
         },
         {
           index: '02',
-          title: 'Arsitektur yang Dapat Diskalakan (Scalable Architecture)',
-          desc: 'Membangun fondasi perangkat lunak cloud yang dapat berkembang mengikuti pertambahan pengguna, cabang klinik baru, dan kapabilitas produk masa depan.',
+          title: 'Scalable Architecture (Arsitektur yang Dapat Diskalakan)',
+          desc: 'Menggunakan fondasi perangkat lunak modular berbasis cloud yang dapat berkembang mengikuti skala klinik tunggal hingga jaringan fasilitas multi-cabang.',
         },
         {
           index: '03',
-          title: 'Keamanan & Pengelolaan Data Bertanggung Jawab',
-          desc: 'Menerapkan kontrol akses berbasis peran (RBAC), enkripsi data, dan pencatatan jejak audit (auditability) untuk melindungi informasi operasional dan medis.',
+          title: 'Security by Design (Keamanan Sejak Perancangan)',
+          desc: 'Menerapkan prinsip keamanan berlapis, pemisahan lingkungan sistem operasional dari situs web publik, serta kontrol akses berbasis peran (Role-Based Access Control).',
         },
         {
           index: '04',
-          title: 'Interoperabilitas Berbasis Standar',
-          desc: 'Mendukung pertukaran data yang terstruktur melalui API modern serta kesiapan integrasi dengan platform kesehatan nasional seperti SATUSEHAT.',
+          title: 'Responsible Data Management (Pengelolaan Data Bertanggung Jawab)',
+          desc: 'Menjaga kerahasiaan, keutuhan, dan tata kelola data bisnis maupun operasional klinik selaras dengan prinsip pelindungan data yang berlaku.',
         },
         {
           index: '05',
-          title: 'Alur Kerja Cerdas (Intelligent Workflows)',
-          desc: 'Memanfaatkan otomatisasi dan analitik data untuk meningkatkan efisiensi operasional klinik dengan tetap mengutamakan pengawasan profesional medis.',
+          title: 'Standards-Aware Interoperability (Interoperabilitas Sadar Standar)',
+          desc: 'Menyusun struktur data dan antarmuka pemrograman (API) yang mempertimbangkan standar pertukaran informasi kesehatan nasional di Indonesia.',
         },
         {
           index: '06',
-          title: 'Validasi Praktis & Desain Humanis',
-          desc: 'Setiap fitur dikembangkan bersama masukan klinisi dan pengelola fasilitas kesehatan agar mudah digunakan tanpa kurva pembelajaran yang rumit.',
+          title: 'Human-Centred Product Validation (Validasi Produk Berpusat pada Manusia)',
+          desc: 'Melibatkan masukan dokter gigi, tenaga kesehatan, dan staf administrasi dalam proses perancangan serta pengujian fungsional agar teknologi mudah diadopsi.',
         },
       ],
-      approachHeading: 'Inovasi yang Bertanggung Jawab. Eksekusi yang Praktis.',
+      approachHeading: 'Tata Kelola Pengembangan & Kepatuhan Teknis',
       approachLead:
-        'Kami menerapkan siklus pengembangan terstruktur: memahami alur kerja klinis, memvalidasi pengalaman pengguna, menguji keandalan sistem, serta mematuhi tata kelola regulasi.',
+        'Kami membedakan secara jelas antara fitur yang telah tersedia, kapabilitas yang sedang dalam tahap validasi, serta peta jalan pengembangan jangka panjang.',
       governanceBlocks: [
         {
-          title: 'Mutu & Keandalan Produk',
-          desc: 'Praktik jaminan mutu diterapkan di seluruh tahapan perancangan, pengujian laboratorium/perangkat lunak, implementasi, dan dukungan purnajual.',
+          title: 'Pemisahan Infrastruktur Publik & Aplikasi',
+          desc: 'Situs web korporat NEO berfungsi sebagai kanal informasi resmi dan terpisah sepenuhnya dari basis data rekam medis atau operasional klinik.',
         },
         {
-          title: 'Privasi & Perlindungan Informasi',
-          desc: 'Pengembangan sistem mengacu pada prinsip pelindungan data pribadi (UU PDP Indonesia) dan pemisahan lingkungan data operasional klinik dari situs publik.',
+          title: 'Pelindungan Privasi & Data',
+          desc: 'Pengelolaan informasi kontak bisnis dilakukan secara transparan berdasarkan persetujuan pengguna dan Pemberitahuan Privasi korporat.',
         },
         {
-          title: 'Kepatuhan Regulasi & Transparansi',
-          desc: 'Seluruh klaim produk dan izin edar (seperti Kemenkes RI PKD pada Neolyte) didasarkan pada dokumen resmi yang terverifikasi.',
+          title: 'Validasi Bertahap & Transparansi',
+          desc: 'Setiap modul perangkat lunak dan integrasi pihak ketiga melalui proses pengujian kelayakan teknis sebelum dirilis secara komersial.',
         },
         {
-          title: 'Tata Kelola Korporat (Corporate Governance)',
-          desc: 'Pengelolaan hak kekayaan intelektual, manajemen risiko operasional, serta akuntabilitas produk di bawah naungan PT Neomedika Elektra Optima.',
+          title: 'Kepatuhan Regulasi Sektor Kesehatan',
+          desc: 'Pengembangan produk senantiasa memperhatikan ketentuan regulasi kesehatan, izin edar, dan standar tata kelola yang berlaku di Indonesia.',
         },
       ],
     },
     partnerships: {
-      sectionNumber: '06. Ekosistem Kemitraan',
-      kicker: 'Better Healthcare Is Built Together',
-      heading: 'Menciptakan Dampak Lebih Besar Melalui Kolaborasi.',
-      lead: 'Kami meyakini masa depan teknologi kesehatan dibentuk melalui kolaborasi erat antara penyedia layanan kesehatan, perusahaan teknologi, institusi pendidikan, dan mitra strategis.',
+      sectionNumber: 'Halaman 07 · Kemitraan',
+      kicker: 'Kolaborasi Ekosistem Kesehatan · PT Neomedika Elektra Optima',
+      heading: 'Membangun Ekosistem Layanan Kesehatan Melalui Kemitraan Strategis.',
+      lead: 'PT Neomedika Elektra Optima (NEO) bekerja sama dengan berbagai organisasi di sektor kesehatan dan teknologi untuk memperluas manfaat solusi digital maupun produk higienitas medis.',
       tracks: [
         {
-          title: 'Kemitraan Penyedia Layanan Kesehatan',
-          audience: 'Klinik Gigi, Rumah Sakit & Grup Medis',
-          desc: 'Kolaborasi transformasi digital klinik melalui implementasi KHAYR serta standarisasi sanitasi fasilitas menggunakan produk Neolyte.',
-          category: 'Healthcare Solutions',
+          title: 'Healthcare Providers (Penyedia Layanan Kesehatan)',
+          audience: 'Klinik Gigi, Klinik Pratama, Rumah Sakit & Grup Medis',
+          desc: 'Kolaborasi adopsi awal dan validasi alur kerja platform manajemen klinik gigi KHAYR, serta penyediaan lini higienitas Neolyte untuk kebutuhan sanitasi fasilitas.',
+          category: 'KHAYR Product Information',
         },
         {
-          title: 'Kemitraan Teknologi & Integrasi',
-          audience: 'Penyedia Cloud, Asuransi, Pembayaran & API',
-          desc: 'Peluang integrasi sistem, interoperabilitas data, infrastruktur keamanan siber, dan konektivitas aplikasi mitra.',
-          category: 'Technology & Integration',
+          title: 'Technology Partners (Mitra Teknologi)',
+          audience: 'Penyedia Infrastruktur Cloud, Sistem Kesehatan & Platform Digital',
+          desc: 'Kerja sama teknis dalam pengembangan integrasi API, kesiapan interoperabilitas sistem, keamanan infrastruktur, dan konektivitas ekosistem digital.',
+          category: 'Technology & Integration Partnership',
         },
         {
-          title: 'Kemitraan Komersial & Distribusi',
-          audience: 'Distributor Alat Kesehatan & Mitra Regional',
-          desc: 'Kerja sama perluasan akses pasar, distribusi lini produk Neolyte SN/DS & Neogate, serta dukungan onboarding klinik.',
-          category: 'Business & Strategic Partnerships',
+          title: 'Distribution Partners (Mitra Distribusi)',
+          audience: 'Distributor Alat Kesehatan, Jaringan Suplai Medis & Mitra Regional',
+          desc: 'Kemitraan komersial dan distribusi untuk memperluas ketersediaan produk Neolyte SN, Neolyte DS, serta perangkat pendukung sanitasi di berbagai wilayah.',
+          category: 'Distribution Partnership',
         },
         {
-          title: 'Kemitraan Riset & Inovasi Klinis',
-          audience: 'Penasihat Klinis, Universitas & Investor',
-          desc: 'Eksplorasi bersama, validasi alur kerja medis, penelitian bahan aktif kesehatan, dan pengembangan portofolio jangka panjang.',
-          category: 'Business & Strategic Partnerships',
+          title: 'Clinical & Institutional Partners (Mitra Klinis & Institusi)',
+          audience: 'Asosiasi Profesi, Institusi Pendidikan, Penasihat Klinis & Investor',
+          desc: 'Kolaborasi dalam bentuk kajian alur kerja klinis, edukasi teknologi kesehatan, pengujian produk, serta kemitraan investasi strategis jangka panjang.',
+          category: 'Investor & Strategic Collaboration',
         },
       ],
-      ctaButton: 'Mulai Percakapan Kemitraan',
+      ctaButton: 'Diskusikan Peluang Kemitraan (Discuss Partnership Opportunities)',
     },
     insights: {
-      sectionNumber: '07. Wawasan & Perspektif',
-      kicker: 'Perspectives on the Future of Healthcare Technology',
-      heading: 'Pemikiran tentang Transformasi Kesehatan Digital & Standar Higienitas.',
-      lead: 'Jelajahi artikel dan perspektif PT Neomedika Elektra Optima seputar digitalisasi klinik gigi, interoperabilitas data kesehatan, dan teknologi sanitasi berbasis HOCl.',
+      sectionNumber: 'Halaman 08 · Wawasan',
+      kicker: 'Perspektif & Edukasi Industri · PT Neomedika Elektra Optima',
+      heading: 'Wawasan Seputar Teknologi Kesehatan Digital & Standar Higienitas.',
+      lead: 'Kumpulan artikel edukatif dan perspektif korporat NEO mengenai transformasi digital fasilitas kesehatan, manajemen praktik kedokteran gigi, interoperabilitas, serta higienitas lingkungan medis.',
       categories: [
         'Semua Topik',
         'Digital Healthcare',
         'Dental Technology',
         'Healthcare Hygiene',
         'Interoperability & Integration',
+        'Corporate & Industry Perspectives',
       ],
-      readArticleLabel: 'Baca Selengkapnya',
+      readArticleLabel: 'Baca Artikel Lengkap',
       closeArticleLabel: 'Tutup Artikel',
       articles: [
         {
@@ -1052,932 +1387,1223 @@ export const CONTENT: Record<Locale, SiteContent> = {
           category: 'Digital Healthcare',
           date: '02 November 2026',
           readTime: '4 menit baca',
-          title: 'Mengapa Fasilitas Kesehatan Membutuhkan Sistem Digital yang Saling Terhubung',
+          title: 'Pentingnya Sistem Digital yang Terhubung bagi Operasional Fasilitas Kesehatan',
           summary:
-            'Fragmentasi antara rekam medis, jadwal resepsionis, inventaris obat, dan laporan keuangan sering menghambat mutu layanan. Pelajari bagaimana platform terpadu menyelesaikannya.',
+            'Bagaimana penyatuan alur registrasi, dokumentasi klinis, inventaris, dan penagihan membantu fasilitas kesehatan bekerja lebih terstruktur.',
           body: [
-            'Di banyak klinik dan fasilitas layanan kesehatan, proses operasional masih terpisah di berbagai perangkat: jadwal dicatat secara manual, rekam medis berada di dokumen terpisah, sementara stok bahan habis pakai baru diperiksa saat hampir habis.',
-            'Pendekatan sistem terhubung (connected healthcare systems) yang dikembangkan PT Neomedika Elektra Optima bertujuan menghapus sekat-sekat tersebut. Ketika dokter menyelesaikan pencatatan tindakan pada odontogram digital, sistem secara otomatis menyiapkan rincian tagihan kasir sekaligus memperbarui stok bahan medis.',
-            'Hasilnya bukan sekadar efisiensi waktu administrasi hingga 40%, melainkan peningkatan fokus tenaga medis pada hal yang paling utama: keselamatan dan kenyamanan pasien.',
+            'Di banyak fasilitas layanan kesehatan, proses operasional harian sering kali masih berjalan secara terpisah: penjadwalan pasien dicatat secara manual, dokumentasi medis berada di berkas tersendiri, sementara pemantauan stok bahan baru dilakukan secara berkala.',
+            'Pendekatan sistem manajemen yang terintegrasi bertujuan menjembatani tahapan-tahapan tersebut. Ketika pencatatan tindakan klinis terhubung secara langsung dengan administrasi kasir dan pemantauan inventaris, risiko kesalahan input berulang dapat dikurangi.',
+            'Bagi tenaga medis dan staf administrasi, keterhubungan sistem ini memberikan kejelasan alur kerja sehingga perhatian utama dapat tetap difokuskan pada kualitas pelayanan pasien.',
           ],
         },
         {
-          slug: 'modern-dental-practice-operating-system-khayr',
+          slug: 'modern-dental-practice-management-khayr',
           category: 'Dental Technology',
           date: '28 Oktober 2026',
           readTime: '5 menit baca',
-          title: 'Peran Sistem Operasi Praktik Gigi Modern dalam Pertumbuhan Klinik',
+          title: 'Merancang Alur Kerja Praktik Kedokteran Gigi Modern dengan Odontogram Digital',
           summary:
-            'Mengenal arsitektur tiga pilar KHAYR—Fondasi, Perjalanan Pasien, dan Pusat Komando—beserta inovasi akuisisi pasien berbasis voucher mitra.',
+            'Meninjau peran dokumentasi klinis terstruktur dan pemetaan Odontogram digital dalam mendukung kesinambungan perawatan pasien gigi.',
           body: [
-            'Mengelola klinik gigi modern menuntut keseimbangan antara presisi klinis dan ketepatan manajemen bisnis. Dokter gigi memerlukan visualisasi Odontogram yang akurat, sedangkan pemilik klinik membutuhkan visibilitas pendapatan serta strategi pemasaran yang terukur.',
-            'Melalui KHAYR, klinik tidak hanya memperoleh sistem rekam medis elektronik (EMR) dan penjadwalan 3-langkah, tetapi juga akses ke fitur KHAYR Voucher Promotion yang menghubungkan promosi klinik ke jaringan aplikasi mitra seperti Telkomsel, Indosat, AXISNET, XL, dan AstraPay.',
-            'Dengan model biaya berbasis penggunaan aktual (Pay as You Grow), biaya pemasaran klinik menjadi selaras sepenuhnya dengan kunjungan dan transaksi nyata di klinik.',
+            'Praktik kedokteran gigi memiliki karakteristik pencatatan klinis yang khas, di mana setiap elemen dan permukaan gigi memerlukan histori diagnosis serta rencana perawatan yang detail dari waktu ke waktu.',
+            'Melalui pengembangan platform KHAYR, PT Neomedika Elektra Optima merancang modul Clinical Management & Digital Odontogram yang terhubung langsung dengan penjadwalan kursi perawatan, riwayat kunjungan pasien, serta pengelolaan bahan habis pakai dental.',
+            'Pendekatan pengembangan yang berpusat pada alur kerja klinisi ini bertujuan menghadirkan sistem yang praktis digunakan baik oleh praktik mandiri maupun jaringan klinik multi-cabang.',
           ],
         },
         {
-          slug: 'hocl-science-safe-effective-disinfection-neolyte',
+          slug: 'hocl-role-in-healthcare-hygiene-neolyte',
           category: 'Healthcare Hygiene',
           date: '19 Oktober 2026',
           readTime: '4 menit baca',
-          title: 'Sains di Balik Hypochlorous Acid (HOCl): Standar Baru Sanitasi Bebas Alkohol',
+          title: 'Peran Hypochlorous Acid (HOCl) dalam Protokol Higienitas Fasilitas Kesehatan',
           summary:
-            'Bagaimana molekul alami yang diproduksi sel darah putih manusia menjadi dasar disinfektan Neolyte yang efektif membunuh 99,99% patogen tanpa iritasi.',
+            'Mengenal karakteristik larutan sanitasi berbasis air dan bebas alkohol untuk kebutuhan kebersihan tangan serta disinfeksi permukaan klinik.',
           body: [
-            'Selama puluhan tahun, fasilitas kesehatan dan masyarakat menghadapi dilema dalam memilih cairan sanitasi: alkohol mudah menguap dan menyebabkan iritasi kulit, sementara klorin/pemutih bersifat korosif dan beracun.',
-            'Hypochlorous Acid (HOCl) dalam Neolyte menghadirkan titik keseimbangan ideal. Sebagai asam lemah alami yang juga diproduksi oleh neutrofil dalam sistem imun manusia, HOCl memiliki daya oksidasi kuat untuk menembus dinding sel mikroorganisme patogen.',
-            'Dengan izin edar resmi KEMENKES RI PKD 20501023189 (Neolyte SN 60 ppm) dan PKD 20502023190 (Neolyte DS 160–220 ppm) serta verifikasi laboratorium IPB, Neolyte memberikan perlindungan menyeluruh untuk tangan, peralatan medis, udara ruangan, hingga bahan pangan.',
+            'Kebersihan tangan dan sanitasi permukaan kerja merupakan bagian mendasar dari tata kelola lingkungan fasilitas kesehatan, poliklinik, maupun ruang praktik dokter gigi.',
+            'Formulasi berbasis Hypochlorous Acid (HOCl) pada lini produk Neolyte menawarkan alternatif sanitasi berbasis air yang bebas alkohol (0%). Dengan pemisahan varian yang jelas antara Neolyte SN (Hand & Body Sanitizer) dan Neolyte DS (Surface & Equipment Disinfectant), fasilitas kesehatan dapat menyesuaikan penggunaan produk sesuai peruntukannya.',
+            'Seluruh penggunaan produk disinfektan dan sanitizer di lingkungan fasilitas kesehatan harus senantiasa mengacu pada petunjuk label resmi serta prosedur pengendalian kebersihan yang berlaku.',
           ],
         },
         {
-          slug: 'interoperability-connecting-healthcare-information',
+          slug: 'interoperability-and-standards-in-indonesian-healthcare',
           category: 'Interoperability & Integration',
-          date: '10 Oktober 2026',
+          date: '12 Oktober 2026',
           readTime: '4 menit baca',
-          title: 'Interoperabilitas: Menghubungkan Informasi Kesehatan Secara Aman dan Terstandar',
+          title: 'Kesiapan Interoperabilitas dalam Pengembangan Perangkat Lunak Kesehatan',
           summary:
-            'Kesiapan arsitektur API dan standar pertukaran data kesehatan merupakan kunci kolaborasi lintas ekosistem medis di Indonesia.',
+            'Mengapa perancangan skema data yang terstruktur menjadi fondasi penting dalam mendukung peta jalan pertukaran informasi kesehatan.',
           body: [
-            'Transformasi kesehatan nasional mendorong setiap fasilitas layanan kesehatan untuk memiliki sistem informasi yang mampu bertukar data secara terstandar, termasuk kesiapan integrasi dengan ekosistem SATUSEHAT.',
-            'PT Neomedika Elektra Optima merancang arsitektur teknologinya dengan prinsip Integration by Design dan Security by Default—memastikan bahwa interoperabilitas selalu berjalan beriringan dengan perlindungan privasi dan kontrol akses berbasis peran.',
+            'Perkembangan ekosistem kesehatan digital di Indonesia mendorong pentingnya standarisasi format data klinis dan administratif agar sistem informasi dapat saling berkomunikasi secara aman.',
+            'Dalam merancang arsitektur teknologinya, PT Neomedika Elektra Optima menerapkan prinsip Standards-Aware Interoperability dan Security by Design. Setiap integrasi ekosistem dikembangkan secara bertahap dengan memperhatikan kesiapan teknis, pengujian validasi, serta kepatuhan terhadap regulasi yang berlaku.',
+          ],
+        },
+        {
+          slug: 'building-sustainable-healthcare-technology-portfolio',
+          category: 'Corporate & Industry Perspectives',
+          date: '05 Oktober 2026',
+          readTime: '4 menit baca',
+          title: 'Membangun Portofolio Teknologi Kesehatan Melalui Validasi dan Kemitraan',
+          summary:
+            'Perspektif korporat PT Neomedika Elektra Optima dalam menggabungkan inovasi perangkat lunak, solusi higienitas, dan kolaborasi ekosistem.',
+          body: [
+            'Inovasi di sektor kesehatan menuntut keseimbangan antara visi teknologi jangka panjang dan disiplin eksekusi yang bertanggung jawab. Solusi yang berkelanjutan tidak dibangun secara instan, melainkan melalui pemahaman mendalam terhadap kebutuhan praktisi di lapangan.',
+            'Melalui lima pilar bisnis strategisnya, PT Neomedika Elektra Optima (NEO) berkomitmen untuk terus berkolaborasi bersama penyedia layanan kesehatan, mitra teknologi, dan jaringan distribusi guna menghadirkan solusi yang memberikan nilai nyata.',
           ],
         },
       ],
     },
     contact: {
-      sectionNumber: '08. Hubungi PT Neomedika Elektra Optima',
-      kicker: 'Let’s Build a More Connected Healthcare Future',
-      heading: 'Mari Mulai Percakapan Bersama Tim Neomedika.',
-      lead: 'Apakah Anda ingin menjadwalkan demo platform klinik gigi KHAYR, memesan produk sanitasi medis Neolyte, atau mendiskusikan kemitraan strategis? Isi formulir di bawah ini—setiap data akan tersimpan otomatis ke sistem kami dan terintegrasi langsung dengan Google Sheets & Gmail perusahaan.',
-      formTitle: 'Formulir Kontak, Demo Produk & Kemitraan Resmi',
+      sectionNumber: 'Halaman 09 · Kontak',
+      kicker: 'Corporate Enquiry & Partnership · PT Neomedika Elektra Optima',
+      heading: 'Hubungi PT Neomedika Elektra Optima (NEO).',
+      lead: 'Silakan gunakan formulir resmi di bawah ini untuk mengajukan pertanyaan korporat, meminta informasi produk KHAYR, berkonsultasi mengenai pengadaan lini higienitas Neolyte, atau mendiskusikan peluang kemitraan strategis.',
+      formTitle: 'Corporate Enquiry & Partnership Form',
       formSubtitle:
-        'Mohon isi data bisnis atau institusi Anda. Sesuai tata kelola privasi NEO, jangan mencantumkan informasi rekam medis sensitif pasien.',
+        'Formulir ini ditujukan untuk komunikasi bisnis, institusi, dan kemitraan resmi PT Neomedika Elektra Optima.',
+      patientDataNoticeTitle: 'Pemberitahuan Pelindungan Data Pasien (Patient Data Protection Notice)',
+      patientDataNoticeText:
+        'Mohon tidak mengirimkan rekam medis pasien atau informasi kesehatan sensitif melalui formulir pertanyaan korporat ini. (Please do not submit patient medical records or sensitive health information through this corporate enquiry form.)',
       fields: {
-        fullName: 'Nama Lengkap *',
+        fullName: 'Nama Lengkap (Full Name) *',
         fullNamePlaceholder: 'Contoh: drg. Budi Santoso / Ibu Rina Wijaya',
-        businessEmail: 'Alamat Email Bisnis / Institusi *',
-        businessEmailPlaceholder: 'nama@klinikanda.co.id',
-        phone: 'Nomor Telepon / WhatsApp',
+        roleTitle: 'Jabatan / Peran (Role / Title)',
+        roleTitlePlaceholder: 'Contoh: Pemilik Klinik / Manajer Pengadaan / Direktur',
+        businessEmail: 'Alamat Email Bisnis / Institusi (Email Address) *',
+        businessEmailPlaceholder: 'nama@institusianda.co.id',
+        phone: 'Nomor Telepon / WhatsApp (Phone / WhatsApp Number)',
         phonePlaceholder: '+62 812 XXXX XXXX',
-        organisation: 'Nama Klinik / Rumah Sakit / Perusahaan',
-        organisationPlaceholder: 'Contoh: Klinik Gigi Senyum Optima',
-        countryCity: 'Kota / Wilayah Pasar',
-        countryCityPlaceholder: 'Contoh: Jakarta, Bandung, Surabaya',
-        category: 'Kategori Pertanyaan *',
-        productInterest: 'Produk / Solusi yang Diminati *',
-        message: 'Pesan / Rincian Kebutuhan *',
+        organisation: 'Nama Perusahaan / Institusi / Klinik *',
+        organisationPlaceholder: 'Contoh: Klinik Gigi Senyum Optima / RS Medika',
+        countryCity: 'Kota / Wilayah',
+        countryCityPlaceholder: 'Contoh: Jakarta, Indonesia',
+        category: 'Kategori Pertanyaan (Enquiry Category) *',
+        productInterest: 'Fokus Produk / Inisiatif',
+        message: 'Pesan / Rincian Pertanyaan (Message / Enquiry Details) *',
         messagePlaceholder:
-          'Tuliskan kebutuhan Anda (misal: jadwal demo KHAYR untuk 2 cabang klinik, atau permintaan penawaran Neolyte DS 5000ml)...',
+          'Tuliskan rincian pertanyaan korporat, kebutuhan informasi produk KHAYR / Neolyte, atau proposal kemitraan Anda...',
         privacyConsent:
-          'Saya menyetujui bahwa PT Neomedika Elektra Optima dapat menyimpan dan memproses data kontak bisnis ini untuk menindaklanjuti pertanyaan saya sesuai kebijakan privasi korporat.',
-        submitBtn: 'Kirim Data & Simpan ke Sistem NEO',
-        submittingBtn: 'Menyimpan & Mengirim Notifikasi...',
+          'Saya menyatakan dan menyetujui bahwa PT Neomedika Elektra Optima dapat mengumpulkan serta memproses informasi kontak bisnis yang dikirimkan melalui formulir ini untuk menanggapi pertanyaan saya, sesuai dengan Pemberitahuan Privasi (Privacy Notice) perusahaan.',
+        privacyNoticeLinkLabel: 'Lihat Pemberitahuan Privasi (Privacy Notice)',
+        submitBtn: 'Kirim Pertanyaan Korporat',
+        submittingBtn: 'Mengirim Pesan...',
       },
       categories: [
-        'Healthcare Solutions',
-        'Business & Strategic Partnerships',
-        'Technology & Integration',
-        'General',
-        'Media & Corporate',
-        'Careers',
+        'Corporate & General Enquiry',
+        'KHAYR Product Information',
+        'Neolyte Product Enquiry',
+        'Technology & Integration Partnership',
+        'Distribution Partnership',
+        'Investor & Strategic Collaboration',
       ],
       productInterests: [
         'KHAYR Digital Dental Platform',
         'Neolyte SN / DS Hygiene Line',
-        'KHAYR + Neolyte Integrated Clinic Package',
+        'KHAYR + Neolyte Integrated Healthcare Package',
         'Corporate & Ecosystem Partnership',
         'General NEO Enquiry',
       ],
       workspaceBox: {
-        title: 'Panel Integrasi Otomatis Google Gmail & Google Sheets',
-        subtitle:
-          'Hubungkan akun Google Workspace perusahaan untuk menyinkronkan seluruh data formulir langsung ke Google Sheets dan mengirimkan email notifikasi otomatis melalui Gmail.',
+        title: 'Integrasi Email & Spreadsheet Internal',
+        subtitle: 'Konfigurasi internal pengiriman notifikasi korporat.',
         connectedAs: 'Terhubung sebagai:',
         signInBtn: 'Sign in with Google',
         signOutBtn: 'Putuskan Akun',
-        createSheetBtn: 'Buat Google Sheet Baru & Sinkronkan',
+        createSheetBtn: 'Buat Google Sheet Baru',
         syncAllBtn: 'Sinkronkan ke Google Sheet',
-        sendGmailBtn: 'Kirim Email Notifikasi via Gmail',
-        exportCsvBtn: 'Unduh Data CSV',
-        recipientLabel: 'Email Tujuan Notifikasi Otomatis:',
-        sheetIdLabel: 'ID Google Spreadsheet Tujuan (Opsional / Otomatis):',
+        sendGmailBtn: 'Kirim Email Notifikasi',
+        exportCsvBtn: 'Unduh CSV',
+        recipientLabel: 'Email Korporat Tujuan:',
+        sheetIdLabel: 'ID Spreadsheet:',
       },
     },
     footer: {
-      corporateDescriptor: 'PT Neomedika Elektra Optima · Integrated Healthcare Technology',
+      corporateDescriptor: 'NEO — Integrated Healthcare Technology',
       statement:
-        'Connecting Healthcare. Empowering Better Lives. Membangun ekosistem teknologi kesehatan dan solusi higienitas medis yang tepercaya.',
-      disclaimerTitle: 'Pernyataan & Tata Kelola Informasi Korporat (Corporate Disclaimer)',
+        'Connecting Healthcare. Empowering Better Lives. PT Neomedika Elektra Optima mengembangkan solusi teknologi kesehatan terintegrasi melalui platform kedokteran gigi digital KHAYR dan lini higienitas layanan kesehatan Neolyte.',
+      officialEmail: 'info@neomedika.com',
+      partnershipsEmail: 'partnerships@neomedika.com',
+      locationSummary: 'Jakarta, Indonesia',
+      disclaimerTitle: 'Pernyataan Korporat (Corporate Disclaimer)',
       disclaimerText:
-        'Informasi pada situs web ini menjelaskan arah korporat, kerangka bisnis, serta produk PT Neomedika Elektra Optima (NEO). Platform KHAYR sedang dalam tahap pengembangan dan validasi; ketersediaan fitur serta integrasi tunduk pada kesiapan rilis komersial. Produk Neolyte SN telah memiliki izin edar KEMENKES RI PKD 20501023189 dan Neolyte DS memiliki izin edar KEMENKES RI PKD 20502023190.',
-      copyright: '© 2026 PT Neomedika Elektra Optima (NEO). Seluruh hak cipta dilindungi undang-undang.',
+        'Informasi pada situs web ini disediakan untuk tujuan informasi umum dan korporat PT Neomedika Elektra Optima (NEO) serta bukan merupakan saran medis, penawaran mengikat, atau jaminan ketersediaan komersial di setiap yurisdiksi. Platform KHAYR saat ini sedang dalam tahap pengembangan dan validasi; pratinjau antarmuka merupakan ilustrasi konsep (Concept UI). Produk Neolyte SN (KEMENKES RI PKD 20501023189) dan Neolyte DS (KEMENKES RI PKD 20502023190) harus digunakan sesuai petunjuk pada label resmi yang disetujui.',
+      copyright: '© 2026 PT Neomedika Elektra Optima (NEO). All rights reserved.',
     },
   },
   en: {
     nav: {
+      home: 'Home',
       about: 'About NEO',
       business: 'Our Business',
       products: 'Our Products',
       technology: 'Technology',
+      partnerships: 'Partnerships',
       insights: 'Insights',
+      contact: 'Contact',
       cta: 'Contact NEO',
     },
     utility: {
       legalEntity: 'PT Neomedika Elektra Optima',
       descriptor: 'Integrated Healthcare Technology',
-      tagline: 'Trusted Healthcare Solutions',
+      tagline: 'Connecting Healthcare. Empowering Better Lives.',
       workspaceSyncBtn: 'Gmail & Sheets Integration',
       langLabel: 'Language',
     },
     hero: {
-      kicker: 'PT Neomedika Elektra Optima · Integrated Healthcare Technology & Hygiene Ecosystem',
+      kicker: 'PT Neomedika Elektra Optima · NEO — Integrated Healthcare Technology',
       headline: 'Connecting Healthcare. Empowering Better Lives.',
       subheadline:
-        'We bring healthcare, intelligent software systems, and medical hygiene innovation together to create more connected, efficient, and trusted healthcare experiences.',
+        'PT Neomedika Elektra Optima (NEO) is an integrated healthcare technology company developing healthcare management platforms, digital dental solutions, and healthcare hygiene innovations.',
       corporateNote:
-        'PT Neomedika Elektra Optima (NEO) is building a structured, long-term healthcare technology and clinical hygiene foundation engineered for cross-facility collaboration.',
-      primaryCta: 'Explore NEO Profile',
+        'As the corporate parent brand, NEO unites clinical software platform development (KHAYR) and HOCl-based healthcare hygiene solutions (Neolyte) to support a more connected healthcare ecosystem.',
+      primaryCta: 'Explore Our Solutions',
       secondaryCta: 'Partner With NEO',
       snapshotItems: [
         {
-          label: 'Legal Entity',
+          label: 'Corporate Identity',
           value: 'PT Neomedika Elektra Optima',
-          detail: 'Corporate Brand: NEO · neomedika',
+          detail: 'Corporate Brand: NEO · Integrated Healthcare Technology',
         },
         {
-          label: 'Flagship Digital Platform',
-          value: 'KHAYR Dental OS',
-          detail: 'Integrated Dental Practice Operating System (Under Development)',
+          label: 'Digital Dental Platform',
+          value: 'KHAYR Dental Platform',
+          detail: 'Dental Clinic Management & EMR Platform (Under Development)',
         },
         {
-          label: 'Healthcare Hygiene Line',
+          label: 'Healthcare Hygiene Solutions',
           value: 'Neolyte™ SN & DS',
-          detail: 'KEMENKES RI PKD 20501023189 & 20502023190 · Halal MUI',
+          detail: 'HOCl-Based Sanitizer & Disinfectant · KEMENKES RI PKD',
         },
         {
-          label: 'Primary Market & Ambition',
-          value: 'Indonesia & Global Vision',
-          detail: 'Dental Practices, Hospitals, Institutions & Tech Partners',
+          label: 'Ecosystem & Partnership Focus',
+          value: 'Connected Healthcare',
+          detail: 'Healthcare Providers, Technology, Distribution & Institutions',
         },
       ],
     },
+    homeSummary: {
+      whoWeAreKicker: '01 · Who We Are',
+      whoWeAreTitle: 'Building Integrated Healthcare Technology for Modern Healthcare Delivery.',
+      whoWeAreText:
+        'PT Neomedika Elektra Optima (NEO) focuses on developing connected healthcare capabilities spanning healthcare management systems, smart medical devices, hygiene solutions, and ecosystem integration.',
+      whoWeAreCta: 'Learn More About NEO',
+      pillarsKicker: '02 · Our Five Business Pillars',
+      pillarsTitle: 'A Structured Strategic Framework for Connected Healthcare.',
+      pillarsSub:
+        'NEO’s portfolio is organised around five complementary business pillars supporting clinical and operational progress.',
+      pillarsCta: 'Explore Our 5 Business Pillars',
+      featuredProductsKicker: '03 · Featured Portfolio',
+      featuredProductsTitle: 'Clinical Software Innovation & Healthcare Hygiene Solutions.',
+      featuredProductsSub:
+        'Two core portfolio initiatives under PT Neomedika Elektra Optima designed to support modern healthcare environments.',
+      khayrCardDesc:
+        'A Dental Clinic Management & Electronic Medical Record (EMR) platform designed to connect clinical charting, digital odontograms, scheduling, billing, inventory, and reporting.',
+      khayrCardCta: 'Explore KHAYR Platform',
+      neolyteCardDesc:
+        'Hypochlorous Acid (HOCl) water-based hand & body sanitizer (Neolyte SN) and surface & equipment disinfectant (Neolyte DS) for medical, dental, and everyday environments.',
+      neolyteCardCta: 'Explore Neolyte Solutions',
+      techKicker: '04 · Technology & Product Approach',
+      techTitle: 'Engineered Around Integration, Security, and Real Clinical Workflows.',
+      techText:
+        'Our technology principles prioritise scalable architecture, responsible data management, standards-aware interoperability, and human-centred validation.',
+      techCta: 'View Our Technology Principles',
+      partnerKicker: '05 · Partnership Ecosystem',
+      partnerTitle: 'Collaborating With Healthcare Providers & Industry Partners.',
+      partnerText:
+        'NEO welcomes strategic collaborations with clinics, hospitals, technology partners, distribution networks, and clinical institutions.',
+      partnerCta: 'Discuss Partnership Opportunities',
+      insightsKicker: '06 · Featured Insights',
+      insightsTitle: 'Perspectives on Digital Healthcare & Healthcare Hygiene.',
+      insightsCta: 'View All Insights',
+      closingKicker: 'Get in Touch',
+      closingTitle: 'Start a Conversation With PT Neomedika Elektra Optima.',
+      closingText:
+        'Connect with our corporate team for KHAYR product information, Neolyte hygiene enquiries, or strategic partnership discussions.',
+      closingPrimaryCta: 'Open Corporate Enquiry Form',
+      closingSecondaryCta: 'Explore Partnership Tracks',
+    },
     about: {
-      sectionNumber: '01. Corporate Profile',
-      kicker: 'Who We Are · About PT Neomedika Elektra Optima',
-      heading: 'Technology with a Purpose. Innovation for Better Healthcare.',
-      lead: 'Healthcare is evolving. As care delivery becomes increasingly connected and data-driven, healthcare organisations need technology that works seamlessly across clinical, operational, administrative, and environmental hygiene environments.',
-      body: 'PT Neomedika Elektra Optima (NEO) was established with a long-term ambition to contribute to the transformation of healthcare through technology. Our approach extends beyond individual software products: we are developing a connected portfolio of capabilities that support healthcare operations, digital service delivery, responsible information exchange, and clinical sanitization.',
+      sectionNumber: 'Page 02 · About NEO',
+      kicker: 'Who We Are · PT Neomedika Elektra Optima',
+      heading: 'Building Integrated Healthcare Technology for Modern Healthcare Delivery.',
+      lead: 'PT Neomedika Elektra Optima (NEO) is an Indonesian healthcare technology company focused on developing digital healthcare management systems, medical equipment and hygiene solutions, and connected healthcare innovations.',
+      body: 'We believe modern healthcare delivery requires thoughtful connection across clinical workflows, facility operations, responsible information management, and environmental hygiene. Operating under the corporate brand NEO, PT Neomedika Elektra Optima develops and manages a structured portfolio of healthcare solutions—including the KHAYR digital dental platform and the Neolyte healthcare hygiene line.',
       visionTitle: 'Corporate Vision',
       visionText:
-        'To become a trusted international healthcare technology company, enabling a more connected, intelligent, and accessible healthcare ecosystem.',
-      missionTitle: 'Strategic Mission',
+        'To become a trusted integrated healthcare technology company enabling a more connected, efficient, and patient-focused healthcare ecosystem.',
+      missionTitle: 'Corporate Mission (5 Core Missions)',
       missions: [
         {
           code: '01',
-          title: 'Develop Purposeful Solutions',
-          desc: 'Build practical digital healthcare and hygiene solutions that address real operational and clinical needs.',
+          title: 'Practical Healthcare Technology Solutions',
+          desc: 'Develop practical, relevant healthcare technology solutions that address real operational and clinical needs.',
         },
         {
           code: '02',
-          title: 'Connect Healthcare Ecosystems',
-          desc: 'Connect healthcare systems, professionals, administrators, and patients through integrated technology.',
+          title: 'Clinical & Operational Workflow Efficiency',
+          desc: 'Support healthcare professionals and administrators with structured documentation and efficient daily workflows.',
         },
         {
           code: '03',
-          title: 'Promote Responsible Innovation',
-          desc: 'Advance standards-aware interoperability, data protection, and evidence-led healthcare capabilities.',
+          title: 'Healthcare Hygiene & Care Environments',
+          desc: 'Provide dependable healthcare hygiene and sanitization solutions that support safe clinical and public environments.',
         },
         {
           code: '04',
-          title: 'Build Long-Term Partnerships',
-          desc: 'Establish enduring collaborations across healthcare providers, technology specialists, and distribution networks.',
+          title: 'Interoperability & Responsible Data Governance',
+          desc: 'Advance responsible information management, security by design, and standards-aware healthcare interoperability.',
         },
         {
           code: '05',
-          title: 'Design Scalable Foundations',
-          desc: 'Develop adaptable platforms capable of evolving across markets, multi-branch clinics, and regulatory environments.',
+          title: 'Long-Term Ecosystem Partnerships',
+          desc: 'Build enduring collaborations with healthcare providers, technology partners, distributors, and institutions.',
         },
       ],
-      valuesTitle: 'Core Corporate Values',
+      valuesTitle: 'Corporate Values',
       values: [
         {
-          title: 'Innovation with Purpose',
-          desc: 'We focus on technology that solves real healthcare challenges and creates measurable practical value.',
+          title: 'Innovation',
+          desc: 'Developing purposeful solutions that address real operational and clinical challenges.',
         },
         {
-          title: 'Integrity & Accountability',
-          desc: 'We operate with transparency, responsibility, and respect for the trust placed in healthcare systems.',
+          title: 'Integrity',
+          desc: 'Operating with honesty, transparency, and accountability in governance and product communication.',
         },
         {
-          title: 'Human-Centred Design',
-          desc: 'Technology should empower clinicians, staff, and patients—not make healthcare workflows more complicated.',
+          title: 'Collaboration',
+          desc: 'Working closely with clinicians, healthcare administrators, technology partners, and industry stakeholders.',
         },
         {
-          title: 'Ecosystem Collaboration',
-          desc: 'We believe meaningful progress is achieved through strong partnerships with healthcare and technology leaders.',
+          title: 'Responsibility',
+          desc: 'Prioritising safety, responsible data handling, and accurate disclosure across every initiative.',
         },
         {
-          title: 'Security & Excellence',
-          desc: 'We pursue high quality in our products, rigorous protection of sensitive data, and verified regulatory standards.',
-        },
-        {
-          title: 'Continuous Adaptability',
-          desc: 'We design systems engineered to evolve through clinical validation, feedback, and changing market needs.',
+          title: 'Long-Term Thinking',
+          desc: 'Building sustainable technology architectures and partnerships designed for long-term growth.',
         },
       ],
-      roadmapTitle: 'Staged Approach to Sustainable Growth (4 Phases)',
+      roadmapTitle: 'Our Development Approach (5 Steps)',
       roadmapNote:
-        'This roadmap represents strategic corporate intent and is subject to product readiness, market validation, and regulatory assessment.',
+        'Every initiative under NEO follows a structured five-step development approach to ensure practical usability and operational alignment.',
       phases: [
         {
-          phase: 'Phase 1 · Establish',
-          title: 'Digital Dental Foundation',
-          desc: 'Develop and validate core dental clinic workflows and integrated digital operational foundations.',
+          phase: 'Step 01',
+          title: 'Understand Healthcare Needs',
+          desc: 'Identify real-world challenges faced by clinicians, administrative staff, facility operators, and patients.',
         },
         {
-          phase: 'Phase 2 · Expand',
-          title: 'Platform & Multi-Clinic Expansion',
-          desc: 'Enhance patient experience, multi-location capabilities, operational analytics, automation, and strategic integrations.',
+          phase: 'Step 02',
+          title: 'Design Practical Solutions',
+          desc: 'Architect intuitive systems and products aligned with day-to-day healthcare delivery workflows.',
         },
         {
-          phase: 'Phase 3 · Segment Growth',
-          title: 'Healthcare Segment Expansion',
-          desc: 'Explore general practice and specialist clinic solutions, broader EMR capabilities, and connected healthcare services.',
+          phase: 'Step 03',
+          title: 'Develop Technology Platforms',
+          desc: 'Engineer modular software and healthcare solutions with security, reliability, and scalability in mind.',
         },
         {
-          phase: 'Phase 4 · Connect Globally',
-          title: 'International Ecosystem Development',
-          desc: 'Evaluate selected international markets, jurisdiction-specific compliance, localisation, and strategic partnerships.',
+          phase: 'Step 04',
+          title: 'Validate Clinical and Operational Workflows',
+          desc: 'Conduct functional testing, workflow evaluation, and iterative refinement with healthcare practitioners.',
+        },
+        {
+          phase: 'Step 05',
+          title: 'Build Strategic Partnerships and Scale',
+          desc: 'Expand adoption progressively through ecosystem partnerships, distribution networks, and regulatory alignment.',
         },
       ],
     },
     business: {
-      sectionNumber: '02. Business Architecture',
-      kicker: 'Five Strategic Pillars · One Connected Healthcare Vision',
-      heading: 'Building the Foundations of Connected Healthcare.',
-      lead: 'NEO’s business is structured around five complementary strategic pillars that form the foundation of its long-term healthcare technology portfolio.',
+      sectionNumber: 'Page 03 · Our Business',
+      kicker: 'Five Strategic Business Pillars · PT Neomedika Elektra Optima',
+      heading: 'A Strategic Business Framework for Integrated Healthcare.',
+      lead: 'PT Neomedika Elektra Optima (NEO) organises its business and long-term portfolio development around five complementary strategic pillars.',
       governanceNote:
-        'Corporate Note: These pillars describe NEO’s strategic business framework and long-term capability roadmap.',
+        'Required Disclaimer: NEO’s business pillars represent the company’s strategic direction and technology development framework. Specific products and services are introduced progressively subject to development, validation, partnerships, and regulatory requirements.',
       pillars: [
         {
           index: '01',
           title: 'Healthcare Management Systems',
           summary:
-            'Technology designed to support the structured day-to-day management and operation of healthcare organisations.',
+            'Software platforms engineered to support the structured operational, clinical, and administrative management of healthcare facilities.',
+          scopeLabel: 'Scope',
+          scope:
+            'Clinic management systems, electronic medical records (EMR), appointment scheduling, billing, inventory management, and operational reporting.',
+          focusLabel: 'Strategic Focus',
+          focus:
+            'Improving healthcare facility workflow efficiency and structured clinical documentation, beginning with the KHAYR dental platform.',
           capabilities: [
             'Practice & clinical facility management',
             'Electronic medical records (EMR) & administrative workflows',
             'Appointment scheduling, billing, & inventory control',
-            'Centralised multi-location & branch administration',
+            'Centralised multi-branch clinic administration',
           ],
           spanWide: true,
         },
         {
           index: '02',
-          title: 'Digital Healthcare Platforms',
+          title: 'Smart Medical Devices',
           summary:
-            'Digital platforms designed to support seamless interactions between healthcare providers, professionals, and patients.',
+            'Exploration and development of medical support equipment and integrated sanitization devices for healthcare environments.',
+          scopeLabel: 'Scope',
+          scope:
+            'Automated sanitization application equipment, facility disinfection chambers (such as Neogate), and connected medical device initiatives.',
+          focusLabel: 'Strategic Focus',
+          focus:
+            'Supporting practical clinical operations and environmental hygiene control across healthcare facilities.',
           capabilities: [
-            'Streamlined patient appointment & reservation journeys',
-            'Clinical workflow & digital charting support',
-            'Structured patient relationship & promotional engagement tools',
+            'Automated facility sanitization & disinfection equipment',
+            'Hardware alignment with clinical operational routines',
+            'Practical medical support device development',
           ],
         },
         {
           index: '03',
-          title: 'Integration & Interoperability',
+          title: 'Consumer Health & Hygiene',
           summary:
-            'Technology approaches engineered to enable healthcare systems and information to communicate securely.',
+            'Science-backed hygiene and sanitization products for medical facilities, dental clinics, public spaces, and everyday use.',
+          scopeLabel: 'Scope',
+          scope:
+            'Hypochlorous Acid (HOCl) hand & body sanitizer (Neolyte SN) and surface & equipment disinfectant (Neolyte DS) product lines.',
+          focusLabel: 'Strategic Focus',
+          focus:
+            'Delivering alcohol-free, water-based hygiene solutions for clinics, hospitals, institutions, and households.',
           capabilities: [
-            'API-based connectivity & structured data exchange',
-            'Interoperability architecture (including SATUSEHAT alignment)',
-            'External partner ecosystem & insurance connectivity',
+            'Neolyte SN — Hand & Body Sanitizer (KEMENKES RI PKD)',
+            'Neolyte DS — Surface & Equipment Disinfectant (KEMENKES RI PKD)',
+            'Institutional supply for clinics, hospitals, & public spaces',
           ],
         },
         {
           index: '04',
-          title: 'Healthcare Intelligence & Automation',
+          title: 'Healthcare Infrastructure & Consulting',
           summary:
-            'Data and intelligent workflow capabilities intended to support operational visibility and informed decision-making.',
+            'Advisory and implementation support for healthcare digital readiness, workflow design, and operational governance.',
+          scopeLabel: 'Scope',
+          scope:
+            'Clinic system implementation consulting, patient journey workflow optimisation, and healthcare IT infrastructure readiness.',
+          focusLabel: 'Strategic Focus',
+          focus:
+            'Helping healthcare providers adopt digital systems smoothly in accordance with their operational scale.',
           capabilities: [
-            'Real-time clinic performance & financial analytics dashboards',
-            'Automated patient retention tracking & stock expiry alerts',
-            'Decision-support & workflow automation with human oversight',
+            'Clinical & administrative workflow mapping',
+            'Healthcare facility onboarding & staff readiness',
+            'Multi-branch digital infrastructure planning',
           ],
         },
         {
           index: '05',
-          title: 'Healthcare Ecosystem & Connectivity',
+          title: 'Digital Health Ecosystem Integration',
           summary:
-            'An ecosystem-oriented approach uniting healthcare providers, technology partners, and clinical hygiene standards.',
+            'Cross-system connectivity designed to link healthcare providers, patients, and strategic ecosystem partners.',
+          scopeLabel: 'Scope',
+          scope:
+            'API connectivity architecture, healthcare interoperability roadmap alignment, and digital promotional distribution concepts.',
+          focusLabel: 'Strategic Focus',
+          focus:
+            'Building the foundation for responsible information exchange and collaborative ecosystem growth.',
           capabilities: [
-            'Strategic technology & healthcare provider networks',
-            'Clinical-grade environmental sanitization via the Neolyte line',
-            'Cross-organisation collaboration & distribution partnerships',
+            'API-based connectivity & interoperability architecture',
+            'Alignment roadmap for national healthcare data standards',
+            'Partner ecosystem & digital service integration',
           ],
           spanWide: true,
         },
       ],
-      solutionsHeading: 'Technology Designed Around Healthcare Needs',
+      solutionsHeading: 'Solutions Tailored by Ecosystem Segment',
       solutionsSub:
-        'NEO’s solution strategy addresses the operational, digital, clinical hygiene, and connectivity challenges faced by healthcare organisations.',
+        'NEO’s business framework supports distinct requirements across healthcare providers and industry partners.',
       audiences: [
         {
           audience: 'For Dental Practices & Clinics',
-          focus: 'Featured Platform: KHAYR & Neolyte Clinical Hygiene',
+          focus: 'KHAYR Platform & Neolyte Hygiene Solutions',
           description:
-            'Digital practice management designed to connect clinical odontograms, scheduling, billing, inventory, and patient acquisition vouchers, alongside clinical-grade sanitization.',
-          ctaLabel: 'Explore Dental Solutions',
-          enquiryCategory: 'Healthcare Solutions',
+            'Digital dental practice management connecting clinical odontograms, scheduling, billing, and inventory, complemented by Neolyte clinic hygiene.',
+          ctaLabel: 'Request KHAYR Product Information',
+          enquiryCategory: 'KHAYR Product Information',
           productInterest: 'KHAYR Digital Dental Platform',
         },
         {
-          audience: 'For Hospitals & Healthcare Providers',
-          focus: 'HOCl Hygiene Standards & Operational Coordination',
+          audience: 'For Hospitals & Healthcare Facilities',
+          focus: 'Neolyte Hygiene Line & System Exploration',
           description:
-            'KEMENKES-registered Neolyte SN & DS sanitizer and disinfectant solutions for hospital wards, dental chairs, and Neogate chambers, alongside digital workflow exploration.',
-          ctaLabel: 'Enquire About Healthcare Solutions',
-          enquiryCategory: 'Healthcare Solutions',
+            'Supply of KEMENKES-registered Neolyte SN & DS sanitizer and disinfectant solutions for clinical surfaces, wards, and facility entrances.',
+          ctaLabel: 'Enquire About Neolyte Products',
+          enquiryCategory: 'Neolyte Product Enquiry',
           productInterest: 'Neolyte SN / DS Hygiene Line',
         },
         {
-          audience: 'For Multi-Branch Healthcare Groups',
-          focus: 'Centralised Visibility & Standardised Operations',
+          audience: 'For Technology & Integration Partners',
+          focus: 'Platform Collaboration & Interoperability',
           description:
-            'Technology foundations built to support larger-scale administration, consolidated financial reporting across branches, and supply chain visibility.',
-          ctaLabel: 'Schedule Corporate Discussion',
-          enquiryCategory: 'Business & Strategic Partnerships',
-          productInterest: 'KHAYR Digital Dental Platform',
+            'Technical collaboration opportunities across cloud infrastructure, healthcare information systems, and ecosystem connectivity.',
+          ctaLabel: 'Discuss Technology Partnership',
+          enquiryCategory: 'Technology & Integration Partnership',
+          productInterest: 'Corporate & Ecosystem Partnership',
         },
         {
-          audience: 'For Technology & Distribution Partners',
-          focus: 'API Integration, Ecosystem & Distribution Collaboration',
+          audience: 'For Distribution & Strategic Partners',
+          focus: 'Product Distribution & Strategic Collaboration',
           description:
-            'Collaboration opportunities around system integration, partner application connectivity, and regional distribution of Neomedika healthcare products.',
-          ctaLabel: 'Discuss Partnership Requirements',
-          enquiryCategory: 'Technology & Integration',
+            'Regional distribution partnerships for the Neolyte product line and long-term strategic collaboration with NEO.',
+          ctaLabel: 'Discuss Distribution Partnership',
+          enquiryCategory: 'Distribution Partnership',
           productInterest: 'Corporate & Ecosystem Partnership',
         },
       ],
     },
     khayr: {
-      sectionNumber: '03. Flagship Digital Product · KHAYR',
-      kicker: 'NEO Flagship Digital Healthcare Platform · Dental Practice Operating System',
+      sectionNumber: 'Page 04 · Our Products: KHAYR',
+      kicker: 'Dental Clinic Management & Electronic Medical Record Platform',
       statusDisclosure: 'Product Status: Under Development & Validation',
-      heading: 'KHAYR — A Smarter Way to Manage Modern Dental Healthcare.',
-      tagline: 'Manage Easier, Promote Wider, Grow Faster.',
-      lead: 'KHAYR is PT Neomedika Elektra Optima’s flagship digital dental healthcare platform, being developed as a cloud-based Dental Practice Operating System to bring clinical documentation, digital odontograms, clinic administration, billing, inventory, and partner voucher promotions into one connected environment.',
+      heading: 'KHAYR — Building a More Connected Dental Practice.',
+      tagline: 'Integrated Dental Clinic Management & Electronic Medical Record Platform.',
+      lead: 'KHAYR is PT Neomedika Elektra Optima’s (NEO) digital dental platform in development, designed to help dental clinics manage clinical documentation, patient workflows, appointment scheduling, billing, inventory, and operational reporting within one connected environment.',
       subscriptionNote:
-        'Flexible "Pay as You Grow" Subscription Model — enabling dental practices to scale modules smoothly alongside clinic growth.',
-      externalPreviewCta: 'Open KHAYR Product Portal',
-      enquireCta: 'Request KHAYR Demo / Information',
-      rolesTitle: 'Engineered for Every Role in Your Dental Practice Ecosystem',
+        'Modular, Scalable Architecture — designed to support single-chair dental practices through to multi-branch dental clinic networks.',
+      registerInterestCta: 'Register Your Interest',
+      enquireCta: 'Request Product Information',
+      plannedModulesTitle: '8 Planned Product Modules',
+      plannedModulesSub:
+        'KHAYR’s planned product architecture is structured across eight core modules supporting end-to-end dental clinic operations.',
+      plannedModules: [
+        {
+          code: '01',
+          title: 'Clinical Management & Dental EMR',
+          desc: 'Structured recording of patient anamnesis, clinical examinations, diagnoses, and chronological electronic medical records.',
+        },
+        {
+          code: '02',
+          title: 'Digital Odontogram & Treatment Planning',
+          desc: 'Visual tooth charting (Odontogram) designed to support clinical documentation and staged treatment planning.',
+        },
+        {
+          code: '03',
+          title: 'Patient Relationship Management',
+          desc: 'Centralised patient profiles, visit history, appointment communication, and longitudinal continuity of care.',
+        },
+        {
+          code: '04',
+          title: 'Appointment & Scheduling Management',
+          desc: 'Dentist schedule configuration, treatment room (dental chair) allocation, and daily appointment queue tracking.',
+        },
+        {
+          code: '05',
+          title: 'Billing & Financial Management',
+          desc: 'Invoicing workflows connected to recorded clinical procedures, payment tracking, and cashier reconciliation.',
+        },
+        {
+          code: '06',
+          title: 'Inventory & Procurement',
+          desc: 'Tracking of dental consumables and medications, including batch records, stock status indicators, and expiry alerts.',
+        },
+        {
+          code: '07',
+          title: 'Clinic & Multi-Branch Management',
+          desc: 'Configuration of service catalogues, pricing, clinical staff credentials, and multi-location clinic administration.',
+        },
+        {
+          code: '08',
+          title: 'Operational Reporting & Analytics',
+          desc: 'Operational summaries, patient visit trends, and financial visibility dashboards to support clinic management.',
+        },
+      ],
+      devPrinciplesTitle: '7 Product Development Principles',
+      devPrinciplesSub:
+        'KHAYR is being engineered around seven core principles to support reliable, practical dental clinic operations.',
+      devPrinciples: [
+        {
+          code: '01',
+          title: 'Structured Patient Records',
+          desc: 'Consistent demographic and clinical record structures designed to reduce fragmented documentation.',
+        },
+        {
+          code: '02',
+          title: 'Clinical Workflow Consistency',
+          desc: 'Connected transitions from front-desk registration to chairside treatment charting and cashier billing.',
+        },
+        {
+          code: '03',
+          title: 'Clear Patient & Encounter Context',
+          desc: 'Presenting relevant medical alerts, prior visit notes, and treatment plans clearly during consultations.',
+        },
+        {
+          code: '04',
+          title: 'Responsible Data Management',
+          desc: 'Strict separation of clinical application environments from public websites alongside structured data stewardship.',
+        },
+        {
+          code: '05',
+          title: 'User Permissions & Auditability',
+          desc: 'Role-based access controls tailored for dentists, nurses, receptionists, and clinic managers.',
+        },
+        {
+          code: '06',
+          title: 'Practical Dental Practice Workflows',
+          desc: 'Interfaces designed around real-world dental clinic routines rather than complex administrative overhead.',
+        },
+        {
+          code: '07',
+          title: 'Scalable Architecture',
+          desc: 'A cloud-ready foundation built to grow alongside additional practitioners, dental chairs, and clinic branches.',
+        },
+      ],
+      interoperabilityRoadmap: {
+        badge: 'Healthcare Standards Alignment',
+        title: 'Interoperability Development Roadmap',
+        description:
+          'KHAYR’s development roadmap considers healthcare data interoperability and relevant Indonesian healthcare standards (including the SATUSEHAT ecosystem). Specific integrations remain subject to technical development, validation testing, and applicable regulatory approval requirements.',
+      },
+      rolesTitle: 'Designed for Key Roles Across the Dental Practice',
       roles: [
         {
           role: 'Dentists & Clinical Nurses',
-          badge: 'Clinical Engine',
-          desc: 'Access chronological patient EMR, chart treatments on an interactive Digital Odontogram, record anamnesis & diagnoses, and manage chair schedules.',
+          badge: 'Clinical Workflow',
+          desc: 'Chart clinical findings on the Digital Odontogram, record anamnesis and diagnoses, and review chronological patient EMR.',
         },
         {
-          role: 'Administrative Staff',
-          badge: 'Operational Core',
-          desc: 'Manage 3-step patient reservations, coordinate daily appointment queues, track inventory stock levels, and process integrated billing.',
+          role: 'Administrative & Front-Desk Staff',
+          badge: 'Operational Workflow',
+          desc: 'Manage patient registration, coordinate daily appointment queues, monitor consumable inventory, and process billing.',
         },
         {
           role: 'Patients',
-          badge: 'Care Centre',
-          desc: 'Experience frictionless check-ins, automated appointment reminders, and seamless continuity of care from initial booking to follow-up.',
+          badge: 'Care Experience',
+          desc: 'Benefit from coordinated appointment scheduling and structured continuity of dental care.',
         },
         {
           role: 'Clinic Owners & Managers',
-          badge: 'Command Centre',
-          desc: 'Monitor real-time clinic revenue, new vs. returning patient metrics, stock expiry alerts, and performance-based KHAYR Voucher Promotion campaigns.',
+          badge: 'Practice Management',
+          desc: 'Review operational summaries, inventory status, and multi-branch clinic performance from a centralised view.',
         },
       ],
-      threePillarsTitle: 'Three Interconnected Pillars of KHAYR: Every Function, One System',
+      threePillarsTitle: 'KHAYR Functional Architecture: Configuration, Operations, and Reporting',
       threePillars: [
         {
-          name: '1. Foundation (Fondasi)',
-          subtitle: 'Configuration · Consistency & Operational Control',
+          name: '1. Practice Foundation',
+          subtitle: 'Configuration · Standardised Services & Resources',
           items: [
-            { name: 'Services & Procedures', desc: 'Complete catalogue of dental procedures and standardized pricing tiers.' },
-            { name: 'Physical Infrastructure', desc: 'Map clinic locations, branches, and individual treatment rooms.' },
-            { name: 'Products & Inventory', desc: 'Catalogue medications and dental consumables with stock tracking.' },
-            { name: 'Insurance Partnerships', desc: 'Centralised management of accepted insurance and corporate guarantors.' },
-            { name: 'Personnel & Credentials', desc: 'Centralised staff database including dentist STR/SIP license tracking.' },
-            { name: 'Smart Scheduling', desc: 'Configure dentist practice schedules by room, day, and time slot.' },
+            { name: 'Service & Procedure Catalogue', desc: 'Manage dental procedures and standardized pricing structures.' },
+            { name: 'Rooms & Branches', desc: 'Configure clinic locations and treatment rooms (dental chairs).' },
+            { name: 'Products & Consumables', desc: 'Catalogue medications and dental supplies for stock tracking.' },
+            { name: 'Staff & Dentist Profiles', desc: 'Manage practitioner schedules, credentials, and user roles.' },
           ],
         },
         {
-          name: '2. Patient Journey (Perjalanan Pasien)',
-          subtitle: 'Operations · Clinical Efficiency & Care Quality',
+          name: '2. Patient Visit Workflow',
+          subtitle: 'Daily Operations · From Registration to Billing',
           items: [
-            { name: '3-Step Smart Reservation', desc: 'Instant search by Name, Phone, or NIK to prevent duplicate patient records.' },
-            { name: 'Daily Schedule View', desc: 'Real-time appointment queue filterable by date, dentist, and status.' },
-            { name: 'Dentist Digital Cockpit', desc: 'Interactive Odontogram, anamnesis entry, diagnosis, and treatment charting.' },
-            { name: 'Complete Medical History', desc: 'Chronological EMR storing every consultation and clinical note.' },
-            { name: 'Billing & Invoicing', desc: 'Centralised payment tracking linked directly from clinical procedures.' },
+            { name: 'Scheduling & Registration', desc: 'Lookup patient profiles and assign appointment slots.' },
+            { name: 'Daily Appointment Queue', desc: 'Monitor patient arrival status by dentist and treatment room.' },
+            { name: 'Clinical EMR & Odontogram', desc: 'Document dental examinations, diagnoses, and procedures.' },
+            { name: 'Connected Billing', desc: 'Link completed clinical procedures to cashier invoicing.' },
           ],
         },
         {
-          name: '3. Command Centre (Pusat Komando)',
-          subtitle: 'Insights · Clinic Growth & Optimization',
+          name: '3. Practice Visibility & Reporting',
+          subtitle: 'Management · Operational & Inventory Oversight',
           items: [
-            { name: 'Performance Dashboard', desc: 'Revenue breakdown by category (Procedures vs. Medications) and trends.' },
-            { name: 'Active Patient Analytics', desc: 'Monthly monitoring of new patient acquisition vs. returning patient retention.' },
-            { name: 'Inventory Management', desc: 'Real-time stock alerts: Safe, Low Stock, Out of Stock, & Expiry Warnings.' },
-            { name: 'Financial Reports', desc: 'Comprehensive revenue tracking to identify clinic growth and seasonality.' },
-            { name: 'KHAYR Voucher Promotion', desc: 'Create promotional vouchers distributed across major partner apps.' },
+            { name: 'Operational Summaries', desc: 'Review visit activity and transaction summaries across periods.' },
+            { name: 'Inventory Monitoring', desc: 'Track stock availability indicators and expiry date alerts.' },
+            { name: 'Multi-Branch Administration', desc: 'Support centralised visibility across dental clinic locations.' },
           ],
         },
       ],
-      modulesTitle: 'Interactive KHAYR Dental Operating System Module Preview',
+      conceptUiBadge: 'Concept UI — Illustrative Product Preview',
+      modulesTitle: 'KHAYR Interactive Concept UI Preview',
       modulesSub:
-        'Select any module below to explore how KHAYR connects front-desk reservations, clinical odontograms, inventory, and financial analytics.',
+        'The interactive screens below are illustrative Concept UI previews using synthetic demonstration data to showcase planned workflows.',
       modules: [
         {
           id: 'reservasi',
-          tabLabel: '3-Step Reservation',
-          title: 'A Seamless First Step for Every Patient Appointment',
+          tabLabel: 'Registration & Scheduling',
+          title: 'Structured Patient Registration & Appointment Booking',
           subtitle:
-            'KHAYR’s reservation engine streamlines booking for both new and returning patients, reducing check-in errors and eliminating duplicate records.',
+            'Supports administrative staff in booking returning or new patients and assigning dentist schedules.',
           highlights: [
             {
-              title: '1. Structured 3-Step Booking Workflow',
-              desc: 'Select patient type (Returning / New) → Instant lookup or NIK registration → Assign dentist, treatment room, and slot.',
+              title: '1. Step-by-Step Appointment Booking',
+              desc: 'Select visit type → Lookup returning patient profile or register new profile → Assign dentist, room, and time slot.',
             },
             {
-              title: '2. Instant Patient Search',
-              desc: 'Lookup by full name, WhatsApp number, or national ID (NIK) to retrieve chronological records in seconds.',
+              title: '2. Centralised Patient Profile Lookup',
+              desc: 'Retrieve registered patient profiles quickly to maintain consistent visit records.',
             },
             {
-              title: '3. Zero Duplicate EMR Records',
-              desc: 'Real-time synchronization between front-desk reception and the dentist’s chairside cockpit.',
+              title: '3. Front-Desk to Operatory Coordination',
+              desc: 'Booked appointments connect directly with the clinic’s daily schedule queue.',
             },
           ],
           metrics: [
-            { label: 'Admin Time Saved', value: '40%', delta: 'Faster front-desk flow' },
-            { label: 'Patient No-Show Reduction', value: '3×', delta: 'Automated reminders' },
-            { label: 'Record Accuracy', value: '99.4%', delta: 'Unified patient ID' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Structured',
+              delta: 'Consistent registration data',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Connected',
+              delta: 'Front-desk to operatory flow',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Centralised',
+              delta: 'Unified patient profiles',
+            },
           ],
         },
         {
           id: 'jadwal',
           tabLabel: 'Daily Appointment Queue',
-          title: 'Real-Time Dental Chair & Queue Visibility',
+          title: 'Dentist Schedule & Treatment Room Queue Visibility',
           subtitle:
-            'Monitor all dentist schedules across treatment rooms with live patient arrival and procedure status indicators.',
+            'Displays daily appointments filterable by dentist, treatment room, and patient visit status.',
           highlights: [
             {
-              title: 'Multi-Dimensional Filtering',
-              desc: 'Filter daily appointments by date, specialist dentist, treatment room, or confirmation status.',
+              title: 'Multi-View Schedule Filtering',
+              desc: 'Filter daily appointments by date, practitioner, or visit confirmation status.',
             },
             {
-              title: 'Live Status Transitions',
-              desc: 'Track patients smoothly from Confirmed → Waiting → In Treatment → Completed & Ready for Billing.',
+              title: 'Clear Visit Status Transitions',
+              desc: 'Follow patient progress from Scheduled to Waiting, In Treatment, and Completed.',
             },
             {
-              title: 'Optimal Chair Utilization',
-              desc: 'Prevent scheduling conflicts and maximize dental unit productivity across shifts.',
+              title: 'Treatment Room Coordination',
+              desc: 'Helps coordinate dental chair allocation across practitioners.',
             },
           ],
           metrics: [
-            { label: 'Appointments Today', value: '28', delta: '↑ 4 vs yesterday' },
-            { label: 'Attendance Rate', value: '94%', delta: '↑ 8% vs last month' },
-            { label: 'Avg Wait Time', value: '< 9 min', delta: 'Coordinated queue' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Scheduled',
+              delta: 'Daily queue visibility',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Coordinated',
+              delta: 'Clear visit status tracking',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Multi-Room',
+              delta: 'Dentist schedule management',
+            },
           ],
         },
         {
           id: 'klinis',
           tabLabel: 'Clinical EMR & Odontogram',
-          title: 'Dentist Digital Cockpit with Interactive Odontogram Charting',
+          title: 'Clinical Documentation & Interactive Digital Odontogram',
           subtitle:
-            'Purpose-built dental documentation featuring an interactive FDI Odontogram, structured anamnesis, and automated billing handoff.',
+            'Dentist charting interface featuring an interactive FDI Odontogram, structured anamnesis, and treatment recording.',
           highlights: [
             {
               title: 'Interactive Visual Odontogram',
-              desc: 'Click individual tooth surfaces to record caries, restorations, endodontic root canal therapy, crowns, or extractions.',
+              desc: 'Select individual tooth numbers to record clinical status, restorations, root canal therapy, or planned procedures.',
             },
             {
-              title: 'Automated Procedure-to-Invoice Link',
-              desc: 'Selected clinical procedures automatically deduct linked consumables and generate a draft invoice for reception.',
+              title: 'Procedure-to-Billing Handoff',
+              desc: 'Recorded clinical procedures can be forwarded to assist cashier invoice preparation.',
             },
             {
-              title: 'Standards-Aware Interoperability',
-              desc: 'Structured clinical data model designed for alignment with national health data exchange standards (SATUSEHAT).',
+              title: 'Standards-Aware Data Structure',
+              desc: 'Clinical fields are structured with healthcare interoperability standards in mind.',
             },
           ],
           metrics: [
-            { label: 'Tooth Charting Standard', value: 'FDI 32/20', delta: 'Interactive Odontogram' },
-            { label: 'Billing & Stock Sync', value: 'Automated', delta: 'Zero double entry' },
-            { label: 'Medical Record Security', value: '256-bit', delta: 'Role-based access' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'FDI Chart',
+              delta: 'Odontogram & clinical notes',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Integrated',
+              delta: 'Procedure to billing draft',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Role-Based',
+              delta: 'User access permissions',
+            },
           ],
         },
         {
           id: 'riwayat',
           tabLabel: 'Medical History (EMR)',
-          title: 'Complete, Protected Chronological Electronic Medical Records',
+          title: 'Chronological Patient Electronic Medical Record Timeline',
           subtitle:
-            'Every consultation, clinical note, allergy alert, and treatment plan organized in one longitudinal patient timeline.',
+            'Organises prior consultations, recorded procedures, and important medical alerts in a longitudinal view.',
           highlights: [
             {
               title: 'Longitudinal Care Continuity',
-              desc: 'Review multi-visit root canal progress or orthodontic adjustments effortlessly across dentists.',
+              desc: 'Enables dentists to review prior visit notes and multi-stage dental treatments across consultations.',
             },
             {
-              title: 'Clinical Allergy & Medical Alerts',
-              desc: 'High-visibility flags for hypertension, diabetes, or drug allergies before procedures begin.',
+              title: 'Medical & Allergy Context Alerts',
+              desc: 'Highlights recorded patient allergies or medical conditions prior to treatment.',
             },
             {
-              title: 'Strict Role-Based Access & Audit Trail',
-              desc: 'Ensures sensitive clinical records are accessed only by authorized healthcare personnel.',
+              title: 'Permission-Controlled Access',
+              desc: 'Designed with role-based permissions for authorised clinical personnel.',
             },
           ],
           metrics: [
-            { label: 'History Retrieval', value: '< 2 sec', delta: 'Indexed EMR search' },
-            { label: 'System Audit Trail', value: '100%', delta: 'Logged per user action' },
-            { label: 'Encrypted Backups', value: 'Daily', delta: 'Cloud data protection' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Chronological',
+              delta: 'Longitudinal visit timeline',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Contextual',
+              delta: 'Integrated medical history',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Governed',
+              delta: 'Role-based authorisation',
+            },
           ],
         },
         {
           id: 'inventaris',
-          tabLabel: 'Inventory Control',
-          title: 'Real-Time Dental Consumables & Expiry Date Monitoring',
+          tabLabel: 'Inventory & Procurement',
+          title: 'Dental Consumables & Medication Stock Monitoring',
           subtitle:
-            'Prevent stockouts of composites, anesthetics, and sterilization supplies with automated status classification.',
+            'Helps clinic administrators monitor dental supply levels, batch numbers, and approaching expiry dates.',
           highlights: [
             {
-              title: '4 Real-Time Stock States',
-              desc: 'Instant visibility across Safe Stock, Low Stock, Out of Stock, and Approaching Expiry items.',
+              title: 'Stock Availability Indicators',
+              desc: 'Provides visibility into Safe Stock, Low Stock, Out of Stock, and Approaching Expiry items.',
             },
             {
-              title: 'Batch & Expiry Date Tracking',
-              desc: 'Enforce FEFO (First Expired, First Out) dispensing for clinical safety and cost control.',
+              title: 'Batch & Expiry Date Records',
+              desc: 'Supports organised storage and tracking of clinical consumables.',
             },
             {
-              title: 'Procurement & Usage Reconciliation',
-              desc: 'Track consumable usage directly against completed dental procedures.',
+              title: 'Procurement Planning Support',
+              desc: 'Helps staff identify items requiring replenishment.',
             },
           ],
           metrics: [
-            { label: 'Tracked Catalogue', value: '340+ SKUs', delta: 'Medications & Consumables' },
-            { label: 'Early Expiry Alert', value: '60 Days', delta: 'Automated warning' },
-            { label: 'Waste Reduction', value: '+28%', delta: 'Optimized stock turnover' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'SKU Catalogue',
+              delta: 'Consumable & item records',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Monitored',
+              delta: 'Stock & expiry indicators',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Planned',
+              delta: 'Clinic procurement visibility',
+            },
           ],
         },
         {
           id: 'analitik',
-          tabLabel: 'Analytics & Finance',
-          title: 'Clinic Performance Command Centre & Transparent Billing Reports',
+          tabLabel: 'Reporting & Finance',
+          title: 'Operational Reporting & Clinic Financial Summaries',
           subtitle:
-            'Make data-driven management decisions: track procedure vs. medication revenue, dentist utilization, and voucher ROI.',
+            'Provides transaction summaries, visit trends, and operational reports to support clinic management review.',
           highlights: [
             {
-              title: 'Revenue & Growth Dashboards',
-              desc: 'Visualize daily, weekly, and monthly revenue alongside payment method and insurance breakdowns.',
+              title: 'Billing & Revenue Summaries',
+              desc: 'View transaction breakdowns across dental procedures and dispensed products.',
             },
             {
-              title: 'New vs. Returning Patient Analytics',
-              desc: 'Measure patient acquisition from partner promotions alongside long-term clinic retention.',
+              title: 'Patient Visit Activity Reports',
+              desc: 'Monitor new and returning patient visit activity over selected periods.',
             },
             {
-              title: 'Transparent Credit Balance & Voucher Ledger',
-              desc: 'Full auditability of prepaid KHAYR credit deductions for redeemed promotional vouchers.',
+              title: 'Practice Management Visibility',
+              desc: 'Supports clinic owners and managers in reviewing operational performance.',
             },
           ],
           metrics: [
-            { label: 'Sample Weekly Revenue', value: 'Rp48M', delta: '↑ 12% this week' },
-            { label: 'Patient Retention Rate', value: '76%', delta: 'Monthly active base' },
-            { label: 'Financial Reporting', value: 'Real-Time', delta: 'Export-ready ledger' },
+            {
+              label: 'Structured Clinical Documentation',
+              value: 'Summarised',
+              delta: 'Structured billing records',
+            },
+            {
+              label: 'Connected Patient Workflows',
+              value: 'Reporting',
+              delta: 'Clinic activity overview',
+            },
+            {
+              label: 'Centralised Practice Management',
+              value: 'Managerial',
+              delta: 'Practice operations review',
+            },
           ],
         },
       ],
       voucherSystem: {
-        kicker: 'CLINIC GROWTH ENGINE · KHAYR VOUCHER PROMOTION',
-        heading: 'Effortless Dental Clinic Promotions with Performance-Based Pricing',
-        lead: 'KHAYR Voucher Promotion enables dental clinics to create promotional vouchers for specific treatments (such as Scaling, Bleaching, or Orthodontic Consultations) directly inside KHAYR at zero upfront cost and distribute them across major partner applications.',
-        partnerAppsLabel: 'Distributed Across 5 Leading Partner Applications',
-        partnerApps: ['Telkomsel (MyTelkomsel)', 'Indosat (myIM3)', 'AXISNET', 'XL (myXL)', 'AstraPay'],
+        kicker: 'PROPOSED DIGITAL PROMOTION ECOSYSTEM · KHAYR',
+        heading: 'Proposed Digital Voucher Distribution Ecosystem',
+        lead: 'As part of its ecosystem roadmap, KHAYR includes a proposed digital voucher distribution concept designed to help dental clinics manage promotional service packages and connect with prospective patients through digital partner channels.',
+        partnerAppsLabel: 'Planned Digital Distribution Channel Categories',
+        partnerApps: [
+          'Digital Telecommunications Platforms',
+          'Digital Wallet & Payment Ecosystems',
+          'Corporate Loyalty & Membership Programs',
+          'Partner Healthcare Directories',
+        ],
         benefits: [
           {
-            step: 'Advantage 01',
-            title: 'Zero Upfront Voucher Creation Cost',
-            desc: 'Clinics can design promotional offers and publish vouchers directly from KHAYR with zero registration or creation fees.',
+            step: 'Concept 01',
+            title: 'Structured Promotional Campaign Setup',
+            desc: 'Designed to allow clinics to configure service vouchers and promotional packages within the platform.',
           },
           {
-            step: 'Advantage 02',
-            title: 'Reach Millions of Active Partner Users',
-            desc: 'Your clinic vouchers are showcased across Telkomsel, Indosat, AXISNET, XL, and AstraPay to attract new prospective patients.',
+            step: 'Concept 02',
+            title: 'Patient Outreach via Digital Channels',
+            desc: 'Aims to connect clinic promotional offers with prospective patients across digital partner channels.',
           },
           {
-            step: 'Advantage 03',
-            title: 'Usage-Based Fee Aligned with Revenue',
-            desc: 'Promotional fees apply only when a patient redeems the voucher for an actual treatment transaction at your clinic.',
+            step: 'Concept 03',
+            title: 'Redemption Tracking Linked to Billing',
+            desc: 'Designed so redeemed clinic vouchers are recorded clearly within administrative billing reports.',
           },
         ],
         workflowSteps: [
           {
             num: '01',
-            title: 'Create Voucher in KHAYR',
-            desc: 'Select the dental service (e.g., 30% Off Scaling), quota, and validity period with zero upfront cost.',
+            title: 'Configure Voucher Offer',
+            desc: 'Clinic defines the dental service package, quota, and validity period in the proposed module.',
           },
           {
             num: '02',
-            title: 'Published on 5 Partner Apps',
-            desc: 'Vouchers are automatically distributed to partner apps where users can claim or redeem points.',
+            title: 'Distribute via Confirmed Channels',
+            desc: 'Offers are published through digital partner channels subject to active partnership agreements.',
           },
           {
             num: '03',
-            title: 'Patient Visits Your Clinic',
-            desc: 'The patient books an appointment, visits your clinic, and presents the active voucher code.',
+            title: 'Patient Booking & Clinic Visit',
+            desc: 'Prospective patient schedules an appointment and presents the voucher code at the clinic.',
           },
           {
             num: '04',
-            title: 'Transaction & Auto Credit Deduction',
-            desc: 'Upon checkout, the promotional commission is automatically deducted from your KHAYR prepaid credit balance.',
+            title: 'Verification & Billing Record',
+            desc: 'Redemption is verified and logged within the clinic’s billing summary.',
           },
         ],
+        disclosure:
+          'Required Disclosure: The Proposed Digital Voucher Distribution Ecosystem represents a planned commercial and partnership capability under development. Third-party distribution channels are subject to formal partnership agreements, technical integration, and commercial readiness.',
       },
       governanceFootnote:
-        'Development-Stage Disclosure: KHAYR is currently under development and validation by PT Neomedika Elektra Optima. Product scope, interface previews, partner integrations, and release timing are subject to technical validation and commercial readiness.',
+        'Product Status Disclosure: KHAYR is a software platform currently under development and validation by PT Neomedika Elektra Optima (NEO). All interface previews shown on this page are illustrative Concept UI previews (Concept UI — Illustrative Product Preview) using synthetic demonstration data. Module availability, feature specifications, and third-party integrations remain subject to ongoing development and validation.',
     },
     neolyte: {
-      sectionNumber: '04. Healthcare Hygiene Line · Neolyte™',
-      kicker: 'Neomedika Healthcare Hygiene Portfolio · Hypochlorous Acid (HOCl) Water-Based Technology',
-      heading: 'Neolyte™ — Safe, Effective, and Eco-Friendly Water-Based Disinfectant & Sanitizer.',
-      tagline: '100% Alcohol-Free (0%), Non-Toxic, Non-Corrosive, and Lab-Verified Efficacy.',
-      lead: 'Neolyte is a non-toxic antiseptic and disinfectant solution engineered to eliminate viruses, germs, bacteria, and fungi using active Hypochlorous Acid (HOCl)—the exact natural antimicrobial compound produced by human white blood cells (neutrophils) to defend against pathogens.',
+      sectionNumber: 'Page 05 · Our Products: Neolyte',
+      kicker: 'HOCl-Based Sanitizer & Disinfectant Product Line',
+      heading: 'Neolyte Healthcare Hygiene Solutions',
+      tagline: 'Hypochlorous Acid (HOCl) Sanitizer and Disinfectant Product Line for Medical, Dental, and Everyday Hygiene Needs.',
+      lead: 'Neolyte is PT Neomedika Elektra Optima’s (NEO) healthcare hygiene product line formulated with water-based, alcohol-free (0%) Hypochlorous Acid (HOCl). Neolyte is designed to support hand hygiene as well as surface and equipment disinfection across healthcare facilities, dental clinics, and public environments.',
       scienceQuote:
-        '“Anolyte (HOCl) disinfectant is clinically proven to be up to 100 times more effective than standard bleach (NaOCl), eliminating 99.99% of harmful bacteria, viruses, and germs while remaining 100% safe for humans, pets, and the environment.”',
-      scienceSource: 'Scientific Reference & Verification: IPB University Laboratory Testing & EPA / CDC Active Ingredient Recognition.',
-      enquireCta: 'Order / Enquire About Neolyte',
+        'Hypochlorous Acid (HOCl) is a water-based antimicrobial compound used in modern hygiene formulations to support alcohol-free hand sanitization as well as hard-surface and non-critical equipment disinfection.',
+      scienceSource:
+        'Product Registration & Testing: Registered under Indonesian Ministry of Health (KEMENKES RI PKD) household health supplies regulations and supported by laboratory testing documentation.',
+      enquireCta: 'Product Enquiry',
+      documentationCta: 'Request Product Documentation',
+      safetyPillars: [
+        { title: 'HOCl FORMULATION', sub: 'Hypochlorous Acid Active Ingredient' },
+        { title: '0% ALCOHOL', sub: 'Alcohol-Free Water-Based Formula' },
+        { title: 'KEMENKES RI PKD', sub: 'Registered PKRT Marketing Authorisation' },
+        { title: 'MULTI-ENVIRONMENT', sub: 'Clinics, Hospitals & Public Spaces' },
+      ],
       coreAdvantages: [
         {
-          title: 'Effective (Kills 99.99% of Pathogens)',
-          subtitle: 'Replicates the Human Immune Response',
-          desc: 'Formulated by replicating the human body’s natural HOCl defense mechanism, delivering rapid broad-spectrum efficacy against viruses, bacteria, and fungi.',
+          title: 'Water-Based Formula (0% Alcohol)',
+          subtitle: 'Hypochlorous Acid (HOCl) Technology',
+          desc: 'Formulated with water-based HOCl that is non-flammable and suitable for routine hygiene protocols.',
         },
         {
-          title: 'Gentle (0% Alcohol & Non-Irritating)',
-          subtitle: 'Baby Safe · Food Grade · Non-Toxic',
-          desc: '100% alcohol-free, non-corrosive, non-caustic, and non-dehydrating. Ideal for sensitive skin, healthcare workers, and baby-safe environments.',
+          title: 'Two Purpose-Built Variants (SN & DS)',
+          subtitle: 'Hand Sanitization vs. Surface Disinfection',
+          desc: 'Available in dedicated formulations for hand and body sanitization (Neolyte SN) and surface and equipment disinfection (Neolyte DS).',
         },
         {
-          title: 'Convenient (Quick-Drying & Residue-Free)',
-          subtitle: 'Ready for Hands, Surfaces & Air',
-          desc: 'Fast-drying water-based mist that leaves zero sticky residue and requires no rinsing on everyday surfaces.',
+          title: 'Practical Application Formats',
+          subtitle: 'Multiple Packaging Sizes & Dispensers',
+          desc: 'Can be applied via spray bottles, touchless dispensers, or compatible facility spraying equipment in accordance with label directions.',
         },
         {
-          title: 'Multi-Purpose (Medical to Household)',
-          subtitle: 'Hospitals, Dental Clinics, Food Safety & Public Spaces',
-          desc: 'Trusted across healthcare facilities, dental practices, food & beverage sterilization, water treatment, and household hygiene.',
+          title: 'Supports Healthcare Facility Hygiene',
+          subtitle: 'Dental Clinics, Hospitals & Public Facilities',
+          desc: 'Designed to complement routine environmental cleaning and hand hygiene in dental operatories, waiting areas, offices, and homes.',
         },
       ],
       variants: [
         {
           code: 'SN',
           name: 'Neolyte SN — Hand & Body Sanitizer',
-          category: 'Water-Based Antiseptic for Hands & Skin',
+          category: 'Water-Based Hand & Body Sanitizer',
           ph: 'pH 4.5 – 5.5',
           ppm: '60 ppm HOCl',
           kemenkesNo: 'KEMENKES RI PKD 20501023189',
           colorHex: '#65B741',
           description:
-            'A gentle, skin-neutral, alcohol-free antiseptic solution that eliminates viruses, bacteria, and fungi on hands and body without irritation or dryness. Ideal for Hospitals, Clinics, Offices, Schools, and Homes.',
+            'An alcohol-free (0%), water-based hand and body sanitizer formulated with Hypochlorous Acid (HOCl) to support routine hand hygiene for healthcare personnel, patients, and visitors across clinical and everyday settings.',
           useCases: [
-            'Routine hand antisepsis for dentists, medical staff, and patients',
-            'Safe hand sanitization for children and sensitive skin (0% alcohol, non-stinging)',
-            'Refill solution for touchless Automatic Hand Sanitizer Dispensers',
+            'Routine hand sanitization for clinicians, dental staff, patients, and visitors',
+            'Alcohol-free hand hygiene option for frequent daily use',
+            'Refill solution for automatic touchless hand sanitizer dispensers in clinics and buildings',
           ],
           sizes: ['60 ml', '100 ml', '250 ml', '500 ml', '1000 ml', '5000 ml'],
         },
         {
           code: 'DS',
-          name: 'Neolyte DS — Safe & Effective Disinfectant',
-          category: 'Clinical Surface, Equipment & Air Disinfectant',
+          name: 'Neolyte DS — Surface & Equipment Disinfectant',
+          category: 'Facility Surface & Equipment Disinfectant',
           ph: 'pH 6.0 – 7.0',
           ppm: '160 – 220 ppm HOCl',
           kemenkesNo: 'KEMENKES RI PKD 20502023190',
           colorHex: '#189AB4',
           description:
-            'A high-potency, non-corrosive disinfectant solution for medical surfaces, dental chairs, room air purification, and food-contact sterilization. Can be used undiluted or diluted with Aquades / RO Water.',
+            'A Hypochlorous Acid (HOCl) disinfectant solution designed for hard surfaces, healthcare facility furniture, dental chair units, and non-critical equipment. Can be applied directly or diluted with Aquades / RO Water in accordance with official label instructions.',
           useCases: [
-            'Disinfection of dental units, hospital wards, clinics, and community health centers (Puskesmas)',
-            'Room air purification (Diffuser/Humidifier), cold fogging, and Neogate chambers',
-            'Sterilization of baby equipment, kitchen utensils, and fresh food ingredients',
+            'Surface disinfection in dental clinics, hospitals, outpatient clinics, and laboratories',
+            'Routine sanitization of waiting lounges, worktables, door handles, and public spaces',
+            'Application in surface sprayers and Neogate disinfection chambers per usage guidelines',
           ],
           sizes: ['250 ml', '500 ml', '1000 ml', '5000 ml'],
         },
       ],
       certifications: {
-        title: 'Official Ministry of Health Registrations & Laboratory Verification',
+        title: 'Marketing Authorisations & Laboratory Testing Documentation',
         subtitle:
-          'Neolyte SN and Neolyte DS are backed by Indonesian Ministry of Health (KEMENKES RI) distribution permits, Halal MUI certification, and accredited laboratory testing.',
+          'Neolyte products are supported by Indonesian Ministry of Health (KEMENKES RI PKD) registrations and laboratory testing reports.',
         items: [
           {
-            badge: 'Distribution Permit',
+            badge: 'KEMENKES RI Registration',
             title: 'KEMENKES RI PKD 20501023189',
-            reference: 'Neolyte SN (Hand & Body Sanitizer)',
-            detail: 'Officially registered with the Ministry of Health of the Republic of Indonesia under Antiseptic / Household Health Supplies.',
+            reference: 'Neolyte SN — Hand & Body Sanitizer',
+            detail:
+              'Registered with the Ministry of Health of the Republic of Indonesia under household health supplies (PKRT) antiseptic/sanitizer classification.',
           },
           {
-            badge: 'Distribution Permit',
+            badge: 'KEMENKES RI Registration',
             title: 'KEMENKES RI PKD 20502023190',
-            reference: 'Neolyte DS (Safe & Effective Disinfectant)',
-            detail: 'Officially registered with the Ministry of Health of the Republic of Indonesia under Disinfectant / Household Health Supplies.',
+            reference: 'Neolyte DS — Surface & Equipment Disinfectant',
+            detail:
+              'Registered with the Ministry of Health of the Republic of Indonesia under household health supplies (PKRT) disinfectant classification.',
           },
           {
-            badge: 'IPB Lab Tested',
-            title: '> 99.999% Bactericidal Efficacy',
-            reference: 'IPB University Testing, Calibration & Certification Laboratory',
-            detail: 'Verified bactericidal efficacy against Escherichia coli, Staphylococcus aureus, Pseudomonas aeruginosa, and Enterococcus hirae (EN 1276 standard).',
+            badge: 'Laboratory Testing',
+            title: 'Antimicrobial Laboratory Test Reports',
+            reference: 'Tested Against Standard Reference Bacteria',
+            detail:
+              'Supported by accredited laboratory testing reports evaluating bactericidal activity. Official documentation is available upon request.',
           },
           {
-            badge: 'Safety & Halal',
-            title: 'Halal MUI & EPA/CDC Recognised HOCl',
-            reference: 'Majelis Ulama Indonesia & Global HOCl Standards',
-            detail: 'Hypochlorous Acid (HOCl) is recognized by the EPA & CDC as a safe, effective disinfectant (Baby Safe, Food Grade, 0% Alcohol, Non-Toxic).',
+            badge: 'Quality & Compliance',
+            title: 'Halal Certification & Labelling Standards',
+            reference: 'Verified Production & Labelling Governance',
+            detail:
+              'Manufactured under structured quality controls to support institutional and healthcare facility procurement.',
           },
         ],
       },
-      comparisonTitle: 'Product Comparison: HOCl (Neolyte™) vs. Conventional Disinfectants',
+      comparisonTitle: 'Characteristics of HOCl Formulations vs. Common Cleaning Agents',
       comparisonSub:
-        'Neolyte occupies the Ideal Zone: combining high antimicrobial potency against bacteria, fungi, and viruses with a non-toxic, non-irritating safety profile.',
+        'An overview of general handling and application characteristics comparing water-based Hypochlorous Acid (HOCl) with conventional agents.',
       comparisons: [
         {
-          agent: 'HOCl (Neolyte™)',
-          efficacy: 'High Potency (Bacteria, Viruses, Fungi, Spores)',
-          safetyProfile: 'Ideal Zone: Effective, Eco-Friendly, Non-Toxic & Non-Irritating',
-          scorePercent: 98,
+          agent: 'Hypochlorous Acid / HOCl (Neolyte™)',
+          efficacy: 'Water-Based Sanitization & Disinfection',
+          safetyProfile:
+            'Alcohol-free (0%), non-flammable, and formulated for hand sanitization (SN) and facility surface disinfection (DS) per label instructions.',
+          scorePercent: 95,
           isNeolyte: true,
         },
         {
           agent: 'Alcohol (70%–90%)',
-          efficacy: 'Moderate (Limited against certain spores)',
-          safetyProfile: 'Causes skin irritation, dryness/dermatitis, and is flammable',
-          scorePercent: 62,
+          efficacy: 'Rapid-Evaporating Antiseptic & Surface Wipe',
+          safetyProfile:
+            'Flammable liquid; frequent repeated use may cause skin dryness for some users.',
+          scorePercent: 68,
         },
         {
-          agent: 'Chlorine / Bleach (NaClO)',
-          efficacy: 'High against bacteria & viruses',
-          safetyProfile: 'Toxic, corrosive to surfaces/metals, and irritating to respiratory tract',
+          agent: 'Sodium Hypochlorite / Bleach (NaOCl)',
+          efficacy: 'Heavy-Duty Hard Surface Disinfectant',
+          safetyProfile:
+            'Strong odour, potentially corrosive to certain metals, and requires careful ventilation and handling.',
           scorePercent: 55,
         },
         {
-          agent: 'Iodine / Povidone',
-          efficacy: 'Moderate–High',
-          safetyProfile: 'Leaves surface stains and can cause stinging on skin',
+          agent: 'Povidone Iodine',
+          efficacy: 'Topical Antiseptic Solution',
+          safetyProfile:
+            'Leaves visible staining on surfaces and is not intended for broad environmental surface spraying.',
           scorePercent: 50,
         },
         {
-          agent: 'Standard Soap',
-          efficacy: 'Minimal direct antimicrobial action',
-          safetyProfile: 'Safe but requires water rinsing and cannot sterilize room air or equipment',
-          scorePercent: 30,
+          agent: 'Soap & Running Water',
+          efficacy: 'Basic Physical Cleaning',
+          safetyProfile:
+            'Essential for handwashing but requires sink access and water rinsing.',
+          scorePercent: 40,
         },
       ],
-      dilutionCalculatorTitle: 'Interactive Neolyte DS (220 ppm) Dilution Calculator & Application Guide',
+      dilutionCalculatorTitle:
+        'Illustrative Neolyte DS (220 ppm) Dilution Calculator',
       dilutionCalculatorSub:
-        'Select your target application and total volume below to calculate the exact quantities of Neolyte DS and Aquades / RO Water.',
-      devicesTitle: 'Compatible Sanitizer & Disinfectant Application Equipment',
+        'Select an illustrative dilution ratio and target volume to estimate Neolyte DS and Aquades / RO Water quantities.',
+      dilutionOfficialNotice:
+        'Important — Official Label Guidance: This dilution calculator is provided for illustrative reference only. Users must always read and follow the approved product label, official dilution instructions, and safety guidance accompanying the product.',
+      devicesTitle: 'Compatible Sanitization Application Equipment',
       devicesSub:
-        'Neolyte integrates seamlessly with modern sanitization hardware for comprehensive environmental protection.',
+        'Neolyte solutions can be applied using compatible dispensing and spraying equipment across healthcare and public facilities.',
       devices: [
         {
           name: 'Ultrasonic Diffuser / Humidifier',
-          method: 'Air Purification & Disinfection (1:4 Ratio)',
-          useCase: 'Continuous air sanitization in dental treatment rooms, patient waiting areas, vehicles, and homes.',
+          method: 'Indoor Room Application (Illustrative 1:4 Ratio)',
+          useCase:
+            'Used to support indoor room sanitization in waiting areas and offices in accordance with equipment instructions.',
         },
         {
-          name: 'Electric Sprayer (5L Portable)',
-          method: 'Wide-Area Surface Spraying (1:1 – 1:3 Ratio)',
-          useCase: 'Routine surface disinfection across hospitals, clinics, offices, and educational facilities.',
+          name: 'Electric Surface Sprayer (5L)',
+          method: 'Broad Surface Spraying (Illustrative 1:1 – 1:3 Ratio)',
+          useCase:
+            'Supports routine surface disinfection across outpatient clinics, treatment rooms, offices, and schools.',
         },
         {
           name: 'Automatic Hand Sanitizer Dispenser',
-          method: 'Touchless Hand Antisepsis (Neolyte SN 60 ppm)',
-          useCase: 'Alcohol-free automated hand sanitization at clinic entrances, hospital wards, and lobbies.',
+          method: 'Touchless Dispensing (Neolyte SN 60 ppm)',
+          useCase:
+            'Provides convenient alcohol-free hand sanitization at clinic entrances, hospital lobbies, and offices.',
         },
         {
-          name: 'Cold Fogging Machine',
-          method: 'Micro-Droplet Room Fogging (1:1 – 1:2 Ratio)',
-          useCase: 'Deep sterilization of operating rooms, dental operatories, isolation rooms, and commercial halls.',
+          name: 'Cold Fogger / Mist Sprayer',
+          method: 'Fine Mist Application (Illustrative 1:1 – 1:2 Ratio)',
+          useCase:
+            'Supports scheduled room disinfection protocols in healthcare facilities and building halls.',
         },
         {
-          name: 'Neogate™ Disinfectant Chamber / Fog Gate',
-          method: 'Automated Walk-Through Chamber (1:3 Ratio)',
-          useCase: 'Neomedika’s flagship non-toxic misting gate for high-traffic building and healthcare facility entrances.',
+          name: 'Neogate™ Disinfection Chamber',
+          method: 'Facility Entrance Chamber (Illustrative 1:3 Ratio)',
+          useCase:
+            'Neomedika-engineered sanitization chamber supporting entrance hygiene protocols for buildings and facilities.',
         },
         {
-          name: 'Microfiber Spray Mop',
-          method: 'Daily Floor Sanitization (1:2 – 1:3 Ratio)',
-          useCase: 'Rapid, residue-free floor disinfection for clinical rooms and residential spaces.',
+          name: 'Spray Mop & Surface Cleaning Tools',
+          method: 'Routine Floor & Surface Cleaning (Illustrative 1:2 – 1:3 Ratio)',
+          useCase:
+            'Practical daily floor and hard-surface cleaning in clinics and workplaces.',
         },
       ],
+      productDisclosure:
+        'Product Specification Disclosure: Always use Neolyte SN (KEMENKES RI PKD 20501023189) and Neolyte DS (KEMENKES RI PKD 20502023190) strictly in accordance with their approved product labels and official instructions. Information on this website is provided for corporate overview purposes and does not replace official product labelling or facility infection-control protocols.',
     },
     technology: {
-      sectionNumber: '05. Technology & Our Approach',
-      kicker: 'Connected by Design · Built for Healthcare',
-      heading: 'Building Technology Around Real Healthcare Needs.',
-      lead: 'PT Neomedika Elektra Optima’s technology direction centres on building adaptable digital platforms and connected systems capable of supporting complex healthcare workflows.',
+      sectionNumber: 'Page 06 · Technology',
+      kicker: 'Technology & Product Development Principles · PT Neomedika Elektra Optima',
+      heading: 'Six Engineering Principles for Connected Healthcare.',
+      lead: 'Technology development at PT Neomedika Elektra Optima (NEO) is guided by six core architectural principles to ensure our platforms are practical, secure, and aligned with healthcare operational realities.',
       principles: [
         {
           index: '01',
           title: 'Integration by Design',
-          desc: 'We aim to reduce fragmentation through systems engineered to connect clinical, administrative, financial, and partner environments.',
+          desc: 'Our platforms are architected from the ground up to connect clinical documentation, scheduling, billing, and inventory—reducing workflow fragmentation across healthcare facilities.',
         },
         {
           index: '02',
-          title: 'Scalable Cloud Architecture',
-          desc: 'We pursue technology foundations that evolve seamlessly as clinics, patient volumes, branches, and product modules grow.',
+          title: 'Scalable Architecture',
+          desc: 'We build modular, cloud-ready software foundations capable of scaling smoothly from single-practitioner clinics to multi-branch healthcare networks.',
         },
         {
           index: '03',
-          title: 'Security & Responsible Data Management',
-          desc: 'We enforce role-based access control (RBAC), encryption, and system auditability to safeguard healthcare and operational records.',
+          title: 'Security by Design',
+          desc: 'We apply layered security principles, strict separation between public corporate websites and clinical application environments, and role-based access controls.',
         },
         {
           index: '04',
-          title: 'Standards-Aware Interoperability',
-          desc: 'We prioritize structured data exchange and API connectivity, including alignment with national healthcare standards such as SATUSEHAT.',
+          title: 'Responsible Data Management',
+          desc: 'We prioritise data confidentiality, integrity, and structured stewardship in alignment with applicable Indonesian data protection principles.',
         },
         {
           index: '05',
-          title: 'Intelligent Workflows',
-          desc: 'We apply workflow automation and operational analytics to improve efficiency while preserving clinical human oversight.',
+          title: 'Standards-Aware Interoperability',
+          desc: 'Our data models and API architectures are designed with healthcare data exchange standards and national interoperability roadmaps in mind.',
         },
         {
           index: '06',
-          title: 'Human-Centred Validation',
-          desc: 'Every product capability is designed and validated around the real day-to-day workflows of clinicians, staff, and patients.',
+          title: 'Human-Centred Product Validation',
+          desc: 'We validate product workflows iteratively with dentists, clinicians, and administrative staff so technology remains intuitive and practical in daily use.',
         },
       ],
-      approachHeading: 'Responsible Innovation. Practical Execution.',
+      approachHeading: 'Development Governance & Technical Transparency',
       approachLead:
-        'We follow a structured product lifecycle: understand healthcare workflows, validate user experiences, test operational reliability, and uphold regulatory governance.',
+        'We maintain clear distinction between commercially available products, capabilities under active validation, and long-term roadmap initiatives.',
       governanceBlocks: [
         {
-          title: 'Quality & Reliability',
-          desc: 'Quality assurance practices span product design, laboratory and software testing, clinical onboarding, and ongoing operational support.',
+          title: 'Public Website vs. Application Separation',
+          desc: 'This corporate website serves strictly as an informational and business enquiry channel, isolated from clinical or patient databases.',
         },
         {
-          title: 'Security & Privacy Protection',
-          desc: 'Our platforms are designed in line with applicable Indonesian personal data protection obligations and strict separation of corporate vs. clinical environments.',
+          title: 'Privacy & Business Data Protection',
+          desc: 'Business contact enquiries are collected transparently with user acknowledgement in accordance with our corporate Privacy Notice.',
         },
         {
-          title: 'Compliance & Verified Claims',
-          desc: 'All regulatory disclosures—such as KEMENKES RI PKD registrations for Neolyte and development-stage labels for KHAYR—are transparently maintained.',
+          title: 'Staged Validation & Release Discipline',
+          desc: 'Software modules and external integrations undergo technical testing and workflow validation prior to commercial release.',
         },
         {
-          title: 'Corporate Governance',
-          desc: 'Clear intellectual property management, risk oversight, and product accountability under PT Neomedika Elektra Optima.',
+          title: 'Regulatory & Standards Alignment',
+          desc: 'Product development and communications follow applicable Indonesian healthcare regulations and marketing authorisation requirements.',
         },
       ],
     },
     partnerships: {
-      sectionNumber: '06. Partnership Ecosystem',
-      kicker: 'Better Healthcare Is Built Together',
-      heading: 'Creating Greater Impact Through Collaboration.',
-      lead: 'We believe the future of healthcare technology will be shaped by collaboration between healthcare providers, technology companies, institutions, and strategic partners.',
+      sectionNumber: 'Page 07 · Partnerships',
+      kicker: 'Healthcare Ecosystem Collaboration · PT Neomedika Elektra Optima',
+      heading: 'Building Connected Healthcare Through Strategic Partnerships.',
+      lead: 'PT Neomedika Elektra Optima (NEO) collaborates with healthcare providers, technology specialists, distributors, and institutions to expand the impact of our digital platforms and hygiene solutions.',
       tracks: [
         {
-          title: 'Healthcare Provider Partnerships',
-          audience: 'Dental Practices, Clinics & Hospital Groups',
-          desc: 'Collaborate with NEO on digital clinic transformation with KHAYR and facility sanitization standards with Neolyte.',
-          category: 'Healthcare Solutions',
+          title: 'Healthcare Providers',
+          audience: 'Dental Clinics, Outpatient Clinics, Hospitals & Medical Groups',
+          desc: 'Collaborate on early adoption and workflow validation of the KHAYR dental platform, as well as institutional supply of Neolyte healthcare hygiene products.',
+          category: 'KHAYR Product Information',
         },
         {
-          title: 'Technology & Integration Partnerships',
-          audience: 'Cloud, Insurance, Payment & API Partners',
-          desc: 'Explore system integration, data interoperability, cybersecurity infrastructure, and partner ecosystem connectivity.',
-          category: 'Technology & Integration',
+          title: 'Technology Partners',
+          audience: 'Cloud Infrastructure, Health IT Systems & Digital Platforms',
+          desc: 'Technical partnerships focused on API integration, healthcare interoperability readiness, infrastructure security, and digital ecosystem connectivity.',
+          category: 'Technology & Integration Partnership',
         },
         {
-          title: 'Commercial & Distribution Partnerships',
-          audience: 'Medical Distributors & Implementation Partners',
-          desc: 'Partner with us to expand market access for Neolyte SN/DS, Neogate hardware, and clinic onboarding services.',
-          category: 'Business & Strategic Partnerships',
+          title: 'Distribution Partners',
+          audience: 'Medical Supply Distributors & Regional Commercial Partners',
+          desc: 'Commercial and regional distribution partnerships to expand availability of Neolyte SN, Neolyte DS, and sanitization equipment across Indonesia.',
+          category: 'Distribution Partnership',
         },
         {
-          title: 'Clinical Advisory & Strategic Investors',
-          audience: 'Clinical Specialists, Institutions & Investors',
-          desc: 'Joint workflow validation, healthcare research, and long-term portfolio growth opportunities across Indonesia and beyond.',
-          category: 'Business & Strategic Partnerships',
+          title: 'Clinical & Institutional Partners',
+          audience: 'Professional Associations, Universities, Clinical Advisors & Investors',
+          desc: 'Collaboration on clinical workflow research, healthcare technology education, product evaluation, and long-term strategic investment.',
+          category: 'Investor & Strategic Collaboration',
         },
       ],
-      ctaButton: 'Start a Partnership Conversation',
+      ctaButton: 'Discuss Partnership Opportunities',
     },
     insights: {
-      sectionNumber: '07. Insights & Perspectives',
-      kicker: 'Perspectives on the Future of Healthcare Technology',
-      heading: 'Insights on Connected Digital Care & Clinical Hygiene.',
-      lead: 'Explore PT Neomedika Elektra Optima’s perspectives on digital healthcare operations, dental practice management, interoperability, and HOCl hygiene science.',
+      sectionNumber: 'Page 08 · Insights',
+      kicker: 'Industry Perspectives & Educational Articles · PT Neomedika Elektra Optima',
+      heading: 'Insights on Digital Healthcare & Healthcare Hygiene.',
+      lead: 'Explore educational articles and corporate perspectives from PT Neomedika Elektra Optima covering digital healthcare workflows, dental technology, healthcare hygiene, and interoperability.',
       categories: [
         'All Topics',
         'Digital Healthcare',
         'Dental Technology',
         'Healthcare Hygiene',
         'Interoperability & Integration',
+        'Corporate & Industry Perspectives',
       ],
       readArticleLabel: 'Read Full Article',
       closeArticleLabel: 'Close Article',
@@ -1987,124 +2613,145 @@ export const CONTENT: Record<Locale, SiteContent> = {
           category: 'Digital Healthcare',
           date: '02 November 2026',
           readTime: '4 min read',
-          title: 'Why Healthcare Organisations Need More Connected Digital Systems',
+          title: 'Why Healthcare Facilities Benefit From Connected Digital Workflows',
           summary:
-            'Disconnected scheduling, paper charts, and manual inventory tracking slow down care delivery. Discover how unified operating platforms bridge the gap.',
+            'How connecting front-desk registration, clinical charting, inventory tracking, and billing helps clinics operate more cohesively.',
           body: [
-            'Across many clinics and healthcare practices, daily operations remain split across disconnected tools: appointments are managed on messaging apps, clinical notes live in isolated files, and inventory is checked only when supplies run low.',
-            'PT Neomedika Elektra Optima’s connected platform approach bridges clinical, administrative, and financial workflows. When a dentist completes charting on a digital odontogram, billing drafts and consumable stock deductions update automatically.',
-            'The outcome is up to 40% less administrative overhead and a calmer, better-coordinated care experience for both clinicians and patients.',
+            'Across many healthcare facilities, daily operational tasks still take place in disconnected silos: patient appointments are managed in one tool, clinical notes are recorded separately, and consumable stock levels are checked manually.',
+            'An integrated healthcare management approach connects these touchpoints. When clinical procedure charting links directly with cashier billing drafts and inventory tracking, administrative duplication is reduced.',
+            'For clinicians and administrative teams alike, connected workflows provide clearer operational visibility so staff can focus on patient care.',
           ],
         },
         {
-          slug: 'modern-dental-practice-operating-system-khayr',
+          slug: 'modern-dental-practice-management-khayr',
           category: 'Dental Technology',
           date: '28 October 2026',
           readTime: '5 min read',
-          title: 'The Role of Practice Management Technology in Modern Dentistry',
+          title: 'Designing Modern Dental Practice Workflows Around Digital Odontograms',
           summary:
-            'Inside KHAYR’s three-pillar architecture—Foundation, Patient Journey, and Command Centre—plus performance-based partner voucher promotions.',
+            'Exploring the role of structured dental EMR and visual Odontogram charting in supporting longitudinal patient care.',
           body: [
-            'Running a modern dental clinic requires balancing clinical precision with business sustainability. Dentists need intuitive FDI Odontogram charting, while clinic owners need real-time revenue visibility and reliable patient acquisition channels.',
-            'Through KHAYR, dental practices gain a unified operating system paired with KHAYR Voucher Promotion—allowing clinics to publish treatment vouchers across major partner apps including Telkomsel, Indosat, AXISNET, XL, and AstraPay.',
-            'Because promotional fees are tied strictly to redeemed clinical transactions under a Pay as You Grow model, marketing spend stays directly aligned with real clinic revenue.',
+            'Dental practices have unique clinical documentation requirements, where individual tooth surfaces require clear diagnostic records and multi-visit treatment plans over time.',
+            'Through the development of the KHAYR platform, PT Neomedika Elektra Optima is designing Clinical Management and Digital Odontogram modules that connect with chair scheduling, patient visit history, and dental consumable management.',
+            'By validating workflows with dental practitioners, our goal is to deliver practical software suited for both single clinics and multi-branch dental networks.',
           ],
         },
         {
-          slug: 'hocl-science-safe-effective-disinfection-neolyte',
+          slug: 'hocl-role-in-healthcare-hygiene-neolyte',
           category: 'Healthcare Hygiene',
           date: '19 October 2026',
           readTime: '4 min read',
-          title: 'The Science of Hypochlorous Acid (HOCl): Alcohol-Free Clinical Sanitization',
+          title: 'The Role of Hypochlorous Acid (HOCl) in Healthcare Facility Hygiene',
           summary:
-            'How the natural antimicrobial molecule produced by human white blood cells powers Neolyte’s 99.99% pathogen efficacy without toxicity or skin irritation.',
+            'Understanding water-based, alcohol-free sanitization solutions for routine hand hygiene and clinical surface disinfection.',
           body: [
-            'Conventional disinfectants force a compromise between potency and safety: alcohol dehydrates skin and poses flammability risks, while chlorine bleach is corrosive and irritating.',
-            'Hypochlorous Acid (HOCl)—the active ingredient in Neolyte—resides in the Ideal Zone. Naturally generated by neutrophils in the human immune system, HOCl rapidly neutralizes bacteria, viruses, and fungi while remaining non-toxic and non-irritating.',
-            'Backed by Ministry of Health permits KEMENKES RI PKD 20501023189 (Neolyte SN) and PKD 20502023190 (Neolyte DS) plus IPB University laboratory verification, Neolyte protects hands, clinical instruments, room air, and food surfaces.',
+            'Consistent hand hygiene and environmental surface disinfection are foundational elements of healthcare facility management across hospitals, outpatient clinics, and dental operatories.',
+            'Hypochlorous Acid (HOCl) formulations in the Neolyte product line provide a water-based, alcohol-free (0%) option. With distinct variants for hand and body sanitization (Neolyte SN) and surface and equipment disinfection (Neolyte DS), facilities can align product selection with specific hygiene protocols.',
+            'All sanitizer and disinfectant applications in healthcare settings should always follow official product label instructions and established facility hygiene guidelines.',
           ],
         },
         {
-          slug: 'interoperability-connecting-healthcare-information',
+          slug: 'interoperability-and-standards-in-indonesian-healthcare',
           category: 'Interoperability & Integration',
-          date: '10 October 2026',
+          date: '12 October 2026',
           readTime: '4 min read',
-          title: 'Interoperability: Connecting Healthcare Information Responsibly',
+          title: 'Standards-Aware Interoperability in Healthcare Software Architecture',
           summary:
-            'Why standards-aware APIs, role-based access control, and SATUSEHAT readiness are foundational to Indonesia’s digital healthcare future.',
+            'Why structured clinical data models are essential for future healthcare information exchange roadmaps.',
           body: [
-            'As national healthcare ecosystems mature, clinics and hospitals need software engineered for structured data exchange rather than closed silos.',
-            'PT Neomedika Elektra Optima builds every platform around Integration by Design and strict privacy governance—ensuring interoperability goes hand in hand with data security and patient trust.',
+            'As Indonesia’s digital health landscape evolves, structured data schemas and standards-aware architecture play an increasingly important role in enabling secure information exchange.',
+            'At PT Neomedika Elektra Optima, our engineering roadmap follows principles of Integration by Design and Standards-Aware Interoperability—ensuring that future integrations are developed responsibly subject to technical validation and regulatory requirements.',
+          ],
+        },
+        {
+          slug: 'building-sustainable-healthcare-technology-portfolio',
+          category: 'Corporate & Industry Perspectives',
+          date: '05 October 2026',
+          readTime: '4 min read',
+          title: 'Building an Integrated Healthcare Portfolio Through Validation and Partnerships',
+          summary:
+            'PT Neomedika Elektra Optima’s corporate perspective on uniting clinical software, hygiene solutions, and ecosystem collaboration.',
+          body: [
+            'Meaningful progress in healthcare technology requires balancing long-term architectural vision with practical, responsible execution.',
+            'Structured around five strategic business pillars, PT Neomedika Elektra Optima (NEO) works alongside healthcare providers, technology specialists, and distribution partners to deliver solutions grounded in real operational needs.',
           ],
         },
       ],
     },
     contact: {
-      sectionNumber: '08. Contact PT Neomedika Elektra Optima',
-      kicker: 'Let’s Build a More Connected Healthcare Future',
-      heading: 'Let’s Start a Conversation With NEO.',
-      lead: 'Whether you are exploring the KHAYR dental platform, ordering Neolyte healthcare hygiene solutions, or discussing strategic partnerships, submit your enquiry below. Every submission is automatically saved to our system and integrated with Google Sheets and Gmail.',
-      formTitle: 'Official Corporate Enquiry, Product Demo & Partnership Form',
+      sectionNumber: 'Page 09 · Contact',
+      kicker: 'Corporate Enquiry & Partnership · PT Neomedika Elektra Optima',
+      heading: 'Contact PT Neomedika Elektra Optima (NEO).',
+      lead: 'Use the official form below to submit corporate enquiries, request KHAYR product information, enquire about Neolyte hygiene products, or discuss strategic partnership opportunities.',
+      formTitle: 'Corporate Enquiry & Partnership Form',
       formSubtitle:
-        'Please provide your business or institutional contact details. In line with NEO privacy governance, do not submit sensitive patient medical records.',
+        'This form is intended for business, institutional, and partnership enquiries directed to PT Neomedika Elektra Optima.',
+      patientDataNoticeTitle: 'Patient Data Protection Notice',
+      patientDataNoticeText:
+        'Please do not submit patient medical records or sensitive health information through this corporate enquiry form.',
       fields: {
         fullName: 'Full Name *',
-        fullNamePlaceholder: 'e.g. drg. Budi Santoso / Rina Wijaya',
-        businessEmail: 'Business / Institutional Email *',
-        businessEmailPlaceholder: 'name@yourclinic.co.id',
+        fullNamePlaceholder: 'e.g., Dr. Budi Santoso / Ms. Rina Wijaya',
+        roleTitle: 'Role / Title',
+        roleTitlePlaceholder: 'e.g., Clinic Owner / Procurement Manager / Director',
+        businessEmail: 'Email Address *',
+        businessEmailPlaceholder: 'name@yourorganisation.com',
         phone: 'Phone / WhatsApp Number',
         phonePlaceholder: '+62 812 XXXX XXXX',
-        organisation: 'Clinic / Hospital / Organisation Name',
-        organisationPlaceholder: 'e.g. Senyum Optima Dental Clinic',
-        countryCity: 'City / Country Market',
-        countryCityPlaceholder: 'e.g. Jakarta, Bandung, Singapore',
+        organisation: 'Company / Institution / Clinic Name *',
+        organisationPlaceholder: 'e.g., Senyum Optima Dental Clinic / Medika Hospital',
+        countryCity: 'City / Region',
+        countryCityPlaceholder: 'e.g., Jakarta, Indonesia',
         category: 'Enquiry Category *',
-        productInterest: 'Product / Solution Interest *',
-        message: 'Message / Requirements *',
+        productInterest: 'Product / Initiative Focus',
+        message: 'Message / Enquiry Details *',
         messagePlaceholder:
-          'Describe your requirements (e.g. requesting a KHAYR demo for 2 dental branches, or a quotation for Neolyte DS 5000ml)...',
+          'Please describe your corporate enquiry, KHAYR or Neolyte information request, or partnership proposal...',
         privacyConsent:
-          'I acknowledge that PT Neomedika Elektra Optima may store and process these business contact details to respond to my enquiry in accordance with corporate privacy rules.',
-        submitBtn: 'Submit Enquiry & Save to NEO System',
-        submittingBtn: 'Saving & Dispatching Notification...',
+          'I acknowledge that PT Neomedika Elektra Optima may collect and process the business contact information submitted through this form to respond to my enquiry, in accordance with its Privacy Notice.',
+        privacyNoticeLinkLabel: 'View Privacy Notice',
+        submitBtn: 'Submit Corporate Enquiry',
+        submittingBtn: 'Submitting Enquiry...',
       },
       categories: [
-        'Healthcare Solutions',
-        'Business & Strategic Partnerships',
-        'Technology & Integration',
-        'General',
-        'Media & Corporate',
-        'Careers',
+        'Corporate & General Enquiry',
+        'KHAYR Product Information',
+        'Neolyte Product Enquiry',
+        'Technology & Integration Partnership',
+        'Distribution Partnership',
+        'Investor & Strategic Collaboration',
       ],
       productInterests: [
         'KHAYR Digital Dental Platform',
         'Neolyte SN / DS Hygiene Line',
-        'KHAYR + Neolyte Integrated Clinic Package',
+        'KHAYR + Neolyte Integrated Healthcare Package',
         'Corporate & Ecosystem Partnership',
         'General NEO Enquiry',
       ],
       workspaceBox: {
-        title: 'Automatic Google Gmail & Google Sheets Integration Panel',
-        subtitle:
-          'Connect your corporate Google Workspace account to sync all incoming enquiries directly into Google Sheets and dispatch automatic email notifications via Gmail.',
+        title: 'Internal Email & Spreadsheet Integration',
+        subtitle: 'Internal configuration for corporate enquiry notifications.',
         connectedAs: 'Connected as:',
         signInBtn: 'Sign in with Google',
-        signOutBtn: 'Disconnect Account',
-        createSheetBtn: 'Create New Google Sheet & Sync',
+        signOutBtn: 'Disconnect',
+        createSheetBtn: 'Create New Google Sheet',
         syncAllBtn: 'Sync to Google Sheet',
-        sendGmailBtn: 'Send Email Notification via Gmail',
-        exportCsvBtn: 'Download CSV Backup',
-        recipientLabel: 'Automated Notification Recipient Email:',
-        sheetIdLabel: 'Target Google Spreadsheet ID (Optional / Auto-Created):',
+        sendGmailBtn: 'Send Notification Email',
+        exportCsvBtn: 'Download CSV',
+        recipientLabel: 'Corporate Recipient Email:',
+        sheetIdLabel: 'Spreadsheet ID:',
       },
     },
     footer: {
-      corporateDescriptor: 'PT Neomedika Elektra Optima · Integrated Healthcare Technology',
+      corporateDescriptor: 'NEO — Integrated Healthcare Technology',
       statement:
-        'Connecting Healthcare. Empowering Better Lives. Developing connected healthcare technology platforms and trusted clinical hygiene solutions.',
-      disclaimerTitle: 'Corporate & Product Status Disclaimer',
+        'Connecting Healthcare. Empowering Better Lives. PT Neomedika Elektra Optima develops integrated healthcare technology solutions across the KHAYR digital dental platform and the Neolyte healthcare hygiene line.',
+      officialEmail: 'info@neomedika.com',
+      partnershipsEmail: 'partnerships@neomedika.com',
+      locationSummary: 'Jakarta, Indonesia',
+      disclaimerTitle: 'Corporate Disclaimer',
       disclaimerText:
-        'Information on this website describes PT Neomedika Elektra Optima’s (NEO) corporate direction, business framework, and product portfolio. KHAYR is currently under development and validation; feature scope and integrations are subject to release readiness. Neolyte SN holds distribution permit KEMENKES RI PKD 20501023189 and Neolyte DS holds KEMENKES RI PKD 20502023190.',
+        'Information on this website is provided for general corporate and informational purposes by PT Neomedika Elektra Optima (NEO) and does not constitute medical advice, a binding commercial offer, or a guarantee of commercial availability in every jurisdiction. The KHAYR platform is currently under development and validation; interface previews are illustrative (Concept UI). Neolyte SN (KEMENKES RI PKD 20501023189) and Neolyte DS (KEMENKES RI PKD 20502023190) must be used strictly in accordance with their approved product labels.',
       copyright: '© 2026 PT Neomedika Elektra Optima (NEO). All rights reserved.',
     },
   },

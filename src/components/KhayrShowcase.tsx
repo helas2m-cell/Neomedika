@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Calendar,
-  ClipboardCheck,
-  FileText,
-  Package,
-  BarChart3,
-  UserCheck,
   ArrowRight,
-  ExternalLink,
   CheckCircle2,
-  TicketPercent,
   ShieldCheck,
 } from 'lucide-react';
 import type { SiteContent } from '../data/content';
@@ -93,33 +85,37 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
     },
   };
 
+  // Synthetic / Demo Patient Data (Per Section 3 Page 04 Spec)
   const sampleAppointments = [
     {
-      initials: 'SH',
-      name: 'Sofyan Hadi',
-      treatment: locale === 'id' ? 'Perawatan Saluran Akar (Gigi 16)' : 'Root Canal Therapy (Tooth 16)',
-      dentist: 'drg. Omar Husen, Sp.KG',
+      initials: 'DP',
+      name: locale === 'id' ? 'Pasien Demo A (Simulasi)' : 'Demo Patient A (Synthetic)',
+      treatment:
+        locale === 'id' ? 'Perawatan Saluran Akar (Gigi 16)' : 'Root Canal Therapy (Tooth 16)',
+      dentist: locale === 'id' ? 'drg. Praktisi Simulasi A' : 'Dr. Demo Practitioner A',
       time: '09:30',
       statusKey: 'confirmed' as const,
-      statusText: locale === 'id' ? 'Terkonfirmasi' : 'Confirmed',
+      statusText: locale === 'id' ? 'Terjadwal' : 'Scheduled',
     },
     {
-      initials: 'MK',
-      name: 'Marwah Kurniawan',
-      treatment: locale === 'id' ? 'Pembersihan Karang Gigi (Scaling)' : 'Scaling & Polishing',
-      dentist: 'drg. Rina Kusuma',
+      initials: 'DB',
+      name: locale === 'id' ? 'Pasien Demo B (Simulasi)' : 'Demo Patient B (Synthetic)',
+      treatment:
+        locale === 'id' ? 'Pembersihan Karang Gigi (Scaling)' : 'Scaling & Polishing',
+      dentist: locale === 'id' ? 'drg. Praktisi Simulasi B' : 'Dr. Demo Practitioner B',
       time: '10:15',
       statusKey: 'waiting' as const,
-      statusText: locale === 'id' ? 'Menunggu di Ruang Tunggu' : 'Waiting in Lobby',
+      statusText: locale === 'id' ? 'Menunggu di Klinik' : 'Waiting in Clinic',
     },
     {
-      initials: 'LA',
-      name: 'Lusi Amran',
-      treatment: locale === 'id' ? 'Kontrol Ortodontik Bulanan' : 'Monthly Orthodontic Check',
-      dentist: 'drg. Nadia Pratama, Sp.Ort',
+      initials: 'DC',
+      name: locale === 'id' ? 'Pasien Demo C (Simulasi)' : 'Demo Patient C (Synthetic)',
+      treatment:
+        locale === 'id' ? 'Evaluasi Ortodontik Berkala' : 'Periodic Orthodontic Check',
+      dentist: locale === 'id' ? 'drg. Praktisi Simulasi C' : 'Dr. Demo Practitioner C',
       time: '11:00',
       statusKey: 'done' as const,
-      statusText: locale === 'id' ? 'Selesai · Siap Billing' : 'Completed · Ready for Billing',
+      statusText: locale === 'id' ? 'Selesai · Siap Tagihan' : 'Completed · Ready for Billing',
     },
   ];
 
@@ -177,23 +173,101 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
               <button
                 type="button"
                 onClick={() =>
-                  onSelectEnquiry('Healthcare Solutions', 'KHAYR Digital Dental Platform')
+                  onSelectEnquiry('KHAYR Product Information', 'KHAYR Digital Dental Platform')
                 }
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span>{content.registerInterestCta}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  onSelectEnquiry('KHAYR Product Information', 'KHAYR Digital Dental Platform')
+                }
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-[#342077] bg-white border border-[#D9CEE6] rounded-xl hover:bg-[#F4F0FA] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 <span>{content.enquireCta}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
-              <a
-                href="https://khayr-brown.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-[#342077] bg-white border border-[#D9CEE6] rounded-xl hover:bg-[#F4F0FA] transition-colors whitespace-nowrap shrink-0"
-              >
-                <span>{content.externalPreviewCta}</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
             </div>
+          </div>
+        </div>
+
+        {/* 8 Planned Product Modules (Page 04 Spec) */}
+        <div className="mt-14">
+          <div className="max-w-3xl mb-6">
+            <h3 className="font-display text-2xl font-bold text-[#381B37]">
+              {content.plannedModulesTitle}
+            </h3>
+            <p className="mt-1.5 text-sm text-[#666666]">{content.plannedModulesSub}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {content.plannedModules.map((mod) => (
+              <div
+                key={mod.code}
+                className="bg-white border border-[#EAE4F2] rounded-2xl p-6 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="font-mono text-xs font-bold text-[#903595] mb-2 tabular-nums">
+                    MODULE {mod.code}
+                  </div>
+                  <h4 className="font-display text-base font-bold text-[#381B37] mb-2">
+                    {mod.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">{mod.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 7 Product Development Principles (Page 04 Spec) */}
+        <div className="mt-16 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-9">
+          <div className="max-w-3xl mb-6">
+            <h3 className="font-display text-2xl font-bold text-[#381B37]">
+              {content.devPrinciplesTitle}
+            </h3>
+            <p className="mt-1.5 text-sm text-[#666666]">{content.devPrinciplesSub}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {content.devPrinciples.map((pr) => (
+              <div
+                key={pr.code}
+                className="p-5 rounded-2xl bg-[#FAF8FC] border border-[#EAE4F2]"
+              >
+                <div className="font-mono text-xs font-bold text-[#342077] mb-1.5 tabular-nums">
+                  {pr.code}
+                </div>
+                <h4 className="font-display text-sm font-bold text-[#381B37] mb-1.5">
+                  {pr.title}
+                </h4>
+                <p className="text-xs text-[#666666] leading-relaxed">{pr.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SATUSEHAT & Interoperability Development Roadmap Block */}
+        <div className="mt-12 bg-white border border-[#D9CEE6] rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#903595] mb-2">
+              <ShieldCheck className="w-4 h-4" />
+              <span>{content.interoperabilityRoadmap.badge}</span>
+            </div>
+            <h3 className="font-display text-xl font-bold text-[#381B37]">
+              {content.interoperabilityRoadmap.title}
+            </h3>
+            <p className="mt-2 text-sm text-[#666666] leading-relaxed">
+              {content.interoperabilityRoadmap.description}
+            </p>
+          </div>
+          <div className="shrink-0 bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-4 flex items-center justify-center">
+            <img
+              src="/assets/aistudio/Logo_Satusehat_965283aa.png"
+              alt="SATUSEHAT Interoperability Roadmap"
+              className="h-11 sm:h-12 w-auto object-contain mix-blend-multiply select-none"
+            />
           </div>
         </div>
 
@@ -259,19 +333,27 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
           </div>
         </div>
 
-        {/* Interactive 6-Module Dental OS Simulator */}
+        {/* Interactive Concept UI Preview Simulator */}
         <div className="mt-16 bg-white border border-[#EAE4F2] rounded-3xl p-6 sm:p-8 lg:p-10">
-          <div className="max-w-3xl mb-6">
-            <h3 className="font-display text-2xl font-bold text-[#381B37]">
-              {content.modulesTitle}
-            </h3>
-            <p className="mt-1.5 text-sm text-[#666666]">{content.modulesSub}</p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div className="max-w-2xl">
+              <div className="text-xs font-bold text-[#903595] uppercase tracking-wider mb-1">
+                {content.conceptUiBadge}
+              </div>
+              <h3 className="font-display text-2xl font-bold text-[#381B37]">
+                {content.modulesTitle}
+              </h3>
+              <p className="mt-1.5 text-sm text-[#666666]">{content.modulesSub}</p>
+            </div>
+            <div className="px-3.5 py-2 rounded-xl bg-[#FAF8FC] border border-[#D9CEE6] text-xs font-mono font-semibold text-[#342077] shrink-0 self-start sm:self-auto">
+              {content.conceptUiBadge}
+            </div>
           </div>
 
           {/* Interactive Module Selector Bar */}
           <div
             role="tablist"
-            aria-label="KHAYR Operating System Modules"
+            aria-label="KHAYR Planned Modules Concept UI"
             className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#FAF8FC] border border-[#EAE4F2] rounded-xl mb-8"
           >
             {content.modules.map((mod) => {
@@ -295,12 +377,12 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
             })}
           </div>
 
-          {/* Module Split Content: Left Explanation + Metrics, Right Interactive Concept UI */}
+          {/* Module Split Content: Left Explanation + Value Pillars, Right Interactive Concept UI */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
                 <div className="text-xs font-medium text-[#903595] mb-2">
-                  KHAYR Dental OS · Concept UI Preview
+                  {content.conceptUiBadge}
                 </div>
                 <h4 className="font-display text-2xl font-bold text-[#381B37] leading-snug">
                   {activeModule.title}
@@ -322,17 +404,17 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                 </div>
               </div>
 
-              {/* Tabular Metrics Strip */}
-              <div className="mt-6 pt-6 border-t border-[#EAE4F2] grid grid-cols-3 gap-4">
+              {/* Value Focus Strip (Replacing unvalidated percentages per Page 04 Spec) */}
+              <div className="mt-6 pt-6 border-t border-[#EAE4F2] grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {activeModule.metrics.map((m) => (
-                  <div key={m.label}>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#342077] tabular-nums">
+                  <div key={m.label} className="bg-[#FAF8FC] border border-[#EAE4F2] rounded-xl p-3">
+                    <div className="font-mono text-sm font-bold text-[#342077]">
                       {m.value}
                     </div>
                     <div className="mt-0.5 text-xs font-semibold text-[#381B37]">
                       {m.label}
                     </div>
-                    <div className="text-[11px] text-[#666666]">{m.delta}</div>
+                    <div className="text-[11px] text-[#666666] mt-0.5">{m.delta}</div>
                   </div>
                 ))}
               </div>
@@ -340,14 +422,14 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
 
             {/* Right Interactive UI Workspace */}
             <div className="lg:col-span-7 bg-[#FAF8FC] border border-[#D9CEE6] rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#EAE4F2]">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-[#EAE4F2]">
                 <div className="flex items-center gap-2 text-xs font-semibold text-[#381B37]">
-                  <span>KHAYR OS</span>
+                  <span>KHAYR</span>
                   <span aria-hidden="true">·</span>
                   <span className="text-[#903595]">{activeModule.tabLabel}</span>
                 </div>
-                <div className="text-xs text-[#666666] font-mono tabular-nums">
-                  SATUSEHAT-Ready Schema · 256-bit TLS
+                <div className="text-xs text-[#342077] font-mono font-semibold">
+                  {content.conceptUiBadge}
                 </div>
               </div>
 
@@ -366,8 +448,8 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                             : 'bg-white text-[#666666] border-[#EAE4F2] hover:border-[#903595]'
                         }`}
                       >
-                        {step === 1 && (locale === 'id' ? '1. Tipe Pasien' : '1. Patient Type')}
-                        {step === 2 && (locale === 'id' ? '2. Data Pasien' : '2. Patient Lookup')}
+                        {step === 1 && (locale === 'id' ? '1. Tipe Kunjungan' : '1. Visit Type')}
+                        {step === 2 && (locale === 'id' ? '2. Profil Pasien' : '2. Patient Profile')}
                         {step === 3 && (locale === 'id' ? '3. Jadwal & Dokter' : '3. Slot & Dentist')}
                       </button>
                     ))}
@@ -388,8 +470,8 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                       </div>
                       <div className="mt-1 text-xs text-[#666666]">
                         {locale === 'id'
-                          ? 'Cari instan via Nama, No. WhatsApp, atau NIK untuk memuat EMR kronologis.'
-                          : 'Instant search by Name, WhatsApp, or NIK to load chronological EMR.'}
+                          ? 'Cari profil pasien terdaftar untuk memuat riwayat rekam medis.'
+                          : 'Lookup registered patient profile to load chronological records.'}
                       </div>
                     </button>
                     <button
@@ -406,8 +488,8 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                       </div>
                       <div className="mt-1 text-xs text-[#666666]">
                         {locale === 'id'
-                          ? 'Buat profil rekam medis baru terstandar dengan validasi identitas.'
-                          : 'Create a standardized new medical record profile with ID verification.'}
+                          ? 'Buat profil rekam medis baru terstruktur pada sistem klinik.'
+                          : 'Create a structured new patient record profile in the clinic system.'}
                       </div>
                     </button>
                   </div>
@@ -415,30 +497,32 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                   <div className="bg-white border border-[#EAE4F2] rounded-xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <div className="text-[11px] font-medium text-[#666666]">
-                        {locale === 'id' ? 'Pasien Terpilih' : 'Selected Patient'}
+                        {locale === 'id' ? 'Profil Simulasi' : 'Synthetic Profile'}
                       </div>
                       <div className="text-sm font-bold text-[#381B37] mt-0.5">
                         {patientType === 'returning'
-                          ? 'Sofyan Hadi (RM-00419)'
+                          ? locale === 'id'
+                            ? 'Pasien Demo A (SIM-001)'
+                            : 'Demo Patient A (SIM-001)'
                           : locale === 'id'
-                          ? 'Registrasi Pasien Baru'
-                          : 'New Patient Profile'}
+                          ? 'Profil Pasien Baru (Simulasi)'
+                          : 'New Patient Profile (Demo)'}
                       </div>
                     </div>
                     <div>
                       <div className="text-[11px] font-medium text-[#666666]">
-                        {locale === 'id' ? 'Dokter Gigi & Poli' : 'Assigned Dentist'}
+                        {locale === 'id' ? 'Dokter Gigi (Simulasi)' : 'Assigned Dentist (Demo)'}
                       </div>
                       <div className="text-sm font-bold text-[#381B37] mt-0.5">
-                        drg. Omar Husen, Sp.KG
+                        {locale === 'id' ? 'drg. Praktisi Simulasi A' : 'Dr. Demo Practitioner A'}
                       </div>
                     </div>
                     <div>
                       <div className="text-[11px] font-medium text-[#666666]">
-                        {locale === 'id' ? 'Waktu Reservasi' : 'Appointment Slot'}
+                        {locale === 'id' ? 'Slot & Ruangan' : 'Slot & Room'}
                       </div>
                       <div className="text-sm font-mono font-bold text-[#903595] mt-0.5 tabular-nums">
-                        09:30 WIB · Chair 01
+                        09:30 · Chair 01
                       </div>
                     </div>
                   </div>
@@ -450,14 +534,14 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-semibold text-[#381B37]">
                       {locale === 'id'
-                        ? 'Filter Status Antrean Harian:'
-                        : 'Filter Daily Queue Status:'}
+                        ? 'Filter Status Antrean (Data Simulasi):'
+                        : 'Filter Queue Status (Synthetic Demo Data):'}
                     </span>
                     <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-[#EAE4F2]">
                       {(
                         [
                           { id: 'all', label: locale === 'id' ? 'Semua (3)' : 'All (3)' },
-                          { id: 'confirmed', label: locale === 'id' ? 'Terkonfirmasi' : 'Confirmed' },
+                          { id: 'confirmed', label: locale === 'id' ? 'Terjadwal' : 'Scheduled' },
                           { id: 'waiting', label: locale === 'id' ? 'Menunggu' : 'Waiting' },
                           { id: 'done', label: locale === 'id' ? 'Selesai' : 'Completed' },
                         ] as const
@@ -515,24 +599,27 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                   <div className="bg-white border border-[#EAE4F2] rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
                     <div>
                       <span className="text-[#666666]">
-                        {locale === 'id' ? 'Pasien Aktif: ' : 'Active Patient: '}
+                        {locale === 'id' ? 'Profil Simulasi: ' : 'Synthetic Demo Patient: '}
                       </span>
-                      <strong className="text-[#381B37]">Sofyan Hadi (RM-00419)</strong>
-                      <span className="text-[#666666]"> · drg. Omar Husen, Sp.KG</span>
+                      <strong className="text-[#381B37]">
+                        {locale === 'id' ? 'Pasien Demo A (SIM-001)' : 'Demo Patient A (SIM-001)'}
+                      </strong>
                     </div>
                     <span className="font-mono font-semibold text-[#342077] tabular-nums">
-                      Odontogram FDI · Rahang Atas & Bawah
+                      Odontogram FDI · Concept UI
                     </span>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="text-xs font-semibold text-[#381B37]">
                       {locale === 'id'
-                        ? 'Klik nomor gigi untuk memperbarui diagnosis & tindakan:'
-                        : 'Click any tooth number to cycle clinical status:'}
+                        ? 'Klik nomor gigi untuk simulasi pencatatan kondisi:'
+                        : 'Click any tooth number to simulate clinical charting:'}
                     </div>
                     <span className="text-xs font-mono font-bold text-[#903595] tabular-nums">
-                      {locale === 'id' ? `Gigi Terpilih: #${selectedTooth}` : `Selected Tooth: #${selectedTooth}`}
+                      {locale === 'id'
+                        ? `Gigi Terpilih: #${selectedTooth}`
+                        : `Selected Tooth: #${selectedTooth}`}
                     </span>
                   </div>
 
@@ -570,15 +657,15 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                     <div>
                       <div className="text-xs text-[#666666]">
                         {locale === 'id'
-                          ? `Status Elemen Gigi #${selectedTooth} (FDI):`
-                          : `Clinical Status for Tooth #${selectedTooth} (FDI):`}
+                          ? `Status Simulasi Gigi #${selectedTooth} (FDI):`
+                          : `Simulated Status for Tooth #${selectedTooth} (FDI):`}
                       </div>
                       <div className="text-sm font-bold text-[#381B37] mt-0.5">
                         {conditionLabels[teethState[selectedTooth] || 'normal'].label}
                       </div>
                     </div>
                     <div className="text-xs font-mono text-[#342077] tabular-nums">
-                      ICD-10: K02.1 / K04.0 · Auto-Billing Linked
+                      Concept UI · Synthetic Demo Record
                     </div>
                   </div>
                 </div>
@@ -588,28 +675,28 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                 <div className="space-y-3 my-auto">
                   {[
                     {
-                      date: '02 Nov 2026',
+                      date: locale === 'id' ? 'Kunjungan Simulasi 02' : 'Simulated Visit 02',
                       proc:
                         locale === 'id'
                           ? 'Obturasi Saluran Akar & Restorasi Komposit (Gigi #16)'
                           : 'Root Canal Obturation & Composite Restoration (Tooth #16)',
-                      doc: 'drg. Omar Husen, Sp.KG',
+                      doc: locale === 'id' ? 'drg. Praktisi Simulasi A' : 'Dr. Demo Practitioner A',
                       note:
                         locale === 'id'
-                          ? 'Pasien bebas keluhan nyeri perkusi. Rencana kontrol 1 bulan.'
-                          : 'Asymptomatic on percussion. Follow-up scheduled in 1 month.',
+                          ? 'Data simulasi sintetis: Evaluasi tindak lanjut dijadwalkan.'
+                          : 'Synthetic demo record: Follow-up evaluation scheduled.',
                     },
                     {
-                      date: '18 Okt 2026',
+                      date: locale === 'id' ? 'Kunjungan Simulasi 01' : 'Simulated Visit 01',
                       proc:
                         locale === 'id'
-                          ? 'Preparasi Biomekanis Saluran Akar & Medikasi Intrakoronal'
-                          : 'Biomechanical Canal Preparation & Intracanal Medication',
-                      doc: 'drg. Omar Husen, Sp.KG',
+                          ? 'Pemeriksaan Awal & Pemetaan Odontogram'
+                          : 'Initial Examination & Odontogram Charting',
+                      doc: locale === 'id' ? 'drg. Praktisi Simulasi A' : 'Dr. Demo Practitioner A',
                       note:
                         locale === 'id'
-                          ? 'Irigasi NaOCl & sterilisasi ruang perawatan dengan Neolyte DS.'
-                          : 'Canal irrigation & operatory sanitization with Neolyte DS.',
+                          ? 'Data simulasi sintetis: Rencana perawatan bertahap tercatat.'
+                          : 'Synthetic demo record: Staged treatment plan documented.',
                     },
                   ].map((item) => (
                     <div
@@ -631,27 +718,27 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                 <div className="space-y-2.5 my-auto">
                   {[
                     {
-                      sku: 'DNT-CMP-A2',
-                      name: 'Universal Nano-Hybrid Composite A2 Syringe',
+                      sku: 'SIM-CMP-A2',
+                      name: 'Universal Nano-Hybrid Composite A2 (Demo SKU)',
                       stock: '42 Unit',
-                      exp: 'Exp: Agu 2027',
-                      status: locale === 'id' ? 'Stok Aman' : 'Safe Stock',
+                      exp: 'Batch Demo',
+                      status: locale === 'id' ? 'Stok Cukup' : 'Safe Stock',
                       tone: 'text-[#027A48]',
                     },
                     {
                       sku: 'NEO-SN-1000',
                       name: 'Neolyte SN Hand & Body Sanitizer 60ppm (1000ml)',
                       stock: '18 Botol',
-                      exp: 'Exp: Des 2027',
-                      status: locale === 'id' ? 'Stok Aman' : 'Safe Stock',
+                      exp: 'PKD 20501023189',
+                      status: locale === 'id' ? 'Stok Cukup' : 'Safe Stock',
                       tone: 'text-[#027A48]',
                     },
                     {
-                      sku: 'DNT-ANS-01',
-                      name: 'Articaine HCl 4% Dental Anesthetic Cartridges',
+                      sku: 'SIM-ANS-01',
+                      name: 'Dental Anesthetic Cartridges (Demo SKU)',
                       stock: '5 Box',
-                      exp: 'Exp: Jan 2027',
-                      status: locale === 'id' ? 'Hampir Habis · Reorder' : 'Low Stock · Reorder',
+                      exp: 'Batch Demo',
+                      status: locale === 'id' ? 'Stok Menipis · Reorder' : 'Low Stock · Reorder',
                       tone: 'text-[#B54708]',
                     },
                   ].map((row) => (
@@ -678,69 +765,71 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
 
               {activeModule.id === 'analitik' && (
                 <div className="space-y-4 my-auto">
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div className="bg-white border border-[#EAE4F2] rounded-xl p-3.5">
                       <div className="text-xs text-[#666666]">
-                        {locale === 'id' ? 'Pendapatan Tindakan' : 'Procedure Revenue'}
+                        {locale === 'id' ? 'Kategori Tindakan (Demo)' : 'Procedures (Demo)'}
                       </div>
-                      <div className="font-mono text-lg font-bold text-[#342077] mt-1 tabular-nums">
-                        Rp38,4 Jt
+                      <div className="font-mono text-base font-bold text-[#342077] mt-1">
+                        {locale === 'id' ? 'Rekapitulasi' : 'Summary View'}
                       </div>
-                      <div className="text-[11px] text-[#027A48] mt-0.5">80% porsi omset</div>
+                      <div className="text-[11px] text-[#666666] mt-0.5">
+                        {locale === 'id' ? 'Data simulasi sintetis' : 'Synthetic demo data'}
+                      </div>
                     </div>
                     <div className="bg-white border border-[#EAE4F2] rounded-xl p-3.5">
                       <div className="text-xs text-[#666666]">
-                        {locale === 'id' ? 'Farmasi & Produk' : 'Pharmacy & Products'}
+                        {locale === 'id' ? 'Kategori Produk (Demo)' : 'Products (Demo)'}
                       </div>
-                      <div className="font-mono text-lg font-bold text-[#342077] mt-1 tabular-nums">
-                        Rp9,6 Jt
+                      <div className="font-mono text-base font-bold text-[#342077] mt-1">
+                        {locale === 'id' ? 'Terintegrasi' : 'Connected'}
                       </div>
-                      <div className="text-[11px] text-[#666666] mt-0.5">20% porsi omset</div>
+                      <div className="text-[11px] text-[#666666] mt-0.5">
+                        {locale === 'id' ? 'Tautan stok & kasir' : 'Stock & billing link'}
+                      </div>
                     </div>
                     <div className="bg-white border border-[#EAE4F2] rounded-xl p-3.5">
                       <div className="text-xs text-[#666666]">
-                        {locale === 'id' ? 'Pasien Baru (Voucher)' : 'Voucher New Patients'}
+                        {locale === 'id' ? 'Laporan Kunjungan' : 'Visit Reports'}
                       </div>
-                      <div className="font-mono text-lg font-bold text-[#EE498E] mt-1 tabular-nums">
-                        +34 Pasien
+                      <div className="font-mono text-base font-bold text-[#903595] mt-1">
+                        {locale === 'id' ? 'Terpusat' : 'Centralised'}
                       </div>
-                      <div className="text-[11px] text-[#903595] mt-0.5">5 Aplikasi Mitra</div>
+                      <div className="text-[11px] text-[#666666] mt-0.5">
+                        {locale === 'id' ? 'Evaluasi manajemen' : 'Management review'}
+                      </div>
                     </div>
                   </div>
                   <div className="bg-white border border-[#EAE4F2] rounded-xl p-4 text-xs text-[#666666] flex items-center justify-between">
                     <span>
                       {locale === 'id'
-                        ? 'Status Rekonsiliasi Kasir & Saldo Kredit Promosi KHAYR'
-                        : 'Billing Ledger & KHAYR Promotional Credit Balance Status'}
+                        ? 'Ilustrasi Konsep Antarmuka Pelaporan Operasional KHAYR'
+                        : 'KHAYR Operational Reporting Concept UI Illustration'}
                     </span>
-                    <span className="font-mono font-semibold text-[#027A48]">
-                      100% Terverifikasi
+                    <span className="font-mono font-semibold text-[#342077]">
+                      Concept UI
                     </span>
                   </div>
                 </div>
               )}
 
-              <div className="pt-4 mt-5 border-t border-[#EAE4F2] flex items-center justify-between text-xs text-[#666666]">
-                <span>
-                  {locale === 'id'
-                    ? 'Antarmuka dirancang khusus untuk kecepatan operasional klinik gigi.'
-                    : 'Interface purpose-built for clinical speed and zero administrative friction.'}
-                </span>
+              <div className="pt-4 mt-5 border-t border-[#EAE4F2] flex flex-wrap items-center justify-between gap-2 text-xs text-[#666666]">
+                <span>{content.conceptUiBadge}</span>
                 <button
                   type="button"
                   onClick={() =>
-                    onSelectEnquiry('Healthcare Solutions', 'KHAYR Digital Dental Platform')
+                    onSelectEnquiry('KHAYR Product Information', 'KHAYR Digital Dental Platform')
                   }
                   className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  {locale === 'id' ? 'Jadwalkan Demo →' : 'Schedule Live Demo →'}
+                  {content.enquireCta} →
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* KHAYR Voucher Promotion System Block */}
+        {/* Proposed Digital Voucher Distribution Ecosystem Block (Page 04 Spec) */}
         <div className="mt-14 bg-[#342077] text-white rounded-3xl p-7 sm:p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7">
@@ -754,7 +843,7 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                 {content.voucherSystem.lead}
               </p>
 
-              {/* Partner Apps Text List */}
+              {/* Planned Partner Channel Categories */}
               <div className="mt-6 pt-5 border-t border-white/15">
                 <div className="text-xs text-white/75 mb-2.5">
                   {content.voucherSystem.partnerAppsLabel}:
@@ -790,11 +879,13 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
               </div>
             </div>
 
-            {/* Interactive Voucher Simulation Card */}
+            {/* Interactive Voucher Concept UI Card */}
             <div className="lg:col-span-5 bg-white text-[#381B37] rounded-2xl p-6 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-[#EAE4F2]">
                 <span className="text-xs font-bold text-[#342077]">
-                  {locale === 'id' ? 'Simulasi Voucher Klinik' : 'Clinic Voucher Simulator'}
+                  {locale === 'id'
+                    ? 'Concept UI · Simulasi Voucher'
+                    : 'Concept UI · Voucher Preview'}
                 </span>
                 <div className="flex items-center gap-1 bg-[#FAF8FC] p-1 rounded-lg border border-[#EAE4F2]">
                   <button
@@ -806,7 +897,7 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                         : 'text-[#666666] hover:text-[#381B37]'
                     }`}
                   >
-                    {locale === 'id' ? 'Contoh A: Diskon %' : 'Example A: % Off'}
+                    {locale === 'id' ? 'Contoh A' : 'Example A'}
                   </button>
                   <button
                     type="button"
@@ -817,57 +908,51 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
                         : 'text-[#666666] hover:text-[#381B37]'
                     }`}
                   >
-                    {locale === 'id' ? 'Contoh B: Paket' : 'Example B: Bundle'}
+                    {locale === 'id' ? 'Contoh B' : 'Example B'}
                   </button>
                 </div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#FAF8FC] border border-[#D9CEE6]">
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>KHAYR VOUCHER PROMOTION</span>
-                  <span className="font-mono font-semibold text-[#027A48]">ACTIVE</span>
+                  <span>CONCEPT UI PREVIEW</span>
+                  <span className="font-mono font-semibold text-[#342077]">ILLUSTRATIVE</span>
                 </div>
                 <div className="mt-2 font-display text-lg font-bold text-[#381B37]">
                   {voucherExample === 'A'
                     ? locale === 'id'
-                      ? 'Layanan Pembersihan Karang Gigi (Scaling)'
-                      : 'Ultrasonic Dental Scaling & Polishing'
+                      ? 'Program Promosi Pembersihan Karang Gigi (Scaling)'
+                      : 'Dental Scaling & Polishing Promotional Offer'
                     : locale === 'id'
-                    ? 'Paket Konsultasi Ortodontik + Foto Intraoral'
-                    : 'Orthodontic Consultation + Intraoral Scan'}
+                    ? 'Paket Konsultasi & Pemeriksaan Gigi Berkala'
+                    : 'Routine Dental Checkup & Consultation Package'}
                 </div>
-                <div className="mt-1 font-mono text-2xl font-extrabold text-[#EE498E] tabular-nums">
+                <div className="mt-1 font-mono text-xl font-extrabold text-[#EE498E] tabular-nums">
                   {voucherExample === 'A'
                     ? locale === 'id'
-                      ? 'POTONGAN HARGA 30%'
-                      : '30% TREATMENT DISCOUNT'
+                      ? 'ILUSTRASI VOUCHER DISKON LAYANAN'
+                      : 'ILLUSTRATIVE SERVICE DISCOUNT VOUCHER'
                     : locale === 'id'
-                    ? 'HARGA SPESIAL Rp199.000'
-                    : 'SPECIAL PACKAGE Rp199,000'}
+                    ? 'ILUSTRASI PAKET LAYANAN KLINIK'
+                    : 'ILLUSTRATIVE CLINIC PACKAGE VOUCHER'}
                 </div>
                 <div className="mt-3 pt-3 border-t border-[#EAE4F2] space-y-1.5 text-xs">
                   <div className="flex justify-between">
                     <span className="text-[#666666]">
-                      {locale === 'id' ? 'Kode Voucher:' : 'Voucher Code:'}
+                      {locale === 'id' ? 'Kode Simulasi:' : 'Demo Code:'}
                     </span>
                     <span className="font-mono font-bold text-[#342077]">
-                      {voucherExample === 'A' ? 'KHAYR-SCALE-30' : 'KHAYR-ORTHO-199'}
+                      {voucherExample === 'A' ? 'DEMO-SCALE-01' : 'DEMO-CHECK-02'}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#666666]">
-                      {locale === 'id' ? 'Klaim Melalui:' : 'Redeemable On:'}
+                      {locale === 'id' ? 'Kanal Distribusi:' : 'Distribution Channel:'}
                     </span>
                     <span className="font-semibold text-[#381B37]">
-                      Telkomsel, Indosat, XL, AXIS, AstraPay
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#666666]">
-                      {locale === 'id' ? 'Biaya Pembuatan Awal:' : 'Upfront Creation Fee:'}
-                    </span>
-                    <span className="font-mono font-bold text-[#027A48]">
-                      Rp0 (Pay Per Redemption)
+                      {locale === 'id'
+                        ? 'Kanal Digital Mitra Terkonfirmasi'
+                        : 'Confirmed Partner Digital Channels'}
                     </span>
                   </div>
                 </div>
@@ -889,12 +974,16 @@ export function KhayrShowcase({ content, locale, onSelectEnquiry }: KhayrShowcas
               </div>
             </div>
           </div>
+
+          <div className="mt-6 pt-5 border-t border-white/15 text-xs text-white/80 leading-relaxed">
+            {content.voucherSystem.disclosure}
+          </div>
         </div>
 
-        {/* Development Stage Governance Note */}
-        <p className="mt-6 text-xs text-[#666666] leading-relaxed">
+        {/* Product Status Disclosure */}
+        <div className="mt-8 p-5 rounded-2xl bg-white border border-[#D9CEE6] text-xs text-[#666666] leading-relaxed">
           {content.governanceFootnote}
-        </p>
+        </div>
       </div>
     </section>
   );

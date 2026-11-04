@@ -8,12 +8,8 @@ import {
   ArrowRight,
   CheckCircle2,
   Globe,
-  ShieldCheck,
-  Layers,
   BookOpen,
-  Handshake,
   X,
-  FileText,
   Menu,
 } from 'lucide-react';
 import { CONTENT, type ArticleItem } from './data/content';
@@ -23,11 +19,20 @@ import { KhayrShowcase } from './components/KhayrShowcase';
 import { NeolyteShowcase } from './components/NeolyteShowcase';
 import { ContactWorkspaceSection } from './components/ContactWorkspaceSection';
 
+type PageKey =
+  | 'home'
+  | 'about'
+  | 'business'
+  | 'products'
+  | 'technology'
+  | 'partnerships'
+  | 'insights'
+  | 'contact';
+
 export default function App() {
   const [locale, setLocale] = useState<Locale>('id');
-  const [activePage, setActivePage] = useState<
-    'about' | 'business' | 'products' | 'technology' | 'insights'
-  >('about');
+  const [activePage, setActivePage] = useState<PageKey>('home');
+  const [productSubView, setProductSubView] = useState<'all' | 'khayr' | 'neolyte'>('all');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [insightFilter, setInsightFilter] = useState<string>('ALL');
   const [activeArticle, setActiveArticle] = useState<ArticleItem | null>(null);
@@ -35,8 +40,10 @@ export default function App() {
     'privacy' | 'terms' | 'cookies' | 'brand' | null
   >(null);
 
-  // Contextual prefill state for the Contact NEO form
-  const [prefilledCategory, setPrefilledCategory] = useState<string>('Healthcare Solutions');
+  // Contextual prefill state for the Corporate Enquiry & Partnership Form
+  const [prefilledCategory, setPrefilledCategory] = useState<string>(
+    'Corporate & General Enquiry'
+  );
   const [prefilledProduct, setPrefilledProduct] = useState<string>(
     'KHAYR Digital Dental Platform'
   );
@@ -44,22 +51,31 @@ export default function App() {
   const t = CONTENT[locale];
 
   const navItems: {
-    key: 'about' | 'business' | 'products' | 'technology' | 'insights';
+    key: PageKey;
     href: string;
     label: string;
   }[] = [
+    { key: 'home', href: '#home', label: t.nav.home },
     { key: 'about', href: '#about', label: t.nav.about },
     { key: 'business', href: '#business', label: t.nav.business },
-    { key: 'products', href: '#khayr', label: t.nav.products },
+    { key: 'products', href: '#products', label: t.nav.products },
     { key: 'technology', href: '#technology', label: t.nav.technology },
+    { key: 'partnerships', href: '#partnerships', label: t.nav.partnerships },
     { key: 'insights', href: '#insights', label: t.nav.insights },
+    { key: 'contact', href: '#contact', label: t.nav.contact },
   ];
 
   const handleSelectMenuPage = (
-    page: 'about' | 'business' | 'products' | 'technology' | 'insights',
-    scrollTargetId?: string
+    page: PageKey,
+    scrollTargetId?: string,
+    subProduct?: 'all' | 'khayr' | 'neolyte'
   ) => {
     setActivePage(page);
+    if (subProduct) {
+      setProductSubView(subProduct);
+    } else if (page === 'products') {
+      setProductSubView('all');
+    }
     setMobileMenuOpen(false);
     setTimeout(() => {
       if (scrollTargetId && scrollTargetId !== 'top') {
@@ -76,11 +92,16 @@ export default function App() {
   const handleRouteToContact = (category: string, productInterest: string) => {
     setPrefilledCategory(category);
     setPrefilledProduct(productInterest);
+    setActivePage('contact');
     setMobileMenuOpen(false);
-    const el = document.getElementById('contact');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const el = document.getElementById('contact');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 40);
   };
 
   const filteredArticles =
@@ -88,17 +109,71 @@ export default function App() {
       ? t.insights.articles
       : t.insights.articles.filter((a) => a.category === insightFilter);
 
+  const renderPageUtilityBar = (pageTitle: string) => (
+    <section className="pt-8 pb-6 bg-white border-b border-[#EAE4F2]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#666666]">
+            <button
+              type="button"
+              onClick={() => handleSelectMenuPage('home', 'top')}
+              className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer"
+            >
+              {locale === 'id' ? '← Kembali ke Beranda' : '← Back to Home'}
+            </button>
+            <span aria-hidden="true">·</span>
+            <strong className="font-bold text-[#381B37]">
+              {pageTitle} · PT Neomedika Elektra Optima
+            </strong>
+          </div>
+
+          <div
+            role="group"
+            aria-label={t.utility.langLabel}
+            className="inline-flex items-center gap-1 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl"
+          >
+            <Globe className="w-3.5 h-3.5 text-[#903595] ml-1.5" />
+            <button
+              type="button"
+              onClick={() => setLocale('id')}
+              aria-pressed={locale === 'id'}
+              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                locale === 'id'
+                  ? 'bg-[#342077] text-white'
+                  : 'text-[#666666] hover:text-[#381B37]'
+              }`}
+            >
+              ID · Indonesia
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale('en')}
+              aria-pressed={locale === 'en'}
+              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
+                locale === 'en'
+                  ? 'bg-[#342077] text-white'
+                  : 'text-[#666666] hover:text-[#381B37]'
+              }`}
+            >
+              EN · English
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#381B37]">
-      {/* Strict 3-Zone Top Bar Contract on Desktop + Full Mobile Navigation Access */}
+      {/* Top Bar with 8 Main Navigation Items (Desktop) + Full Mobile Pop-Up & Quick-Access Menu */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EAE4F2]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-5 px-4 sm:px-6 lg:px-8 py-3">
           {/* Zone 1: Single Brand Lockup */}
           <a
             href="#top"
             onClick={(e) => {
               e.preventDefault();
-              handleSelectMenuPage('about', 'top');
+              handleSelectMenuPage('home', 'top');
             }}
             aria-label="neomedika home"
             className="whitespace-nowrap shrink-0 focus:outline-none"
@@ -106,10 +181,10 @@ export default function App() {
             <NeomedikaLogo variant="compact" />
           </a>
 
-          {/* Zone 2 (Desktop): 5 Concise Single-Line Navigation Links */}
+          {/* Zone 2 (Desktop): 8 Main Navigation Links per Section 3 of Revision Master Doc */}
           <nav
             aria-label="Primary Navigation"
-            className="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-medium text-[#666666]"
+            className="hidden lg:flex items-center gap-4 xl:gap-6 text-xs xl:text-sm font-medium text-[#666666]"
           >
             {navItems.map((item) => (
               <a
@@ -130,11 +205,14 @@ export default function App() {
             ))}
           </nav>
 
-          {/* Zone 3: Primary Action + Mobile Menu Toggle Button */}
+          {/* Zone 3: Primary Action + Mobile/Tablet Pop-Up Menu Toggle Button */}
           <div className="flex items-center gap-2 shrink-0">
             <a
               href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSelectMenuPage('contact', 'top');
+              }}
               className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white rounded-xl bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0"
             >
               {t.nav.cta}
@@ -145,7 +223,7 @@ export default function App() {
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              className="md:hidden inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#D9CEE6] bg-[#FAF8FC] text-[#381B37] hover:border-[#903595] transition-colors cursor-pointer"
+              className="lg:hidden inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#D9CEE6] bg-[#FAF8FC] text-[#381B37] hover:border-[#903595] transition-colors cursor-pointer"
             >
               {mobileMenuOpen ? (
                 <X className="w-4 h-4 text-[#903595]" />
@@ -157,10 +235,10 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Quick-Access Menu Strip (Always visible on mobile screens) */}
+        {/* Mobile/Tablet Quick-Access Menu Strip */}
         <nav
           aria-label="Mobile Quick Navigation"
-          className="md:hidden border-t border-[#EAE4F2] bg-[#FAF8FC] px-3 py-2 flex items-center gap-1.5 overflow-x-auto"
+          className="lg:hidden border-t border-[#EAE4F2] bg-[#FAF8FC] px-3 py-2 flex items-center gap-1.5 overflow-x-auto"
         >
           {navItems.map((item) => {
             const isActive = activePage === item.key;
@@ -184,9 +262,9 @@ export default function App() {
           })}
         </nav>
 
-        {/* Expandable Mobile Navigation Drawer */}
+        {/* Expandable Mobile Pop-Up Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#D9CEE6] bg-white px-4 pt-3 pb-5 shadow-lg">
+          <div className="lg:hidden border-t border-[#D9CEE6] bg-white px-4 pt-3 pb-5 shadow-lg">
             <div className="flex flex-col gap-1.5">
               {navItems.map((item) => {
                 const isActive = activePage === item.key;
@@ -198,7 +276,7 @@ export default function App() {
                       e.preventDefault();
                       handleSelectMenuPage(item.key, 'top');
                     }}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                    className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                       isActive
                         ? 'bg-[#FAF8FC] text-[#903595] border border-[#D9CEE6]'
                         : 'text-[#381B37] hover:bg-[#FAF8FC]'
@@ -239,7 +317,10 @@ export default function App() {
       </header>
 
       <main id="top" className="flex-1">
-        {activePage === 'about' && (
+        {/* ================================================================= */}
+        {/* PAGE 01 — HOME (HERO + CORPORATE ECOSYSTEM SUMMARY)               */}
+        {/* ================================================================= */}
+        {activePage === 'home' && (
           <>
             {/* SECTION 1: HERO & BILINGUAL WORKSPACE TOOLBAR */}
             <section
@@ -262,7 +343,6 @@ export default function App() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    {/* Bilingual Segmented Control (ID / EN) */}
                     <div
                       role="group"
                       aria-label={t.utility.langLabel}
@@ -297,7 +377,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* 2-Column Editorial Hero Split */}
+                {/* 2-Column Editorial Hero Split (Preserving Exact Layout & Image Proportions) */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
                   {/* Left 7 Columns: Editorial Headline & Value Proposition */}
                   <div className="lg:col-span-7 flex flex-col justify-between">
@@ -329,12 +409,10 @@ export default function App() {
 
                   {/* Right 5 Columns: Official Neomedika Brand Identity & Corporate Governance Architecture */}
                   <div className="lg:col-span-5 bg-[#FAF8FC] border border-[#D9CEE6] rounded-3xl p-6 sm:p-7 flex flex-col justify-start gap-4">
-                    {/* Official Vertical Logo Lockup on Pure White Safe-Space Surface (Brand Guideline v0.9 Page 3 & 4) */}
                     <div className="bg-white border border-[#EAE4F2] rounded-2xl p-5 sm:p-6 flex flex-col items-center justify-center">
                       <NeomedikaLogo variant="vertical" />
                     </div>
 
-                    {/* Corporate Mandate & Architecture Summary Cards */}
                     <div className="flex-1 flex flex-col justify-start gap-3.5">
                       <div className="text-xs sm:text-[13px] font-bold text-[#381B37] uppercase tracking-wider pt-0.5">
                         {locale === 'id'
@@ -349,7 +427,9 @@ export default function App() {
                               ? '01 · Transformasi Kesehatan Digital'
                               : '01 · Digital Healthcare Transformation'}
                           </span>
-                          <span className="font-mono font-semibold text-[#342077]">NEO ARCHITECTURE</span>
+                          <span className="font-mono font-semibold text-[#342077]">
+                            NEO ARCHITECTURE
+                          </span>
                         </div>
                         <div className="font-display text-base sm:text-lg font-bold text-[#381B37] leading-snug">
                           {locale === 'id'
@@ -370,7 +450,9 @@ export default function App() {
                               ? '02 · Ekosistem & Standar Medis'
                               : '02 · Medical Ecosystem & Standards'}
                           </span>
-                          <span className="font-mono font-semibold text-[#903595]">NEO GOVERNANCE</span>
+                          <span className="font-mono font-semibold text-[#903595]">
+                            NEO GOVERNANCE
+                          </span>
                         </div>
                         <div className="font-display text-base sm:text-lg font-bold text-[#381B37] leading-snug">
                           {locale === 'id'
@@ -387,284 +469,543 @@ export default function App() {
                   </div>
                 </div>
 
-            {/* Full-Width 4-Column Corporate Snapshot Bar Below Hero Split */}
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {t.hero.snapshotItems.map((snap, idx) => (
-                <div
-                  key={snap.label}
-                  className="bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-5 overflow-hidden"
-                >
-                  <div className="text-xs text-[#666666]">{snap.label}</div>
-                  {idx === 1 && (
-                    <div className="relative w-[139px] h-[40px] max-w-full overflow-hidden mt-2 mb-1 select-none">
-                      <img
-                        src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
-                        alt="KHAYR — intelligent dentistry solutions"
-                        className="absolute max-w-none w-[105.47%] h-[123.21%] -left-[4.1%] -top-[6.48%] pointer-events-none select-none"
-                      />
-                    </div>
-                  )}
-                  {idx === 2 && (
-                    <div className="relative w-[118px] h-[30px] max-w-full overflow-hidden mt-2 mb-1 select-none">
-                      <img
-                        src="/assets/aistudio/Neollyte_logo_2K_379f6785.png"
-                        alt="Neolyte™ logo"
-                        className="absolute max-w-none w-[124.5%] h-[177%] -left-[6.57%] -top-[37.89%] mix-blend-multiply pointer-events-none select-none"
-                      />
-                    </div>
-                  )}
-                  <div className="font-display text-base font-bold text-[#381B37] mt-1">
-                    {snap.value}
-                  </div>
-                  <div className="text-xs text-[#903595] font-medium mt-1">{snap.detail}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 2: WHO WE ARE / ABOUT NEO (Vision, Mission, Values, 4-Phase Growth Roadmap) */}
-        <section
-          id="about"
-          aria-labelledby="about-heading"
-          className="py-24 bg-[#FAF8FC] border-t border-[#EAE4F2]"
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-14 border-b border-[#EAE4F2]">
-              <div className="lg:col-span-6">
-                <div className="flex items-center gap-2 text-xs font-medium text-[#666666] mb-3">
-                  <span className="text-[#903595] font-semibold">{t.about.sectionNumber}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{t.about.kicker}</span>
-                </div>
-                <h2
-                  id="about-heading"
-                  className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#381B37] leading-tight text-balance"
-                >
-                  {t.about.heading}
-                </h2>
-              </div>
-              <div className="lg:col-span-6 space-y-4">
-                <p className="text-base font-medium text-[#381B37] leading-relaxed">
-                  {t.about.lead}
-                </p>
-                <p className="text-sm text-[#666666] leading-relaxed">{t.about.body}</p>
-              </div>
-            </div>
-
-            {/* Vision & 5 Missions Split */}
-            <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-              <div className="lg:col-span-5 bg-[#342077] text-white rounded-3xl p-8 flex flex-col justify-between">
-                <div>
-                  <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-3">
-                    {t.about.visionTitle}
-                  </div>
-                  <p className="font-display text-2xl sm:text-3xl font-bold leading-snug text-balance">
-                    “{t.about.visionText}”
-                  </p>
-                </div>
-                <div className="mt-8 pt-6 border-t border-white/15 text-xs text-white/80">
-                  PT Neomedika Elektra Optima (NEO) · Connecting Healthcare. Empowering Better Lives.
-                </div>
-              </div>
-
-              <div className="lg:col-span-7 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-8">
-                <h3 className="font-display text-xl font-bold text-[#381B37] mb-5">
-                  {t.about.missionTitle}
-                </h3>
-                <div className="space-y-4">
-                  {t.about.missions.map((m) => (
+                {/* Full-Width 4-Column Corporate Snapshot Bar Below Hero Split (Preserving Original Logos) */}
+                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {t.hero.snapshotItems.map((snap, idx) => (
                     <div
-                      key={m.code}
-                      className="flex items-start gap-4 pb-4 border-b border-[#EAE4F2] last:border-none last:pb-0"
+                      key={snap.label}
+                      className="bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-5 overflow-hidden"
                     >
-                      <span className="font-mono text-sm font-bold text-[#903595] tabular-nums shrink-0 mt-0.5">
-                        {m.code}.
-                      </span>
-                      <div>
-                        <div className="text-sm font-bold text-[#381B37]">{m.title}</div>
-                        <p className="text-xs sm:text-sm text-[#666666] mt-0.5">{m.desc}</p>
+                      <div className="text-xs text-[#666666]">{snap.label}</div>
+                      {idx === 1 && (
+                        <div className="relative w-[139px] h-[40px] max-w-full overflow-hidden mt-2 mb-1 select-none">
+                          <img
+                            src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
+                            alt="KHAYR — intelligent dentistry solutions"
+                            className="absolute max-w-none w-[105.47%] h-[123.21%] -left-[4.1%] -top-[6.48%] pointer-events-none select-none"
+                          />
+                        </div>
+                      )}
+                      {idx === 2 && (
+                        <div className="relative w-[118px] h-[30px] max-w-full overflow-hidden mt-2 mb-1 select-none">
+                          <img
+                            src="/assets/aistudio/Neollyte_logo_2K_379f6785.png"
+                            alt="Neolyte™ logo"
+                            className="absolute max-w-none w-[124.5%] h-[177%] -left-[6.57%] -top-[37.89%] mix-blend-multiply pointer-events-none select-none"
+                          />
+                        </div>
+                      )}
+                      <div className="font-display text-base font-bold text-[#381B37] mt-1">
+                        {snap.value}
                       </div>
+                      <div className="text-xs text-[#903595] font-medium mt-1">{snap.detail}</div>
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
+            </section>
 
-            {/* 6 Corporate Values */}
-            <div className="mt-14">
-              <h3 className="font-display text-xl font-bold text-[#381B37] mb-6">
-                {t.about.valuesTitle}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {t.about.values.map((val, idx) => (
-                  <div
-                    key={val.title}
-                    className="bg-white border border-[#EAE4F2] rounded-2xl p-6"
-                  >
-                    <div className="font-mono text-xs font-semibold text-[#903595] mb-2 tabular-nums">
-                      0{idx + 1}
+            {/* HOME SECTION 2: WHO WE ARE SUMMARY & 5 BUSINESS PILLARS SUMMARY */}
+            <section className="py-20 bg-[#FAF8FC] border-t border-[#EAE4F2]">
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
+                {/* Who We Are Summary Card */}
+                <div className="bg-white border border-[#EAE4F2] rounded-3xl p-8 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-8">
+                    <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                      {t.homeSummary.whoWeAreKicker}
                     </div>
-                    <h4 className="font-display text-base font-bold text-[#381B37] mb-1.5">
-                      {val.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">
-                      {val.desc}
+                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#381B37] leading-tight text-balance">
+                      {t.homeSummary.whoWeAreTitle}
+                    </h2>
+                    <p className="mt-3 text-sm sm:text-base text-[#666666] leading-relaxed">
+                      {t.homeSummary.whoWeAreText}
                     </p>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 4-Phase Growth Roadmap */}
-            <div className="mt-14 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-                <h3 className="font-display text-xl font-bold text-[#381B37]">
-                  {t.about.roadmapTitle}
-                </h3>
-                <span className="text-xs text-[#666666]">{t.about.roadmapNote}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {t.about.phases.map((p) => (
-                  <div
-                    key={p.phase}
-                    className="p-5 rounded-2xl bg-[#FAF8FC] border border-[#EAE4F2]"
-                  >
-                    <div className="font-mono text-xs font-bold text-[#903595]">{p.phase}</div>
-                    <h4 className="font-display text-base font-bold text-[#381B37] mt-1.5">
-                      {p.title}
-                    </h4>
-                    <p className="text-xs text-[#666666] mt-2 leading-relaxed">{p.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Partnership Tracks in Tentang NEO */}
-            <div className="mt-14 bg-[#342077] text-white rounded-3xl p-8 sm:p-12">
-              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 border-b border-white/15">
-                <div className="max-w-2xl">
-                  <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-2">
-                    {t.partnerships.sectionNumber} · {t.partnerships.kicker}
-                  </div>
-                  <h2
-                    id="partnerships-heading"
-                    className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight text-balance"
-                  >
-                    {t.partnerships.heading}
-                  </h2>
-                  <p className="mt-3 text-sm sm:text-base text-white/80 leading-relaxed">
-                    {t.partnerships.lead}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleRouteToContact(
-                      'Business & Strategic Partnerships',
-                      'Corporate & Ecosystem Partnership'
-                    )
-                  }
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-[#EE498E] to-[#903595] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer self-start lg:self-auto"
-                >
-                  <span>{t.partnerships.ctaButton}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {t.partnerships.tracks.map((tr) => (
-                  <div
-                    key={tr.title}
-                    className="bg-white/10 border border-white/15 rounded-2xl p-6 flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="text-xs font-medium text-[#EE498E] mb-1.5">
-                        {tr.audience}
-                      </div>
-                      <h3 className="font-display text-lg font-bold text-white mb-2">
-                        {tr.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                        {tr.desc}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRouteToContact(
-                          tr.category,
-                          'Corporate & Ecosystem Partnership'
-                        )
-                      }
-                      className="mt-5 pt-3 border-t border-white/15 text-left text-xs font-semibold text-white hover:text-[#EE498E] transition-colors inline-flex items-center justify-between cursor-pointer whitespace-nowrap"
-                    >
-                      <span>{t.nav.cta}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-          </>
-        )}
-
-        {/* DEDICATED PILAR BISNIS VIEW (Only accessible via 'Pilar Bisnis' in the Menu Bar) */}
-        {activePage === 'business' && (
-          <>
-            <section className="pt-8 pb-6 bg-white border-b border-[#EAE4F2]">
-              <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#666666]">
+                  <div className="lg:col-span-4 flex lg:justify-end">
                     <button
                       type="button"
                       onClick={() => handleSelectMenuPage('about', 'top')}
-                      className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity cursor-pointer"
                     >
-                      {locale === 'id' ? '← Kembali ke Tentang NEO' : '← Back to About NEO'}
+                      <span>{t.homeSummary.whoWeAreCta}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
-                    <span aria-hidden="true">·</span>
-                    <strong className="font-bold text-[#381B37]">
-                      {t.nav.business} · PT Neomedika Elektra Optima
-                    </strong>
+                  </div>
+                </div>
+
+                {/* 5 Business Pillars Summary */}
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                    <div className="max-w-2xl">
+                      <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                        {t.homeSummary.pillarsKicker}
+                      </div>
+                      <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#381B37]">
+                        {t.homeSummary.pillarsTitle}
+                      </h2>
+                      <p className="mt-2 text-sm text-[#666666]">{t.homeSummary.pillarsSub}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectMenuPage('business', 'top')}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer shrink-0"
+                    >
+                      <span>{t.homeSummary.pillarsCta}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
 
-                  <div
-                    role="group"
-                    aria-label={t.utility.langLabel}
-                    className="inline-flex items-center gap-1 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl"
-                  >
-                    <Globe className="w-3.5 h-3.5 text-[#903595] ml-1.5" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {t.business.pillars.map((pillar) => (
+                      <div
+                        key={pillar.index}
+                        className="bg-white border border-[#EAE4F2] rounded-2xl p-5 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="font-mono text-xs font-bold text-[#903595] mb-2">
+                            {pillar.index}
+                          </div>
+                          <h3 className="font-display text-base font-bold text-[#381B37] leading-snug">
+                            {pillar.title}
+                          </h3>
+                          <p className="mt-2 text-xs text-[#666666] leading-relaxed">
+                            {pillar.summary}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* HOME SECTION 3: FEATURED PRODUCTS (KHAYR & NEOLYTE WITH ORIGINAL LOGOS) */}
+            <section className="py-20 bg-white border-t border-[#EAE4F2]">
+              <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="max-w-3xl mb-10">
+                  <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                    {t.homeSummary.featuredProductsKicker}
+                  </div>
+                  <h2 className="font-display text-3xl font-bold text-[#381B37]">
+                    {t.homeSummary.featuredProductsTitle}
+                  </h2>
+                  <p className="mt-2 text-sm sm:text-base text-[#666666]">
+                    {t.homeSummary.featuredProductsSub}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Featured Card 1: KHAYR */}
+                  <div className="bg-[#FAF8FC] border border-[#D9CEE6] rounded-3xl p-7 sm:p-9 flex flex-col justify-between">
+                    <div>
+                      <div className="flex flex-wrap items-center justify-between gap-4 pb-5 mb-6 border-b border-[#EAE4F2]">
+                        <img
+                          src="/assets/aistudio/KHAYR_Logo_Name_Transparant_cddcce1f.png"
+                          alt="KHAYR Intelligent Dentistry Solutions"
+                          className="h-14 sm:h-16 w-auto object-contain select-none"
+                        />
+                        <span className="text-xs font-semibold text-[#342077]">
+                          {t.khayr.statusDisclosure}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-2xl font-bold text-[#381B37]">
+                        {t.khayr.heading}
+                      </h3>
+                      <p className="mt-3 text-sm text-[#666666] leading-relaxed">
+                        {t.homeSummary.khayrCardDesc}
+                      </p>
+                      <div className="mt-5 flex items-center gap-4">
+                        <img
+                          src="/assets/aistudio/Logo_Satusehat_965283aa.png"
+                          alt="SATUSEHAT"
+                          className="h-9 w-auto object-contain mix-blend-multiply select-none"
+                        />
+                        <span className="text-xs text-[#666666]">
+                          {t.khayr.interoperabilityRoadmap.title}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="mt-7 pt-5 border-t border-[#EAE4F2] flex flex-wrap items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectMenuPage('products', 'khayr', 'khayr')}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity cursor-pointer"
+                      >
+                        <span>{t.homeSummary.khayrCardCta}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRouteToContact(
+                            'KHAYR Product Information',
+                            'KHAYR Digital Dental Platform'
+                          )
+                        }
+                        className="text-xs font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer"
+                      >
+                        {t.khayr.registerInterestCta} →
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Featured Card 2: Neolyte */}
+                  <div className="bg-[#FAF8FC] border border-[#D9CEE6] rounded-3xl p-7 sm:p-9 flex flex-col justify-between">
+                    <div>
+                      <div className="flex flex-wrap items-center justify-between gap-4 pb-5 mb-6 border-b border-[#EAE4F2]">
+                        <img
+                          src="/assets/aistudio/Neollyte_logo_2K_379f6785.png"
+                          alt="Neolyte™"
+                          className="h-14 sm:h-16 w-auto object-contain mix-blend-multiply select-none"
+                        />
+                        <span className="font-mono text-xs font-bold text-[#342077]">
+                          KEMENKES RI PKD
+                        </span>
+                      </div>
+                      <h3 className="font-display text-2xl font-bold text-[#381B37]">
+                        {t.neolyte.heading}
+                      </h3>
+                      <p className="mt-3 text-sm text-[#666666] leading-relaxed">
+                        {t.homeSummary.neolyteCardDesc}
+                      </p>
+                      <div className="mt-5 flex items-center gap-4">
+                        <div className="w-16 h-16 rounded-xl bg-white border border-[#EAE4F2] p-1.5 flex items-center justify-center">
+                          <img
+                            src="/assets/aistudio/Neolyte_SN_69407702.png"
+                            alt="Neolyte SN"
+                            className="w-full h-full object-contain select-none"
+                          />
+                        </div>
+                        <div className="w-16 h-16 rounded-xl bg-white border border-[#EAE4F2] p-1.5 flex items-center justify-center">
+                          <img
+                            src="/assets/aistudio/Neolyte_DS_bcf3a6e4.png"
+                            alt="Neolyte DS"
+                            className="w-full h-full object-contain select-none"
+                          />
+                        </div>
+                        <div className="text-xs text-[#381B37]">
+                          <div className="font-bold">Neolyte SN & Neolyte DS</div>
+                          <div className="text-[#666666]">PKD 20501023189 & 20502023190</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-7 pt-5 border-t border-[#EAE4F2] flex flex-wrap items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectMenuPage('products', 'neolyte', 'neolyte')}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity cursor-pointer"
+                      >
+                        <span>{t.homeSummary.neolyteCardCta}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRouteToContact(
+                            'Neolyte Product Enquiry',
+                            'Neolyte SN / DS Hygiene Line'
+                          )
+                        }
+                        className="text-xs font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer"
+                      >
+                        {t.neolyte.enquireCta} →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* HOME SECTION 4: TECHNOLOGY & PARTNERSHIPS SUMMARY */}
+            <section className="py-20 bg-[#FAF8FC] border-t border-[#EAE4F2]">
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="bg-white border border-[#EAE4F2] rounded-3xl p-8 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                      {t.homeSummary.techKicker}
+                    </div>
+                    <h3 className="font-display text-2xl font-bold text-[#381B37]">
+                      {t.homeSummary.techTitle}
+                    </h3>
+                    <p className="mt-3 text-sm text-[#666666] leading-relaxed">
+                      {t.homeSummary.techText}
+                    </p>
+                  </div>
+                  <div className="mt-6 pt-5 border-t border-[#EAE4F2]">
                     <button
                       type="button"
-                      onClick={() => setLocale('id')}
-                      aria-pressed={locale === 'id'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'id'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
+                      onClick={() => handleSelectMenuPage('technology', 'top')}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer"
                     >
-                      ID · Indonesia
+                      <span>{t.homeSummary.techCta}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
+                  </div>
+                </div>
+
+                <div className="bg-[#342077] text-white rounded-3xl p-8 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-2">
+                      {t.homeSummary.partnerKicker}
+                    </div>
+                    <h3 className="font-display text-2xl font-bold text-white">
+                      {t.homeSummary.partnerTitle}
+                    </h3>
+                    <p className="mt-3 text-sm text-white/80 leading-relaxed">
+                      {t.homeSummary.partnerText}
+                    </p>
+                  </div>
+                  <div className="mt-6 pt-5 border-t border-white/15">
                     <button
                       type="button"
-                      onClick={() => setLocale('en')}
-                      aria-pressed={locale === 'en'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'en'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
+                      onClick={() => handleSelectMenuPage('partnerships', 'top')}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-[#EE498E] transition-colors cursor-pointer"
                     >
-                      EN · English
+                      <span>{t.homeSummary.partnerCta}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               </div>
             </section>
 
+            {/* HOME SECTION 5: FEATURED INSIGHTS (MAX 3 ITEMS) & CLOSING CTA */}
+            <section className="py-20 bg-white border-t border-[#EAE4F2]">
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                    <div>
+                      <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                        {t.homeSummary.insightsKicker}
+                      </div>
+                      <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#381B37]">
+                        {t.homeSummary.insightsTitle}
+                      </h2>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectMenuPage('insights', 'top')}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer"
+                    >
+                      <span>{t.homeSummary.insightsCta}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {t.insights.articles.slice(0, 3).map((article) => (
+                      <article
+                        key={article.slug}
+                        className="bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-6 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2 text-xs text-[#666666] mb-3">
+                            <span className="font-semibold text-[#903595]">
+                              {article.category}
+                            </span>
+                            <span aria-hidden="true">·</span>
+                            <span>{article.readTime}</span>
+                          </div>
+                          <h3 className="font-display text-lg font-bold text-[#381B37] leading-snug">
+                            {article.title}
+                          </h3>
+                          <p className="mt-2.5 text-xs sm:text-sm text-[#666666] leading-relaxed">
+                            {article.summary}
+                          </p>
+                        </div>
+                        <div className="mt-5 pt-4 border-t border-[#EAE4F2]">
+                          <button
+                            type="button"
+                            onClick={() => setActiveArticle(article)}
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#342077] hover:text-[#EE498E] transition-colors cursor-pointer"
+                          >
+                            <BookOpen className="w-3.5 h-3.5" />
+                            <span>{t.insights.readArticleLabel}</span>
+                          </button>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Closing Corporate CTA */}
+                <div className="bg-[#FAF8FC] border border-[#D9CEE6] rounded-3xl p-8 sm:p-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div className="max-w-2xl">
+                    <div className="text-xs font-semibold text-[#903595] uppercase tracking-wider mb-2">
+                      {t.homeSummary.closingKicker}
+                    </div>
+                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#381B37]">
+                      {t.homeSummary.closingTitle}
+                    </h2>
+                    <p className="mt-2 text-sm sm:text-base text-[#666666] leading-relaxed">
+                      {t.homeSummary.closingText}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectMenuPage('contact', 'top')}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95 transition-opacity cursor-pointer"
+                    >
+                      <span>{t.homeSummary.closingPrimaryCta}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectMenuPage('partnerships', 'top')}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-[#342077] bg-white border border-[#D9CEE6] hover:bg-[#F4F0FA] transition-colors cursor-pointer"
+                    >
+                      <span>{t.homeSummary.closingSecondaryCta}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* ================================================================= */}
+        {/* PAGE 02 — ABOUT NEO (WHO WE ARE, VISION, MISSION, 5 VALUES, 5 STEPS) */}
+        {/* ================================================================= */}
+        {activePage === 'about' && (
+          <>
+            {renderPageUtilityBar(t.nav.about)}
+            <section
+              id="about"
+              aria-labelledby="about-heading"
+              className="py-20 bg-[#FAF8FC]"
+            >
+              <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-14 border-b border-[#EAE4F2]">
+                  <div className="lg:col-span-6">
+                    <div className="flex items-center gap-2 text-xs font-medium text-[#666666] mb-3">
+                      <span className="text-[#903595] font-semibold">
+                        {t.about.sectionNumber}
+                      </span>
+                      <span aria-hidden="true">·</span>
+                      <span>{t.about.kicker}</span>
+                    </div>
+                    <h2
+                      id="about-heading"
+                      className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#381B37] leading-tight text-balance"
+                    >
+                      {t.about.heading}
+                    </h2>
+                  </div>
+                  <div className="lg:col-span-6 space-y-4">
+                    <p className="text-base font-medium text-[#381B37] leading-relaxed">
+                      {t.about.lead}
+                    </p>
+                    <p className="text-sm text-[#666666] leading-relaxed">{t.about.body}</p>
+                  </div>
+                </div>
+
+                {/* Vision & 5 Missions Split */}
+                <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                  <div className="lg:col-span-5 bg-[#342077] text-white rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                      <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-3">
+                        {t.about.visionTitle}
+                      </div>
+                      <p className="font-display text-2xl sm:text-3xl font-bold leading-snug text-balance">
+                        “{t.about.visionText}”
+                      </p>
+                    </div>
+                    <div className="mt-8 pt-6 border-t border-white/15 text-xs text-white/80">
+                      PT Neomedika Elektra Optima (NEO) · Connecting Healthcare. Empowering
+                      Better Lives.
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-8">
+                    <h3 className="font-display text-xl font-bold text-[#381B37] mb-5">
+                      {t.about.missionTitle}
+                    </h3>
+                    <div className="space-y-4">
+                      {t.about.missions.map((m) => (
+                        <div
+                          key={m.code}
+                          className="flex items-start gap-4 pb-4 border-b border-[#EAE4F2] last:border-none last:pb-0"
+                        >
+                          <span className="font-mono text-sm font-bold text-[#903595] tabular-nums shrink-0 mt-0.5">
+                            {m.code}.
+                          </span>
+                          <div>
+                            <div className="text-sm font-bold text-[#381B37]">{m.title}</div>
+                            <p className="text-xs sm:text-sm text-[#666666] mt-0.5">
+                              {m.desc}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5 Corporate Values */}
+                <div className="mt-14">
+                  <h3 className="font-display text-xl font-bold text-[#381B37] mb-6">
+                    {t.about.valuesTitle}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                    {t.about.values.map((val, idx) => (
+                      <div
+                        key={val.title}
+                        className="bg-white border border-[#EAE4F2] rounded-2xl p-6"
+                      >
+                        <div className="font-mono text-xs font-semibold text-[#903595] mb-2 tabular-nums">
+                          0{idx + 1}
+                        </div>
+                        <h4 className="font-display text-base font-bold text-[#381B37] mb-1.5">
+                          {val.title}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">
+                          {val.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 5-Step Our Development Approach */}
+                <div className="mt-14 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                    <h3 className="font-display text-xl font-bold text-[#381B37]">
+                      {t.about.roadmapTitle}
+                    </h3>
+                    <span className="text-xs text-[#666666]">{t.about.roadmapNote}</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {t.about.phases.map((p) => (
+                      <div
+                        key={p.phase}
+                        className="p-5 rounded-2xl bg-[#FAF8FC] border border-[#EAE4F2]"
+                      >
+                        <div className="font-mono text-xs font-bold text-[#903595]">
+                          {p.phase}
+                        </div>
+                        <h4 className="font-display text-sm font-bold text-[#381B37] mt-1.5">
+                          {p.title}
+                        </h4>
+                        <p className="text-xs text-[#666666] mt-2 leading-relaxed">{p.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* ================================================================= */}
+        {/* PAGE 03 — OUR BUSINESS (5 STRATEGIC PILLARS + REQUIRED DISCLAIMER) */}
+        {/* ================================================================= */}
+        {activePage === 'business' && (
+          <>
+            {renderPageUtilityBar(t.nav.business)}
             <section
               id="business"
               aria-labelledby="business-heading"
@@ -673,7 +1014,9 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl mb-12">
                   <div className="flex items-center gap-2 text-xs font-medium text-[#666666] mb-3">
-                    <span className="text-[#903595] font-semibold">{t.business.sectionNumber}</span>
+                    <span className="text-[#903595] font-semibold">
+                      {t.business.sectionNumber}
+                    </span>
                     <span aria-hidden="true">·</span>
                     <span>{t.business.kicker}</span>
                   </div>
@@ -683,7 +1026,9 @@ export default function App() {
                   >
                     {t.business.heading}
                   </h2>
-                  <p className="mt-4 text-base text-[#666666] leading-relaxed">{t.business.lead}</p>
+                  <p className="mt-4 text-base text-[#666666] leading-relaxed">
+                    {t.business.lead}
+                  </p>
                 </div>
 
                 {/* Asymmetric Bento Grid for the 5 Strategic Business Pillars */}
@@ -697,7 +1042,7 @@ export default function App() {
                     >
                       <div>
                         <div className="font-mono text-sm font-bold text-[#903595] tabular-nums mb-2">
-                          {pillar.index}. Strategic Business Pillar
+                          Pillar {pillar.index}
                         </div>
                         <h3 className="font-display text-2xl font-bold text-[#381B37]">
                           {pillar.title}
@@ -705,6 +1050,27 @@ export default function App() {
                         <p className="mt-2.5 text-sm text-[#666666] leading-relaxed">
                           {pillar.summary}
                         </p>
+
+                        {/* Scope & Strategic Focus Boxes (Page 03 Spec) */}
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="p-3.5 rounded-xl bg-white border border-[#EAE4F2]">
+                            <div className="text-xs font-bold text-[#342077]">
+                              {pillar.scopeLabel}
+                            </div>
+                            <p className="text-xs text-[#666666] mt-1 leading-relaxed">
+                              {pillar.scope}
+                            </p>
+                          </div>
+                          <div className="p-3.5 rounded-xl bg-white border border-[#EAE4F2]">
+                            <div className="text-xs font-bold text-[#903595]">
+                              {pillar.focusLabel}
+                            </div>
+                            <p className="text-xs text-[#666666] mt-1 leading-relaxed">
+                              {pillar.focus}
+                            </p>
+                          </div>
+                        </div>
+
                         {pillar.index === '01' && (
                           <div className="mt-5 w-full rounded-2xl overflow-hidden border border-[#EAE4F2] bg-white p-2 sm:p-3 flex items-center justify-center">
                             <img
@@ -731,7 +1097,10 @@ export default function App() {
                   ))}
                 </div>
 
-                <p className="mt-4 text-xs text-[#666666]">{t.business.governanceNote}</p>
+                {/* Required Disclaimer Box (Page 03 Spec) */}
+                <div className="mt-8 p-5 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6] text-xs text-[#666666] leading-relaxed">
+                  {t.business.governanceNote}
+                </div>
 
                 {/* Solutions by Audience / Use Case */}
                 <div className="mt-16 pt-14 border-t border-[#EAE4F2]">
@@ -777,7 +1146,9 @@ export default function App() {
           </>
         )}
 
-        {/* DEDICATED PRODUK UTAMA VIEW (Only accessible via 'Produk Utama' in the Menu Bar) */}
+        {/* ================================================================= */}
+        {/* PAGE 04 & 05 — OUR PRODUCTS (KHAYR & NEOLYTE)                     */}
+        {/* ================================================================= */}
         {activePage === 'products' && (
           <>
             <section className="pt-8 pb-6 bg-white border-b border-[#EAE4F2]">
@@ -786,36 +1157,49 @@ export default function App() {
                   <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#666666]">
                     <button
                       type="button"
-                      onClick={() => handleSelectMenuPage('about', 'top')}
+                      onClick={() => handleSelectMenuPage('home', 'top')}
                       className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer"
                     >
-                      {locale === 'id' ? '← Kembali ke Tentang NEO' : '← Back to About NEO'}
+                      {locale === 'id' ? '← Kembali ke Beranda' : '← Back to Home'}
                     </button>
                     <span aria-hidden="true">·</span>
-                    <strong className="font-bold text-[#381B37]">
-                      {locale === 'id'
-                        ? 'Produk Utama PT Neomedika Elektra Optima'
-                        : 'PT Neomedika Elektra Optima Flagship Products'}
-                    </strong>
-                    <span aria-hidden="true" className="hidden sm:inline">
-                      ·
-                    </span>
-                    <a
-                      href="#khayr"
-                      className="font-semibold text-[#342077] hover:text-[#EE498E] transition-colors"
-                    >
-                      01 · KHAYR Dental OS
-                    </a>
-                    <span aria-hidden="true">·</span>
-                    <a
-                      href="#neolyte"
-                      className="font-semibold text-[#189AB4] hover:text-[#342077] transition-colors"
-                    >
-                      02 · Neolyte™ SN & DS
-                    </a>
+                    <div className="inline-flex items-center gap-1.5 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl">
+                      <button
+                        type="button"
+                        onClick={() => setProductSubView('all')}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                          productSubView === 'all'
+                            ? 'bg-[#342077] text-white'
+                            : 'text-[#381B37] hover:text-[#903595]'
+                        }`}
+                      >
+                        {locale === 'id' ? 'Semua Produk' : 'All Products'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setProductSubView('khayr')}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                          productSubView === 'khayr'
+                            ? 'bg-[#903595] text-white'
+                            : 'text-[#381B37] hover:text-[#903595]'
+                        }`}
+                      >
+                        01 · KHAYR
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setProductSubView('neolyte')}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                          productSubView === 'neolyte'
+                            ? 'bg-[#189AB4] text-white'
+                            : 'text-[#381B37] hover:text-[#189AB4]'
+                        }`}
+                      >
+                        02 · Neolyte™
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Bilingual Segmented Control (ID / EN) */}
                   <div
                     role="group"
                     aria-label={t.utility.langLabel}
@@ -851,77 +1235,30 @@ export default function App() {
               </div>
             </section>
 
-            {/* SECTION 4: FLAGSHIP DIGITAL PRODUCT — KHAYR */}
-            <KhayrShowcase
-              content={t.khayr}
-              locale={locale}
-              onSelectEnquiry={handleRouteToContact}
-            />
+            {(productSubView === 'all' || productSubView === 'khayr') && (
+              <KhayrShowcase
+                content={t.khayr}
+                locale={locale}
+                onSelectEnquiry={handleRouteToContact}
+              />
+            )}
 
-            {/* SECTION 5: HEALTHCARE HYGIENE LINE — NEOLYTE */}
-            <NeolyteShowcase
-              content={t.neolyte}
-              locale={locale}
-              onSelectEnquiry={handleRouteToContact}
-            />
+            {(productSubView === 'all' || productSubView === 'neolyte') && (
+              <NeolyteShowcase
+                content={t.neolyte}
+                locale={locale}
+                onSelectEnquiry={handleRouteToContact}
+              />
+            )}
           </>
         )}
 
-        {/* DEDICATED TEKNOLOGI VIEW (Only accessible via 'Teknologi' in the Menu Bar) */}
+        {/* ================================================================= */}
+        {/* PAGE 06 — TECHNOLOGY (6 PRINCIPLES + GOVERNANCE)                  */}
+        {/* ================================================================= */}
         {activePage === 'technology' && (
           <>
-            <section className="pt-8 pb-6 bg-white border-b border-[#EAE4F2]">
-              <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#666666]">
-                    <button
-                      type="button"
-                      onClick={() => handleSelectMenuPage('about', 'top')}
-                      className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer"
-                    >
-                      {locale === 'id' ? '← Kembali ke Tentang NEO' : '← Back to About NEO'}
-                    </button>
-                    <span aria-hidden="true">·</span>
-                    <strong className="font-bold text-[#381B37]">
-                      {t.nav.technology} · PT Neomedika Elektra Optima
-                    </strong>
-                  </div>
-
-                  <div
-                    role="group"
-                    aria-label={t.utility.langLabel}
-                    className="inline-flex items-center gap-1 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl"
-                  >
-                    <Globe className="w-3.5 h-3.5 text-[#903595] ml-1.5" />
-                    <button
-                      type="button"
-                      onClick={() => setLocale('id')}
-                      aria-pressed={locale === 'id'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'id'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
-                    >
-                      ID · Indonesia
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setLocale('en')}
-                      aria-pressed={locale === 'en'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'en'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
-                    >
-                      EN · English
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
+            {renderPageUtilityBar(t.nav.technology)}
             <section
               id="technology"
               aria-labelledby="tech-heading"
@@ -930,7 +1267,9 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl mb-12">
                   <div className="flex items-center gap-2 text-xs font-medium text-[#666666] mb-3">
-                    <span className="text-[#903595] font-semibold">{t.technology.sectionNumber}</span>
+                    <span className="text-[#903595] font-semibold">
+                      {t.technology.sectionNumber}
+                    </span>
                     <span aria-hidden="true">·</span>
                     <span>{t.technology.kicker}</span>
                   </div>
@@ -940,7 +1279,9 @@ export default function App() {
                   >
                     {t.technology.heading}
                   </h2>
-                  <p className="mt-4 text-base text-[#666666] leading-relaxed">{t.technology.lead}</p>
+                  <p className="mt-4 text-base text-[#666666] leading-relaxed">
+                    {t.technology.lead}
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -979,7 +1320,9 @@ export default function App() {
                         <h4 className="font-display text-base font-bold text-[#381B37] mb-2">
                           {gb.title}
                         </h4>
-                        <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">{gb.desc}</p>
+                        <p className="text-xs sm:text-sm text-[#666666] leading-relaxed">
+                          {gb.desc}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -989,61 +1332,94 @@ export default function App() {
           </>
         )}
 
-        {/* DEDICATED WAWASAN VIEW (Only accessible via 'Wawasan' in the Menu Bar) */}
-        {activePage === 'insights' && (
+        {/* ================================================================= */}
+        {/* PAGE 07 — PARTNERSHIPS (4 PARTNERSHIP CATEGORIES)                 */}
+        {/* ================================================================= */}
+        {activePage === 'partnerships' && (
           <>
-            <section className="pt-8 pb-6 bg-white border-b border-[#EAE4F2]">
+            {renderPageUtilityBar(t.nav.partnerships)}
+            <section
+              id="partnerships"
+              aria-labelledby="partnerships-heading"
+              className="py-20 bg-white"
+            >
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#666666]">
+                <div className="bg-[#342077] text-white rounded-3xl p-8 sm:p-12">
+                  <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 border-b border-white/15">
+                    <div className="max-w-2xl">
+                      <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-2">
+                        {t.partnerships.sectionNumber} · {t.partnerships.kicker}
+                      </div>
+                      <h2
+                        id="partnerships-heading"
+                        className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight text-balance"
+                      >
+                        {t.partnerships.heading}
+                      </h2>
+                      <p className="mt-3 text-sm sm:text-base text-white/80 leading-relaxed">
+                        {t.partnerships.lead}
+                      </p>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => handleSelectMenuPage('about', 'top')}
-                      className="font-semibold text-[#903595] hover:text-[#342077] transition-colors cursor-pointer"
+                      onClick={() =>
+                        handleRouteToContact(
+                          'Investor & Strategic Collaboration',
+                          'Corporate & Ecosystem Partnership'
+                        )
+                      }
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-white rounded-xl bg-gradient-to-r from-[#EE498E] to-[#903595] hover:opacity-95 transition-opacity whitespace-nowrap shrink-0 cursor-pointer self-start lg:self-auto"
                     >
-                      {locale === 'id' ? '← Kembali ke Tentang NEO' : '← Back to About NEO'}
+                      <span>{t.partnerships.ctaButton}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
-                    <span aria-hidden="true">·</span>
-                    <strong className="font-bold text-[#381B37]">
-                      {t.nav.insights} · PT Neomedika Elektra Optima
-                    </strong>
                   </div>
 
-                  <div
-                    role="group"
-                    aria-label={t.utility.langLabel}
-                    className="inline-flex items-center gap-1 p-1 bg-[#FAF8FC] border border-[#D9CEE6] rounded-xl"
-                  >
-                    <Globe className="w-3.5 h-3.5 text-[#903595] ml-1.5" />
-                    <button
-                      type="button"
-                      onClick={() => setLocale('id')}
-                      aria-pressed={locale === 'id'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'id'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
-                    >
-                      ID · Indonesia
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setLocale('en')}
-                      aria-pressed={locale === 'en'}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        locale === 'en'
-                          ? 'bg-[#342077] text-white'
-                          : 'text-[#666666] hover:text-[#381B37]'
-                      }`}
-                    >
-                      EN · English
-                    </button>
+                  <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    {t.partnerships.tracks.map((tr, idx) => (
+                      <div
+                        key={tr.title}
+                        className="bg-white/10 border border-white/15 rounded-2xl p-6 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="font-mono text-xs font-bold text-[#EE498E] mb-1.5">
+                            0{idx + 1} · {tr.audience}
+                          </div>
+                          <h3 className="font-display text-lg font-bold text-white mb-2">
+                            {tr.title}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+                            {tr.desc}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleRouteToContact(
+                              tr.category,
+                              'Corporate & Ecosystem Partnership'
+                            )
+                          }
+                          className="mt-5 pt-3 border-t border-white/15 text-left text-xs font-semibold text-white hover:text-[#EE498E] transition-colors inline-flex items-center justify-between cursor-pointer whitespace-nowrap"
+                        >
+                          <span>{t.nav.cta}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </section>
+          </>
+        )}
 
+        {/* ================================================================= */}
+        {/* PAGE 08 — INSIGHTS (5 CATEGORIES & EDUCATIONAL ARTICLES)          */}
+        {/* ================================================================= */}
+        {activePage === 'insights' && (
+          <>
+            {renderPageUtilityBar(t.nav.insights)}
             <section id="insights" className="py-20 bg-white">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
@@ -1058,7 +1434,9 @@ export default function App() {
                     <h2 className="font-display text-3xl font-bold text-[#381B37] text-balance">
                       {t.insights.heading}
                     </h2>
-                    <p className="mt-2 text-sm sm:text-base text-[#666666]">{t.insights.lead}</p>
+                    <p className="mt-2 text-sm sm:text-base text-[#666666]">
+                      {t.insights.lead}
+                    </p>
                   </div>
 
                   {/* Interactive Category Filter Tabs */}
@@ -1091,9 +1469,10 @@ export default function App() {
                       className="bg-[#FAF8FC] border border-[#EAE4F2] rounded-2xl p-7 flex flex-col justify-between"
                     >
                       <div>
-                        {/* Zero-Pill Metadata Discipline: Clean Unboxed Text with · Separators */}
                         <div className="flex items-center gap-2 text-xs text-[#666666] mb-3">
-                          <span className="font-semibold text-[#903595]">{article.category}</span>
+                          <span className="font-semibold text-[#903595]">
+                            {article.category}
+                          </span>
                           <span aria-hidden="true">·</span>
                           <span>{article.date}</span>
                           <span aria-hidden="true">·</span>
@@ -1124,24 +1503,28 @@ export default function App() {
           </>
         )}
 
-        {/* SECTION 8: CONTACT NEO & GOOGLE WORKSPACE AUTO-INTEGRATION */}
+        {/* ================================================================= */}
+        {/* PAGE 09 — CONTACT (CORPORATE ENQUIRY & PARTNERSHIP FORM)          */}
+        {/* ================================================================= */}
+        {activePage === 'contact' && renderPageUtilityBar(t.nav.contact)}
+
         <ContactWorkspaceSection
           content={t.contact}
           locale={locale}
           prefilledCategory={prefilledCategory}
           prefilledProduct={prefilledProduct}
+          onOpenPrivacyNotice={() => setActiveLegalModal('privacy')}
         />
       </main>
 
-      {/* SECTION 9: DEEP PURPLE CORPORATE FOOTER (With Official White-Panel Logo Lockup per Brand Guideline v0.9) */}
+      {/* SECTION 9: DEEP PURPLE CORPORATE FOOTER (Section 6 of Revision Master Doc) */}
       <footer className="bg-[#342077] text-white border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-white/15">
             <div className="lg:col-span-5">
-              {/* Brand Guideline v0.9 Section 08: Provide a white safe-space panel when placed on a colored surface */}
               <NeomedikaLogo variant="vertical" onDarkBackground />
               <div className="mt-5 text-xs font-semibold text-[#EE498E]">
-                {t.footer.corporateDescriptor}
+                PT Neomedika Elektra Optima | {t.footer.corporateDescriptor}
               </div>
               <p className="mt-2 text-sm text-white/80 leading-relaxed max-w-md">
                 {t.footer.statement}
@@ -1155,20 +1538,20 @@ export default function App() {
                 </h4>
                 <ul className="space-y-2 text-xs text-white/80">
                   <li>PT Neomedika Elektra Optima</li>
-                  <li>Merek Korporat: NEO · neomedika</li>
-                  <li>“Trusted Healthcare Solutions”</li>
-                  <li>Indonesia & Visi Ekosistem Global</li>
+                  <li>NEO — Integrated Healthcare Technology</li>
+                  <li>“Connecting Healthcare. Empowering Better Lives.”</li>
+                  <li>Portfolio: KHAYR & Neolyte™</li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="font-display text-sm font-bold text-white mb-3">
-                  {locale === 'id' ? 'Kontak Resmi' : 'Official Contact'}
+                  {locale === 'id' ? 'Kontak Korporat Resmi' : 'Official Corporate Contact'}
                 </h4>
                 <ul className="space-y-2 text-xs text-white/80">
-                  <li>Email: helas.m@gmail.com</li>
-                  <li>WhatsApp: +62 819-3241-5455</li>
-                  <li>Jakarta, Bandung, Semarang, Yogyakarta</li>
+                  <li>Email: {t.footer.officialEmail}</li>
+                  <li>Partnerships: {t.footer.partnershipsEmail}</li>
+                  <li>{t.footer.locationSummary}</li>
                 </ul>
               </div>
 
@@ -1183,7 +1566,9 @@ export default function App() {
                       onClick={() => setActiveLegalModal('privacy')}
                       className="hover:text-white transition-colors cursor-pointer text-left"
                     >
-                      {locale === 'id' ? 'Kebijakan Privasi' : 'Privacy Notice'}
+                      {locale === 'id'
+                        ? 'Pemberitahuan Privasi (Privacy Notice)'
+                        : 'Privacy Notice'}
                     </button>
                   </li>
                   <li>
@@ -1227,7 +1612,8 @@ export default function App() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/70">
             <div>{t.footer.copyright}</div>
             <div>
-              PT Neomedika Elektra Optima · Magenta #EE498E · Purple #903595 · Deep Purple #342077
+              PT Neomedika Elektra Optima · Magenta #EE498E · Purple #903595 · Deep Purple
+              #342077
             </div>
           </div>
         </div>
@@ -1286,7 +1672,7 @@ export default function App() {
         </div>
       )}
 
-      {/* LEGAL & BRAND GUIDELINE MODAL */}
+      {/* LEGAL & PRIVACY NOTICE MODAL (Section 5.2 of Revision Master Doc) */}
       {activeLegalModal && (
         <div
           role="dialog"
@@ -1297,7 +1683,7 @@ export default function App() {
           <div className="bg-white border border-[#D9CEE6] rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-xl">
             <div className="flex items-center justify-between pb-4 border-b border-[#EAE4F2]">
               <span className="text-xs font-bold text-[#903595] uppercase tracking-wider">
-                PT Neomedika Elektra Optima
+                PT Neomedika Elektra Optima (NEO)
               </span>
               <button
                 type="button"
@@ -1315,14 +1701,14 @@ export default function App() {
             >
               {activeLegalModal === 'privacy' &&
                 (locale === 'id'
-                  ? 'Kebijakan Privasi & Pelindungan Data'
-                  : 'Privacy & Data Protection Notice')}
+                  ? 'Pemberitahuan Privasi (Privacy Notice)'
+                  : 'Privacy Notice — PT Neomedika Elektra Optima')}
               {activeLegalModal === 'terms' &&
                 (locale === 'id'
                   ? 'Ketentuan Penggunaan Situs Korporat'
                   : 'Corporate Website Terms of Use')}
               {activeLegalModal === 'cookies' &&
-                (locale === 'id' ? 'Kebijakan Cookie & Analitik' : 'Cookies & Analytics Policy')}
+                (locale === 'id' ? 'Kebijakan Cookie & Sesi' : 'Cookie & Session Notice')}
               {activeLegalModal === 'brand' &&
                 'Neomedika Brand Guideline v0.9 — Spesifikasi Identitas'}
             </h3>
@@ -1332,28 +1718,28 @@ export default function App() {
                 <>
                   <p>
                     {locale === 'id'
-                      ? 'PT Neomedika Elektra Optima hanya mengumpulkan informasi kontak bisnis yang diperlukan (Nama, Email Bisnis, Organisasi, Telepon, Kategori, dan Pesan) untuk menindaklanjuti pertanyaan produk KHAYR, Neolyte, atau peluang kemitraan.'
-                      : 'PT Neomedika Elektra Optima collects only necessary business contact information (Name, Business Email, Organisation, Phone, Category, and Message) to respond to KHAYR, Neolyte, or partnership enquiries.'}
+                      ? 'PT Neomedika Elektra Optima (NEO) mengumpulkan informasi kontak bisnis yang Anda kirimkan secara sukarela melalui Corporate Enquiry & Partnership Form (meliputi Nama Lengkap, Jabatan, Nama Institusi/Klinik, Email Bisnis, Nomor Telepon, Kategori Pertanyaan, dan Rincian Pesan) semata-mata untuk menanggapi pertanyaan korporat, permintaan informasi produk KHAYR/Neolyte, atau penjajakan kemitraan.'
+                      : 'PT Neomedika Elektra Optima (NEO) collects the business contact information you voluntarily submit through the Corporate Enquiry & Partnership Form (including Full Name, Role/Title, Company/Institution/Clinic Name, Email Address, Phone Number, Enquiry Category, and Message) solely to respond to your corporate, product, or partnership enquiry.'}
                   </p>
                   <p>
                     {locale === 'id'
-                      ? 'Situs korporat ini terpisah dari infrastruktur aplikasi klinis KHAYR dan tidak mengumpulkan rekam medis pasien.'
-                      : 'This corporate website is strictly separated from KHAYR clinical infrastructure and does not collect patient health records.'}
+                      ? 'Situs web korporat ini terpisah sepenuhnya dari aplikasi rekam medis klinis dan tidak ditujukan untuk menerima data kesehatan pribadi atau rekam medis pasien. Untuk pertanyaan terkait pengelolaan data kontak bisnis Anda, silakan hubungi info@neomedika.com.'
+                      : 'This corporate website is strictly separated from clinical medical record applications and is not intended to collect personal health information or patient medical records. For questions regarding your business contact data, please contact info@neomedika.com.'}
                   </p>
                 </>
               )}
               {activeLegalModal === 'terms' && (
                 <p>
                   {locale === 'id'
-                    ? 'Seluruh konten pada situs ini menjelaskan kerangka bisnis dan portofolio produk PT Neomedika Elektra Optima. Klaim ketersediaan fitur KHAYR tunduk pada validasi pengembangan, sedangkan produk Neolyte SN & DS mengacu pada izin edar resmi Kemenkes RI PKD.'
-                    : 'All content on this site describes PT Neomedika Elektra Optima’s corporate framework and product portfolio. KHAYR capabilities are subject to development validation, while Neolyte SN & DS follow official KEMENKES RI PKD registrations.'}
+                    ? 'Seluruh konten pada situs ini menjelaskan kerangka bisnis dan portofolio produk PT Neomedika Elektra Optima (NEO). Ketersediaan fitur platform KHAYR tunduk pada proses pengembangan dan validasi, sedangkan produk Neolyte SN & DS mengacu pada izin edar resmi Kemenkes RI PKD dan petunjuk label kemasan.'
+                    : 'All content on this site describes PT Neomedika Elektra Optima’s (NEO) corporate framework and product portfolio. KHAYR platform capabilities are subject to development and validation, while Neolyte SN & DS follow official KEMENKES RI PKD registrations and approved product labels.'}
                 </p>
               )}
               {activeLegalModal === 'cookies' && (
                 <p>
                   {locale === 'id'
-                    ? 'Situs ini hanya menggunakan penyimpanan sesi esensial untuk preferensi bahasa (ID/EN) serta autentikasi Google Workspace OAuth di memori peramban bagi administrator.'
-                    : 'This website uses only essential session state for language preference (ID/EN) and in-memory Google Workspace OAuth tokens for administrators.'}
+                    ? 'Situs ini hanya menggunakan penyimpanan sesi esensial untuk preferensi tampilan bahasa (ID/EN) serta fungsionalitas navigasi halaman.'
+                    : 'This website uses only essential session state for language preference (ID/EN) and page navigation functionality.'}
                 </p>
               )}
               {activeLegalModal === 'brand' && (

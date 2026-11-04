@@ -3,53 +3,37 @@ import {
   Send,
   CheckCircle2,
   AlertCircle,
-  Download,
-  FileSpreadsheet,
-  Mail,
-  Trash2,
-  ExternalLink,
   ShieldCheck,
+  Mail,
+  MapPin,
+  Building2,
 } from 'lucide-react';
-import type { User } from 'firebase/auth';
 import type { SiteContent } from '../data/content';
 import {
   validateEnquiryInput,
-  formatEnquiriesToCsv,
   type EnquiryInput,
   type EnquiryRecord,
   type Locale,
 } from '../utils/neomedikaLogic';
-import {
-  initAuth,
-  googleSignIn,
-  logout,
-  createNeoLeadSpreadsheet,
-  appendEnquiriesToSpreadsheet,
-  sendEnquiryEmailViaGmail,
-} from '../services/googleWorkspace';
 
 interface ContactWorkspaceSectionProps {
   content: SiteContent['contact'];
   locale: Locale;
   prefilledCategory: string;
   prefilledProduct: string;
+  onOpenPrivacyNotice?: () => void;
 }
-
-type PendingWorkspaceAction =
-  | { type: 'create_sheet'; enquiries: EnquiryRecord[] }
-  | { type: 'append_sheet'; enquiries: EnquiryRecord[]; spreadsheetId: string }
-  | { type: 'send_gmail'; enquiry: EnquiryRecord; recipientEmail: string; ccVisitor: boolean }
-  | { type: 'delete_enquiry'; enquiry: EnquiryRecord };
 
 export function ContactWorkspaceSection({
   content,
   locale,
   prefilledCategory,
   prefilledProduct,
+  onOpenPrivacyNotice,
 }: ContactWorkspaceSectionProps) {
-  // Form State
   const [formData, setFormData] = useState<EnquiryInput>({
     fullName: '',
+    roleTitle: '',
     businessEmail: '',
     phone: '',
     organisation: '',
@@ -68,27 +52,6 @@ export function ContactWorkspaceSection({
     text: string;
   } | null>(null);
 
-  // Enquiries Database State
-  const [enquiries, setEnquiries] = useState<EnquiryRecord[]>([]);
-  const [isLoadingEnquiries, setIsLoadingEnquiries] = useState(true);
-
-  // Google Workspace OAuth State
-  const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [needsAuth, setNeedsAuth] = useState(true);
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [isExecutingWorkspace, setIsExecutingWorkspace] = useState(false);
-
-  // Workspace Configuration
-  const [recipientEmail, setRecipientEmail] = useState('helas.m@gmail.com');
-  const [ccVisitor, setCcVisitor] = useState(true);
-  const [spreadsheetId, setSpreadsheetId] = useState('');
-  const [spreadsheetUrl, setSpreadsheetUrl] = useState('');
-
-  // Mandatory Confirmation Dialog State for Mutating / Sending Actions
-  const [pendingAction, setPendingAction] = useState<PendingWorkspaceAction | null>(null);
-
-  // Update form category/product when user clicks a contextual CTA on the page
   useEffect(() => {
     if (prefilledCategory) {
       setFormData((prev) => ({ ...prev, category: prefilledCategory }));
@@ -100,92 +63,6 @@ export function ContactWorkspaceSection({
       setFormData((prev) => ({ ...prev, productInterest: prefilledProduct }));
     }
   }, [prefilledProduct]);
-
-  // Load initial enquiries from backend and initialize Firebase Google OAuth listener
-  useEffect(() => {
-    const fetchEnquiries = async () => {
-      try {
-        setIsLoadingEnquiries(true);
-        const res = await fetch('/api/enquiries');
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data.enquiries)) {
-            setEnquiries(data.enquiries);
-          }
-          if (data.corporateEmail) {
-            setRecipientEmail(data.corporateEmail);
-          }
-        }
-      } catch (err) {
-        console.error('Error loading enquiries:', err);
-      } finally {
-        setIsLoadingEnquiries(false);
-      }
-    };
-
-    fetchEnquiries();
-
-    const unsubscribe = initAuth(
-      (authedUser, token) => {
-        setUser(authedUser);
-        setAccessToken(token);
-        setNeedsAuth(false);
-      },
-      () => {
-        setUser(null);
-        setAccessToken(null);
-        setNeedsAuth(true);
-      }
-    );
-
-    return () => {
-      if (typeof unsubscribe === 'function') unsubscribe();
-    };
-  }, []);
-
-  const handleGoogleLogin = async () => {
-    setIsSigningIn(true);
-    setStatusBanner(null);
-    try {
-      const result = await googleSignIn();
-      if (result) {
-        setUser(result.user);
-        setAccessToken(result.accessToken);
-        setNeedsAuth(false);
-        setStatusBanner({
-          tone: 'success',
-          text:
-            locale === 'id'
-              ? `Berhasil terhubung ke Google Workspace sebagai ${result.user.email}.`
-              : `Successfully connected to Google Workspace as ${result.user.email}.`,
-        });
-      }
-    } catch (err: any) {
-      setStatusBanner({
-        tone: 'error',
-        text:
-          locale === 'id'
-            ? `Autentikasi Google dibatalkan atau gagal: ${err?.message || 'Unknown error'}`
-            : `Google authentication cancelled or failed: ${err?.message || 'Unknown error'}`,
-      });
-    } finally {
-      setIsSigningIn(false);
-    }
-  };
-
-  const handleGoogleLogout = async () => {
-    await logout();
-    setUser(null);
-    setAccessToken(null);
-    setNeedsAuth(true);
-    setStatusBanner({
-      tone: 'info',
-      text:
-        locale === 'id'
-          ? 'Sesi Google Workspace telah diputuskan.'
-          : 'Google Workspace session disconnected.',
-    });
-  };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -221,13 +98,12 @@ export function ContactWorkspaceSection({
       }
 
       const created: EnquiryRecord = data.enquiry;
-      setEnquiries((prev) => [created, ...prev]);
       setLastSubmitted(created);
 
-      // Reset text fields while keeping category
       setFormData((prev) => ({
         ...prev,
         fullName: '',
+        roleTitle: '',
         businessEmail: '',
         phone: '',
         organisation: '',
@@ -239,182 +115,19 @@ export function ContactWorkspaceSection({
         tone: 'success',
         text:
           locale === 'id'
-            ? `Terima kasih! Data Anda (${created.id}) telah tersimpan di sistem PT Neomedika Elektra Optima.`
-            : `Thank you! Your enquiry (${created.id}) has been saved to PT Neomedika Elektra Optima’s system.`,
+            ? `Terima kasih! Pertanyaan korporat Anda (Nomor Referensi: ${created.id}) telah diterima oleh PT Neomedika Elektra Optima.`
+            : `Thank you! Your corporate enquiry (Reference ID: ${created.id}) has been received by PT Neomedika Elektra Optima.`,
       });
-
-      // If admin is already signed in with Google Workspace, prompt confirmation to auto-send Gmail notification
-      if (accessToken && !needsAuth) {
-        setPendingAction({
-          type: 'send_gmail',
-          enquiry: created,
-          recipientEmail,
-          ccVisitor,
-        });
-      }
     } catch (err: any) {
       setStatusBanner({
         tone: 'error',
-        text: err?.message || (locale === 'id' ? 'Gagal mengirim formulir.' : 'Failed to submit form.'),
+        text:
+          err?.message ||
+          (locale === 'id' ? 'Gagal mengirim formulir.' : 'Failed to submit form.'),
       });
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleExecuteConfirmedAction = async () => {
-    if (!pendingAction) return;
-
-    setIsExecutingWorkspace(true);
-    setStatusBanner(null);
-
-    try {
-      if (pendingAction.type === 'delete_enquiry') {
-        const targetId = pendingAction.enquiry.id;
-        const res = await fetch(`/api/enquiries/${encodeURIComponent(targetId)}`, {
-          method: 'DELETE',
-        });
-        if (res.ok) {
-          setEnquiries((prev) => prev.filter((item) => item.id !== targetId));
-          setStatusBanner({
-            tone: 'info',
-            text:
-              locale === 'id'
-                ? `Data ${targetId} telah dihapus dari sistem.`
-                : `Record ${targetId} has been deleted from the system.`,
-          });
-        }
-        setPendingAction(null);
-        return;
-      }
-
-      if (!accessToken) {
-        setNeedsAuth(true);
-        setPendingAction(null);
-        return;
-      }
-
-      if (pendingAction.type === 'create_sheet') {
-        const created = await createNeoLeadSpreadsheet(accessToken, pendingAction.enquiries);
-        setSpreadsheetId(created.spreadsheetId);
-        setSpreadsheetUrl(created.spreadsheetUrl);
-
-        // Update backend status for synced enquiries
-        await Promise.all(
-          pendingAction.enquiries.map((item) =>
-            fetch(`/api/enquiries/${encodeURIComponent(item.id)}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                syncedToSheets: true,
-                spreadsheetUrl: created.spreadsheetUrl,
-              }),
-            })
-          )
-        );
-
-        setEnquiries((prev) =>
-          prev.map((item) => ({
-            ...item,
-            syncedToSheets: true,
-            spreadsheetUrl: created.spreadsheetUrl,
-          }))
-        );
-
-        setStatusBanner({
-          tone: 'success',
-          text:
-            locale === 'id'
-              ? `Google Sheet baru berhasil dibuat dan ${pendingAction.enquiries.length} data prospek telah disinkronkan.`
-              : `New Google Sheet created and ${pendingAction.enquiries.length} enquiry records synced.`,
-        });
-      } else if (pendingAction.type === 'append_sheet') {
-        const appended = await appendEnquiriesToSpreadsheet(
-          accessToken,
-          pendingAction.spreadsheetId,
-          pendingAction.enquiries
-        );
-        setSpreadsheetUrl(appended.spreadsheetUrl);
-
-        await Promise.all(
-          pendingAction.enquiries.map((item) =>
-            fetch(`/api/enquiries/${encodeURIComponent(item.id)}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                syncedToSheets: true,
-                spreadsheetUrl: appended.spreadsheetUrl,
-              }),
-            })
-          )
-        );
-
-        const syncedIds = new Set(pendingAction.enquiries.map((e) => e.id));
-        setEnquiries((prev) =>
-          prev.map((item) =>
-            syncedIds.has(item.id)
-              ? { ...item, syncedToSheets: true, spreadsheetUrl: appended.spreadsheetUrl }
-              : item
-          )
-        );
-
-        setStatusBanner({
-          tone: 'success',
-          text:
-            locale === 'id'
-              ? `${appended.updatedRows} baris berhasil ditambahkan ke Google Sheets.`
-              : `${appended.updatedRows} row(s) appended to Google Sheets.`,
-        });
-      } else if (pendingAction.type === 'send_gmail') {
-        await sendEnquiryEmailViaGmail({
-          accessToken,
-          recipientEmail: pendingAction.recipientEmail,
-          ccVisitor: pendingAction.ccVisitor,
-          enquiry: pendingAction.enquiry,
-        });
-
-        await fetch(`/api/enquiries/${encodeURIComponent(pendingAction.enquiry.id)}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ emailNotificationSent: true }),
-        });
-
-        setEnquiries((prev) =>
-          prev.map((item) =>
-            item.id === pendingAction.enquiry.id
-              ? { ...item, emailNotificationSent: true }
-              : item
-          )
-        );
-
-        setStatusBanner({
-          tone: 'success',
-          text:
-            locale === 'id'
-              ? `Email notifikasi otomatis untuk ${pendingAction.enquiry.id} berhasil dikirim melalui Gmail ke ${pendingAction.recipientEmail}.`
-              : `Automated Gmail notification for ${pendingAction.enquiry.id} sent to ${pendingAction.recipientEmail}.`,
-        });
-      }
-    } catch (err: any) {
-      setStatusBanner({
-        tone: 'error',
-        text: err?.message || 'Google Workspace API operation failed.',
-      });
-    } finally {
-      setIsExecutingWorkspace(false);
-      setPendingAction(null);
-    }
-  };
-
-  const handleDownloadCsv = () => {
-    const csv = formatEnquiriesToCsv(enquiries);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `NEO_Enquiries_${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -462,12 +175,25 @@ export function ContactWorkspaceSection({
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Official Validated Contact NEO Form */}
-          <div className="lg:col-span-12 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-9">
+          {/* Left 8 Columns: Official Corporate Enquiry & Partnership Form */}
+          <div className="lg:col-span-8 bg-white border border-[#EAE4F2] rounded-3xl p-7 sm:p-9">
             <h3 className="font-display text-2xl font-bold text-[#381B37]">
               {content.formTitle}
             </h3>
             <p className="mt-1.5 text-xs sm:text-sm text-[#666666]">{content.formSubtitle}</p>
+
+            {/* Patient Data Protection Notice (Mandatory per Section 5.1 of Revision Master Doc) */}
+            <div className="mt-6 p-4 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6] flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-[#903595] shrink-0 mt-0.5" />
+              <div>
+                <div className="text-xs font-bold text-[#342077]">
+                  {content.patientDataNoticeTitle}
+                </div>
+                <p className="text-xs text-[#381B37] mt-1 leading-relaxed">
+                  {content.patientDataNoticeText}
+                </p>
+              </div>
+            </div>
 
             <form onSubmit={handleSubmitForm} noValidate className="mt-7 space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -501,6 +227,28 @@ export function ContactWorkspaceSection({
                   )}
                 </div>
 
+                {/* Role / Title */}
+                <div>
+                  <label
+                    htmlFor="neo-roletitle"
+                    className="block text-xs font-bold text-[#381B37] mb-1.5"
+                  >
+                    {content.fields.roleTitle}
+                  </label>
+                  <input
+                    id="neo-roletitle"
+                    type="text"
+                    value={formData.roleTitle || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, roleTitle: e.target.value }))
+                    }
+                    placeholder={content.fields.roleTitlePlaceholder}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9CEE6] text-sm text-[#381B37] bg-[#FAF8FC] focus:bg-white focus:border-[#903595] focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Business Email */}
                 <div>
                   <label
@@ -530,11 +278,9 @@ export function ContactWorkspaceSection({
                     </p>
                   )}
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-stretch">
                 {/* Phone / WhatsApp */}
-                <div className="flex flex-col justify-between">
+                <div>
                   <label
                     htmlFor="neo-phone"
                     className="block text-xs font-bold text-[#381B37] mb-1.5"
@@ -561,9 +307,11 @@ export function ContactWorkspaceSection({
                     </p>
                   )}
                 </div>
+              </div>
 
-                {/* Organisation */}
-                <div className="flex flex-col justify-between">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Company / Institution / Clinic Name */}
+                <div>
                   <label
                     htmlFor="neo-org"
                     className="block text-xs font-bold text-[#381B37] mb-1.5"
@@ -583,7 +331,7 @@ export function ContactWorkspaceSection({
                 </div>
 
                 {/* City / Country */}
-                <div className="flex flex-col justify-between">
+                <div>
                   <label
                     htmlFor="neo-city"
                     className="block text-xs font-bold text-[#381B37] mb-1.5"
@@ -683,7 +431,7 @@ export function ContactWorkspaceSection({
                 )}
               </div>
 
-              {/* Privacy Consent Checkbox */}
+              {/* Privacy Consent Checkbox + Link to Privacy Notice */}
               <div>
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
@@ -696,7 +444,16 @@ export function ContactWorkspaceSection({
                     className="mt-1 w-4 h-4 rounded border-[#D9CEE6] text-[#903595] focus:ring-[#903595]"
                   />
                   <span className="text-xs text-[#666666] leading-relaxed">
-                    {content.fields.privacyConsent}
+                    {content.fields.privacyConsent}{' '}
+                    {onOpenPrivacyNotice && (
+                      <button
+                        type="button"
+                        onClick={onOpenPrivacyNotice}
+                        className="font-bold text-[#903595] hover:text-[#342077] underline cursor-pointer"
+                      >
+                        ({content.fields.privacyNoticeLinkLabel})
+                      </button>
+                    )}
                   </span>
                 </label>
                 {fieldErrors.privacyConsent && (
@@ -725,7 +482,7 @@ export function ContactWorkspaceSection({
                 className="mt-6 p-5 rounded-2xl bg-[#FAF8FC] border border-[#D9CEE6]"
               >
                 <div className="flex items-center justify-between text-xs font-mono text-[#342077] mb-1">
-                  <span>RECEIPT ID: {lastSubmitted.id}</span>
+                  <span>REFERENCE ID: {lastSubmitted.id}</span>
                   <span>{new Date(lastSubmitted.createdAt).toLocaleTimeString()}</span>
                 </div>
                 <div className="text-sm font-bold text-[#381B37]">
@@ -737,242 +494,79 @@ export function ContactWorkspaceSection({
               </div>
             )}
           </div>
-        </div>
 
-        {/* Live System Lead Database & Google Workspace Sync Log */}
-        <div className="mt-12 bg-white border border-[#EAE4F2] rounded-3xl p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-[#EAE4F2]">
-            <div>
+          {/* Right 4 Columns: Official Corporate Contact Information Card */}
+          <div className="lg:col-span-4 space-y-5">
+            <div className="bg-white border border-[#EAE4F2] rounded-3xl p-7">
+              <div className="text-xs font-bold text-[#903595] uppercase tracking-wider mb-2">
+                {locale === 'id' ? 'Saluran Komunikasi Resmi' : 'Official Corporate Channels'}
+              </div>
               <h3 className="font-display text-xl font-bold text-[#381B37]">
-                {locale === 'id'
-                  ? `Database Pertanyaan Masuk Sistem NEO (${enquiries.length} Data)`
-                  : `NEO System Incoming Enquiry Database (${enquiries.length} Records)`}
+                PT Neomedika Elektra Optima
               </h3>
-              <p className="text-xs text-[#666666] mt-0.5">
-                {locale === 'id'
-                  ? 'Setiap formulir yang dikirim tersimpan otomatis di bawah ini dan siap disinkronkan ke Google Sheets atau dikirim via Gmail.'
-                  : 'Every submitted form is automatically stored below and ready for Google Sheets sync or Gmail dispatch.'}
+              <p className="text-xs text-[#666666] mt-1">
+                NEO — Integrated Healthcare Technology
               </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleDownloadCsv}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-[#D9CEE6] text-xs font-bold text-[#342077] hover:bg-[#FAF8FC] transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto"
-            >
-              <Download className="w-4 h-4" />
-              <span>{content.workspaceBox.exportCsvBtn}</span>
-            </button>
-          </div>
 
-          {isLoadingEnquiries ? (
-            <div className="py-8 text-center text-sm text-[#666666]">
-              {locale === 'id' ? 'Memuat data sistem...' : 'Loading system records...'}
+              <div className="mt-6 space-y-4 pt-5 border-t border-[#EAE4F2]">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-[#903595] shrink-0 mt-1" />
+                  <div>
+                    <div className="text-xs font-semibold text-[#666666]">
+                      {locale === 'id' ? 'Email Korporat & Umum' : 'Corporate & General Email'}
+                    </div>
+                    <a
+                      href="mailto:info@neomedika.com"
+                      className="text-sm font-bold text-[#342077] hover:text-[#EE498E] transition-colors"
+                    >
+                      info@neomedika.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Building2 className="w-4 h-4 text-[#903595] shrink-0 mt-1" />
+                  <div>
+                    <div className="text-xs font-semibold text-[#666666]">
+                      {locale === 'id' ? 'Email Kemitraan Strategis' : 'Strategic Partnerships'}
+                    </div>
+                    <a
+                      href="mailto:partnerships@neomedika.com"
+                      className="text-sm font-bold text-[#342077] hover:text-[#EE498E] transition-colors"
+                    >
+                      partnerships@neomedika.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-[#903595] shrink-0 mt-1" />
+                  <div>
+                    <div className="text-xs font-semibold text-[#666666]">
+                      {locale === 'id' ? 'Domisili Korporat' : 'Corporate Jurisdiction'}
+                    </div>
+                    <div className="text-sm font-bold text-[#381B37]">Jakarta, Indonesia</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ) : enquiries.length === 0 ? (
-            <div className="py-8 text-center text-sm text-[#666666]">
-              {locale === 'id' ? 'Belum ada data pertanyaan masuk.' : 'No enquiries recorded yet.'}
+
+            <div className="bg-[#342077] text-white rounded-3xl p-7">
+              <div className="text-xs font-semibold text-[#EE498E] uppercase tracking-wider mb-2">
+                {locale === 'id' ? 'Kategori Pertanyaan' : 'Enquiry Categories'}
+              </div>
+              <ul className="space-y-2 text-xs text-white/85">
+                {content.categories.map((cat) => (
+                  <li key={cat} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#EE498E] shrink-0" />
+                    <span>{cat}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-[#EAE4F2] text-[11px] font-bold text-[#666666] uppercase tracking-wider">
-                    <th className="py-3 pr-4">ID / Waktu</th>
-                    <th className="py-3 px-4">Pengirim & Organisasi</th>
-                    <th className="py-3 px-4">Kategori & Produk</th>
-                    <th className="py-3 px-4">Pesan</th>
-                    <th className="py-3 px-4">Status Workspace</th>
-                    <th className="py-3 pl-4 text-right">Tindakan</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#EAE4F2] text-xs">
-                  {enquiries.map((item) => (
-                    <tr key={item.id} className="hover:bg-[#FAF8FC]/70">
-                      <td className="py-3.5 pr-4 align-top whitespace-nowrap">
-                        <div className="font-mono font-bold text-[#342077] tabular-nums">
-                          {item.id}
-                        </div>
-                        <div className="font-mono text-[11px] text-[#666666] tabular-nums">
-                          {new Date(item.createdAt).toLocaleDateString(
-                            locale === 'id' ? 'id-ID' : 'en-US'
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-4 align-top">
-                        <div className="font-bold text-[#381B37]">{item.fullName}</div>
-                        <div className="text-[#666666]">{item.businessEmail}</div>
-                        <div className="text-[11px] text-[#903595] font-medium">
-                          {item.organisation || '-'} · {item.countryCity || 'Indonesia'}
-                        </div>
-                      </td>
-                      <td className="py-3.5 px-4 align-top">
-                        <div className="font-semibold text-[#381B37]">{item.productInterest}</div>
-                        <div className="text-[#666666]">{item.category}</div>
-                      </td>
-                      <td className="py-3.5 px-4 align-top max-w-xs">
-                        <p className="text-[#666666] line-clamp-2">{item.message}</p>
-                      </td>
-                      <td className="py-3.5 px-4 align-top whitespace-nowrap">
-                        <div className="text-[11px] text-[#381B37]">
-                          Sheets:{' '}
-                          <span
-                            className={
-                              item.syncedToSheets
-                                ? 'font-semibold text-[#027A48]'
-                                : 'text-[#666666]'
-                            }
-                          >
-                            {item.syncedToSheets ? 'Tersinkron' : 'Lokal'}
-                          </span>
-                        </div>
-                        <div className="text-[11px] text-[#381B37] mt-0.5">
-                          Gmail:{' '}
-                          <span
-                            className={
-                              item.emailNotificationSent
-                                ? 'font-semibold text-[#027A48]'
-                                : 'text-[#666666]'
-                            }
-                          >
-                            {item.emailNotificationSent ? 'Terkirim' : 'Siap Kirim'}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3.5 pl-4 align-top text-right whitespace-nowrap">
-                        <div className="inline-flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (!accessToken) {
-                                handleGoogleLogin();
-                                return;
-                              }
-                              setPendingAction({
-                                type: 'send_gmail',
-                                enquiry: item,
-                                recipientEmail,
-                                ccVisitor,
-                              });
-                            }}
-                            title={content.workspaceBox.sendGmailBtn}
-                            aria-label={`${content.workspaceBox.sendGmailBtn} ${item.id}`}
-                            className="px-2.5 py-1.5 rounded-lg border border-[#D9CEE6] text-[#342077] hover:bg-[#F4F0FA] font-semibold transition-colors cursor-pointer inline-flex items-center gap-1"
-                          >
-                            <Mail className="w-3.5 h-3.5" />
-                            <span>Gmail</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setPendingAction({
-                                type: 'delete_enquiry',
-                                enquiry: item,
-                              })
-                            }
-                            aria-label={`Delete ${item.id}`}
-                            className="p-1.5 rounded-lg border border-[#EAE4F2] text-[#666666] hover:text-[#B42318] hover:border-[#FECDCA] transition-colors cursor-pointer"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          </div>
         </div>
       </div>
-
-      {/* Mandatory User Confirmation Dialog for Google Workspace & Data Mutations */}
-      {pendingAction && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="confirm-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-        >
-          <div className="bg-white border border-[#D9CEE6] rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-xl">
-            <div className="text-xs font-bold text-[#903595] uppercase tracking-wider mb-1">
-              {locale === 'id' ? 'Konfirmasi Tindakan Sistem' : 'Confirm System Action'}
-            </div>
-            <h4
-              id="confirm-modal-title"
-              className="font-display text-xl font-bold text-[#381B37]"
-            >
-              {pendingAction.type === 'create_sheet' &&
-                (locale === 'id'
-                  ? 'Buat Google Sheet Baru & Simpan Data?'
-                  : 'Create New Google Sheet & Sync Records?')}
-              {pendingAction.type === 'append_sheet' &&
-                (locale === 'id'
-                  ? 'Tambahkan Data ke Google Spreadsheet?'
-                  : 'Append Records to Google Spreadsheet?')}
-              {pendingAction.type === 'send_gmail' &&
-                (locale === 'id'
-                  ? 'Kirim Email Notifikasi Otomatis via Gmail?'
-                  : 'Send Automated Notification Email via Gmail?')}
-              {pendingAction.type === 'delete_enquiry' &&
-                (locale === 'id'
-                  ? `Hapus Data Pertanyaan ${pendingAction.enquiry.id}?`
-                  : `Delete Enquiry Record ${pendingAction.enquiry.id}?`)}
-            </h4>
-
-            <p className="mt-3 text-sm text-[#666666] leading-relaxed">
-              {pendingAction.type === 'create_sheet' &&
-                (locale === 'id'
-                  ? `Aplikasi akan membuat file Google Spreadsheet baru di akun Google Anda dan menuliskan ${pendingAction.enquiries.length} baris data prospek PT Neomedika Elektra Optima.`
-                  : `This will create a new Google Spreadsheet in your Google account and write ${pendingAction.enquiries.length} PT Neomedika Elektra Optima enquiry row(s).`)}
-              {pendingAction.type === 'append_sheet' &&
-                (locale === 'id'
-                  ? `Aplikasi akan menambahkan ${pendingAction.enquiries.length} baris data prospek ke Google Spreadsheet ID "${pendingAction.spreadsheetId}".`
-                  : `This will append ${pendingAction.enquiries.length} enquiry row(s) to Google Spreadsheet ID "${pendingAction.spreadsheetId}".`)}
-              {pendingAction.type === 'send_gmail' &&
-                (locale === 'id'
-                  ? `Aplikasi akan mengirim email notifikasi rincian formulir ${pendingAction.enquiry.fullName} (${pendingAction.enquiry.id}) melalui akun Gmail Anda ke ${pendingAction.recipientEmail}${
-                      pendingAction.ccVisitor ? ` (dengan CC ke ${pendingAction.enquiry.businessEmail})` : ''
-                    }.`
-                  : `This will send a formatted enquiry email for ${pendingAction.enquiry.fullName} (${pendingAction.enquiry.id}) via your Gmail account to ${pendingAction.recipientEmail}${
-                      pendingAction.ccVisitor ? ` (with CC to ${pendingAction.enquiry.businessEmail})` : ''
-                    }.`)}
-              {pendingAction.type === 'delete_enquiry' &&
-                (locale === 'id'
-                  ? `Apakah Anda yakin ingin menghapus data pertanyaan dari ${pendingAction.enquiry.fullName} (${pendingAction.enquiry.id})? Tindakan ini tidak dapat dibatalkan.`
-                  : `Are you sure you want to delete the enquiry from ${pendingAction.enquiry.fullName} (${pendingAction.enquiry.id})? This action cannot be undone.`)}
-            </p>
-
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                disabled={isExecutingWorkspace}
-                onClick={() => setPendingAction(null)}
-                className="px-4 py-2 rounded-xl border border-[#D9CEE6] text-xs font-bold text-[#381B37] hover:bg-[#FAF8FC] transition-colors cursor-pointer"
-              >
-                {locale === 'id' ? 'Batal' : 'Cancel'}
-              </button>
-              <button
-                type="button"
-                disabled={isExecutingWorkspace}
-                onClick={handleExecuteConfirmedAction}
-                className={`px-5 py-2 rounded-xl text-xs font-bold text-white transition-opacity cursor-pointer ${
-                  pendingAction.type === 'delete_enquiry'
-                    ? 'bg-[#B42318] hover:opacity-90'
-                    : 'bg-gradient-to-r from-[#EE498E] via-[#903595] to-[#342077] hover:opacity-95'
-                }`}
-              >
-                {isExecutingWorkspace
-                  ? locale === 'id'
-                    ? 'Memproses...'
-                    : 'Processing...'
-                  : locale === 'id'
-                  ? 'Konfirmasi & Lanjutkan'
-                  : 'Confirm & Proceed'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

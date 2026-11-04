@@ -17,6 +17,7 @@ export interface DilutionResult {
 
 export interface EnquiryInput {
   fullName: string;
+  roleTitle?: string;
   businessEmail: string;
   phone?: string;
   organisation?: string;
@@ -54,62 +55,65 @@ const DILUTION_SPECS: Record<
     neolyteParts: 1,
     waterParts: 5,
     applicationId:
-      'Sterilisasi perlengkapan bayi (dot, mainan bayi) dan sterilisasi bahan makanan segar (sayur, daging, ikan, buah).',
+      'Sanitasi permukaan ringan, perlengkapan harian, dan area rumah tangga umum (mengacu pada petunjuk label resmi produk).',
     applicationEn:
-      'Sterilization of baby items (pacifiers, baby toys) and fresh food ingredients (vegetables, meat, fish, fruit).',
+      'Light surface sanitization, everyday items, and general household areas (refer to official product label instructions).',
   },
   '1:4': {
     neolyteParts: 1,
     waterParts: 4,
     applicationId:
-      'Sterilisasi peralatan dapur (piring, botol, sendok), barang pribadi (sikat gigi, kacamata, alat kosmetik), serta purifikasi udara dengan Humidifier/Diffuser.',
+      'Sanitasi peralatan rumah tangga, benda pribadi non-medis, serta penggunaan pada unit Humidifier/Diffuser ruangan.',
     applicationEn:
-      'Sterilization of kitchenware (plates, bottles, utensils), personal items (toothbrushes, glasses, cosmetic tools), and air purification via Humidifier/Diffuser.',
+      'Sanitization of household equipment, non-medical personal items, and indoor Humidifier/Diffuser equipment.',
   },
   '1:3': {
     neolyteParts: 1,
     waterParts: 3,
     applicationId:
-      'Bilik Sterilisasi (Disinfectant Chamber / Neogate), sanitasi area hewan peliharaan & tanaman, serta disinfeksi perabot rumah tangga (meubelair, elektronik, pakaian).',
+      'Bilik Disinfeksi (Neogate), sanitasi area fasilitas umum, serta pembersihan perabot dan permukaan interior.',
     applicationEn:
-      'Disinfectant Chamber (Neogate), pet & plant area sanitization, and household furniture/surface disinfection (furniture, electronics, clothing).',
+      'Disinfection Chamber (Neogate), general facility sanitization, and interior furniture/surface cleaning.',
   },
   '1:2': {
     neolyteParts: 1,
     waterParts: 2,
     applicationId:
-      'Disinfeksi ruang publik (mall, perkantoran, bioskop, toko, lift) serta sterilisasi kemasan makanan dan minuman.',
+      'Disinfeksi ruang publik, gedung perkantoran, ruang tunggu, lift, serta area komersial dengan lalu lintas tinggi.',
     applicationEn:
-      'Public space disinfection (malls, offices, cinemas, retail stores, elevators) and food/beverage packaging sterilization.',
+      'Disinfection of public spaces, office buildings, waiting lounges, elevators, and high-traffic commercial areas.',
   },
   '1:1': {
     neolyteParts: 1,
     waterParts: 1,
     applicationId:
-      'Disinfeksi fasilitas layanan kesehatan: Rumah Sakit, Klinik Gigi, Puskesmas, Laboratorium, dan Ruang Isolasi.',
+      'Disinfeksi permukaan dan peralatan di lingkungan layanan kesehatan: Rumah Sakit, Klinik Gigi, Puskesmas, dan Laboratorium.',
     applicationEn:
-      'Healthcare facility disinfection: Hospitals, Dental Clinics, Community Health Centers (Puskesmas), Laboratories, and Isolation Rooms.',
+      'Surface and equipment disinfection in healthcare environments: Hospitals, Dental Clinics, Clinics, and Laboratories.',
   },
   undiluted: {
     neolyteParts: 1,
     waterParts: 0,
     applicationId:
-      'Tanpa pengenceran: Disinfeksi berat pada tempat pengolahan sampah, pengolahan limbah, peternakan, perkebunan, dan toilet publik.',
+      'Tanpa pengenceran: Disinfeksi intensif pada area pengelolaan limbah, sanitasi fasilitas berat, dan area utilitas khusus.',
     applicationEn:
-      'Undiluted: Heavy-duty disinfection for waste management sites, sewage treatment, livestock farms, plantations, and public restrooms.',
+      'Undiluted: Intensive disinfection for waste handling areas, heavy-duty facility sanitation, and specialized utility zones.',
   },
 };
 
 /**
- * Calculates exact Neolyte DS (220 ppm base) and Aquades/RO Water volumes
- * based on the official Neolyte Indonesia Dilution Guide (Page 11).
+ * Calculates illustrative Neolyte DS (220 ppm base) and Aquades/RO Water volumes.
+ * Always directs users to follow the approved product label and official usage instructions.
  */
 export function calculateNeolyteDilution(
   ratioKey: DilutionRatioKey,
   totalVolumeMl: number,
   basePpm = 220
 ): DilutionResult {
-  const safeTotalMl = Number.isFinite(totalVolumeMl) && totalVolumeMl > 0 ? Math.min(totalVolumeMl, 1_000_000) : 1000;
+  const safeTotalMl =
+    Number.isFinite(totalVolumeMl) && totalVolumeMl > 0
+      ? Math.min(totalVolumeMl, 1_000_000)
+      : 1000;
   const spec = DILUTION_SPECS[ratioKey] || DILUTION_SPECS['1:4'];
   const totalParts = spec.neolyteParts + spec.waterParts;
 
@@ -133,9 +137,12 @@ export function calculateNeolyteDilution(
 
 /**
  * Validates corporate contact & partnership enquiry input according to
- * Document 04 (Website Features & Technical Requirements).
+ * NEO Website Revision Master Document (Developer v1.0) Section 5.
  */
-export function validateEnquiryInput(input: EnquiryInput, locale: Locale = 'id'): ValidationResult {
+export function validateEnquiryInput(
+  input: EnquiryInput,
+  locale: Locale = 'id'
+): ValidationResult {
   const errors: ValidationResult['errors'] = {};
 
   const fullName = (input.fullName || '').trim();
@@ -145,13 +152,17 @@ export function validateEnquiryInput(input: EnquiryInput, locale: Locale = 'id')
 
   if (fullName.length < 2) {
     errors.fullName =
-      locale === 'id' ? 'Nama lengkap wajib diisi (minimal 2 karakter).' : 'Full name is required (minimum 2 characters).';
+      locale === 'id'
+        ? 'Nama lengkap wajib diisi (minimal 2 karakter).'
+        : 'Full name is required (minimum 2 characters).';
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!businessEmail || !emailRegex.test(businessEmail)) {
     errors.businessEmail =
-      locale === 'id' ? 'Masukkan alamat email bisnis/institusi yang valid.' : 'Please enter a valid business email address.';
+      locale === 'id'
+        ? 'Masukkan alamat email bisnis/institusi yang valid.'
+        : 'Please enter a valid business email address.';
   }
 
   if (input.phone && input.phone.trim().length > 0) {
@@ -165,7 +176,10 @@ export function validateEnquiryInput(input: EnquiryInput, locale: Locale = 'id')
   }
 
   if (!category) {
-    errors.category = locale === 'id' ? 'Pilih kategori pertanyaan.' : 'Please select an enquiry category.';
+    errors.category =
+      locale === 'id'
+        ? 'Pilih kategori pertanyaan.'
+        : 'Please select an enquiry category.';
   }
 
   if (message.length < 10) {
@@ -175,20 +189,21 @@ export function validateEnquiryInput(input: EnquiryInput, locale: Locale = 'id')
         : 'Message is required (minimum 10 characters so our team understands your needs).';
   }
 
-  // Document 04 Section 2 guardrail: Do not collect sensitive patient medical records
-  const sensitivePattern = /\b(nik\s*pasien|rekam\s*medis\s*pasien|diagnosis\s*pasien|patient\s*medical\s*record|hiv|bpjs\s*no)\b/i;
+  // Patient Data Protection Notice guardrail: Do not collect sensitive patient medical records
+  const sensitivePattern =
+    /\b(nik\s*pasien|rekam\s*medis\s*pasien|diagnosis\s*pasien|patient\s*medical\s*record|hiv|bpjs\s*no)\b/i;
   if (sensitivePattern.test(message)) {
     errors.message =
       locale === 'id'
-        ? 'Sesuai kebijakan privasi NEO, mohon tidak mencantumkan data rekam medis atau informasi kesehatan sensitif pasien pada formulir publik.'
-        : 'In accordance with NEO privacy governance, please do not include patient medical records or sensitive personal health data in public forms.';
+        ? 'Mohon tidak mengirimkan rekam medis pasien atau informasi kesehatan sensitif melalui formulir pertanyaan korporat ini.'
+        : 'Please do not submit patient medical records or sensitive health information through this corporate enquiry form.';
   }
 
   if (!input.privacyConsent) {
     errors.privacyConsent =
       locale === 'id'
-        ? 'Anda harus menyetujui ketentuan pemrosesan data dan privasi PT Neomedika Elektra Optima.'
-        : 'You must acknowledge PT Neomedika Elektra Optima’s privacy and data handling notice.';
+        ? 'Anda harus menyetujui Pemberitahuan Privasi PT Neomedika Elektra Optima.'
+        : 'You must acknowledge PT Neomedika Elektra Optima’s Privacy Notice.';
   }
 
   return {
@@ -269,9 +284,7 @@ export function toBase64Url(str: string): string {
 }
 
 /**
- * Builds an RFC 2822 raw MIME message encoded in Base64URL for the Gmail API
- * so that PT Neomedika Elektra Optima receives structured email notifications
- * and/or sends confirmation emails.
+ * Builds an RFC 2822 raw MIME message encoded in Base64URL for the Gmail API.
  */
 export function buildGmailRawMimeMessage(params: {
   to: string;
@@ -285,27 +298,27 @@ export function buildGmailRawMimeMessage(params: {
 <div style="font-family: Arial, sans-serif; color: #381B37; max-width: 640px; margin: 0 auto; border: 1px solid #EAE4F2; border-radius: 12px; overflow: hidden;">
   <div style="background: linear-gradient(135deg, #EE498E 0%, #903595 55%, #342077 100%); padding: 24px; color: #FFFFFF;">
     <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.9;">PT Neomedika Elektra Optima (NEO)</div>
-    <h2 style="margin: 8px 0 0; font-size: 20px;">Notifikasi Formulir Kontak & Kemitraan Baru</h2>
+    <h2 style="margin: 8px 0 0; font-size: 20px;">Corporate Enquiry & Partnership Form Notification</h2>
   </div>
   <div style="padding: 24px; background: #FFFFFF;">
-    <p style="margin-top: 0; color: #666666; font-size: 14px;">Data prospek / pertanyaan baru telah diterima melalui portal resmi PT Neomedika Elektra Optima:</p>
+    <p style="margin-top: 0; color: #666666; font-size: 14px;">Pertanyaan korporat / kemitraan baru telah diterima melalui situs resmi PT Neomedika Elektra Optima:</p>
     <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0;">
       <tr><td style="padding: 8px 0; color: #666666; width: 170px;"><strong>ID Referensi</strong></td><td style="padding: 8px 0; color: #381B37; font-family: monospace;">${enquiry.id}</td></tr>
       <tr><td style="padding: 8px 0; color: #666666;"><strong>Waktu Masuk</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.createdAt}</td></tr>
       <tr><td style="padding: 8px 0; color: #666666;"><strong>Nama Lengkap</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.fullName}</td></tr>
+      <tr><td style="padding: 8px 0; color: #666666;"><strong>Jabatan / Peran</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.roleTitle || '-'}</td></tr>
       <tr><td style="padding: 8px 0; color: #666666;"><strong>Email Bisnis</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.businessEmail}</td></tr>
       <tr><td style="padding: 8px 0; color: #666666;"><strong>Telepon / WhatsApp</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.phone || '-'}</td></tr>
-      <tr><td style="padding: 8px 0; color: #666666;"><strong>Organisasi / Klinik</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.organisation || '-'}</td></tr>
-      <tr><td style="padding: 8px 0; color: #666666;"><strong>Lokasi / Pasar</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.countryCity || 'Indonesia'}</td></tr>
-      <tr><td style="padding: 8px 0; color: #666666;"><strong>Kategori</strong></td><td style="padding: 8px 0; color: #903595; font-weight: bold;">${enquiry.category}</td></tr>
-      <tr><td style="padding: 8px 0; color: #666666;"><strong>Minat Produk</strong></td><td style="padding: 8px 0; color: #EE498E; font-weight: bold;">${enquiry.productInterest}</td></tr>
+      <tr><td style="padding: 8px 0; color: #666666;"><strong>Perusahaan / Institusi / Klinik</strong></td><td style="padding: 8px 0; color: #381B37;">${enquiry.organisation || '-'}</td></tr>
+      <tr><td style="padding: 8px 0; color: #666666;"><strong>Kategori Pertanyaan</strong></td><td style="padding: 8px 0; color: #903595; font-weight: bold;">${enquiry.category}</td></tr>
+      <tr><td style="padding: 8px 0; color: #666666;"><strong>Fokus Produk / Solusi</strong></td><td style="padding: 8px 0; color: #EE498E; font-weight: bold;">${enquiry.productInterest}</td></tr>
     </table>
     <div style="background: #FAF8FC; border: 1px solid #EAE4F2; border-radius: 8px; padding: 16px; margin-top: 16px;">
-      <div style="font-size: 12px; color: #666666; margin-bottom: 6px;"><strong>Pesan / Kebutuhan:</strong></div>
+      <div style="font-size: 12px; color: #666666; margin-bottom: 6px;"><strong>Rincian Pesan / Pertanyaan:</strong></div>
       <div style="font-size: 14px; color: #381B37; white-space: pre-wrap; line-height: 1.5;">${enquiry.message}</div>
     </div>
     <p style="margin-top: 20px; margin-bottom: 0; font-size: 12px; color: #666666;">
-      Email otomatis ini dikirim melalui sistem integrasi Google Workspace PT Neomedika Elektra Optima — Trusted Healthcare Solutions.
+      PT Neomedika Elektra Optima (NEO) — Integrated Healthcare Technology | Connecting Healthcare. Empowering Better Lives.
     </p>
   </div>
 </div>`.trim();

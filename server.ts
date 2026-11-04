@@ -94,7 +94,7 @@ async function startServer() {
       status: 'ok',
       company: 'PT Neomedika Elektra Optima',
       brand: 'NEO',
-      corporateRecipientEmail: process.env.CORPORATE_EMAIL || 'helas.m@gmail.com',
+      corporateRecipientEmail: process.env.CORPORATE_EMAIL || 'info@neomedika.com',
     });
   });
 
@@ -125,7 +125,7 @@ async function startServer() {
     const list = ensureEnquiriesLoaded();
     res.json({
       enquiries: list,
-      corporateEmail: process.env.CORPORATE_EMAIL || 'helas.m@gmail.com',
+      corporateEmail: process.env.CORPORATE_EMAIL || 'info@neomedika.com',
     });
   });
 
@@ -136,11 +136,12 @@ async function startServer() {
 
     const input: EnquiryInput = {
       fullName: String(body.fullName || ''),
+      roleTitle: body.roleTitle ? String(body.roleTitle) : '',
       businessEmail: String(body.businessEmail || ''),
       phone: body.phone ? String(body.phone) : '',
       organisation: body.organisation ? String(body.organisation) : '',
       countryCity: body.countryCity ? String(body.countryCity) : 'Indonesia',
-      category: String(body.category || 'General'),
+      category: String(body.category || 'Corporate & General Enquiry'),
       productInterest: String(body.productInterest || 'General NEO Enquiry'),
       message: String(body.message || ''),
       privacyConsent: Boolean(body.privacyConsent),
